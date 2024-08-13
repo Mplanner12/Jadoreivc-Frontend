@@ -10,11 +10,11 @@ import { usePlannedTours } from "../../context/tourPlanContext";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/src/lib/utils";
 
-interface tourProps {
+type tourProps = {
   onLocalsSelect: (selectedLocal: string) => void;
   onPersonSelect: (selectedPersons: string) => void;
   params: { id: string };
-}
+};
 
 const Page = ({ onLocalsSelect, onPersonSelect, params }: tourProps) => {
   const touristID = params.id; // Access params.id correctly
