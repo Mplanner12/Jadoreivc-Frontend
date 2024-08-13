@@ -1,6 +1,7 @@
 // RootLayout.tsx
 import ServerLayout from "./serverLayout";
 import ClientLayout from "./clientLayout";
+import { Suspense } from "react";
 
 export default function RootLayout({
   children,
@@ -8,8 +9,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ServerLayout>
-      <ClientLayout>{children}</ClientLayout>
-    </ServerLayout>
+    <Suspense fallback={<div>Loading...</div>}>
+      <ServerLayout>
+        <ClientLayout>{children}</ClientLayout>
+      </ServerLayout>
+    </Suspense>
   );
 }
