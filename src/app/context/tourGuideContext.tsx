@@ -20,19 +20,7 @@ const TourGuideContext = createContext<{
   setTourGuide: () => {},
 });
 
-interface User {
-  id: string;
-  fullName: string;
-  address: string;
-  email: string;
-  password: string;
-  userType: string;
-  languages: string[];
-  image: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
+// types.ts or models.ts
 interface TourGuide {
   id: string;
   userId: string;
@@ -46,6 +34,21 @@ interface TourGuide {
   rating: number | null;
   user: User;
   reviews: any[]; // Adjust the type of reviews as needed
+  name: string; // Add the missing 'name' property
+  tourGuideststs: string; // Add the missing 'tourGuideststs' property
+}
+
+interface User {
+  id: string;
+  fullName: string;
+  address: string;
+  email: string;
+  password: string;
+  userType: string;
+  languages: string[];
+  image: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 const TourGuideProvider: React.FC<any> = ({

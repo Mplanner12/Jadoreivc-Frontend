@@ -24,7 +24,7 @@ interface TourGuide {
   user: User;
   reviews: any[];
   name: string; // Add the 'name' property
-  tourGuidests: any; // Add the 'tourGuidests' property
+  // tourGuidests: any; // Add the 'tourGuidests' property
 }
 
 interface User {
