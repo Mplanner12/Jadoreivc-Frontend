@@ -1,0 +1,145 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  font-style: inter;
+}
+
+.text-border {
+  color: transparent;
+  -webkit-text-stroke: 0.25px white; /* Adjust the width and color as needed */
+  stroke: 0.1px white;
+}
+
+@media (width<= 480px) {
+  #logo {
+    font-size: 1.7rem;
+    padding-left: 0.6rem;
+  }
+  #hero-title1 {
+    font-size: 4.85rem;
+  }
+  #hero-title2 {
+    font-size: 1.75rem;
+  }
+  #search {
+    width: 95%;
+  }
+  #viewMore {
+    font-size: 0.7rem;
+  }
+  #mini-header {
+    font-size: 1.3rem;
+  }
+}
+
+@media (width<= 760px) {
+  #logo {
+    font-size: 1.3rem;
+    padding-left: 2rem;
+  }
+}
+
+@media (width<= 375px) {
+  #logo {
+    font-size: 1.3rem;
+    padding-left: 0.7rem;
+  }
+  #userName {
+    font-size: 1.1rem;
+  }
+  #language {
+    font-size: 1.1rem;
+  }
+  #loginContainer {
+    padding: 1.2rem;
+  }
+  #signUpContainer {
+    padding: 1.2rem;
+  }
+  #tourist {
+    width: 4.3rem;
+  }
+  #tourG {
+    width: 6rem;
+  }
+  #carouselBtn {
+    flex-basis: 25%;
+  }
+}
+
+@media (width<= 361px) {
+  #logo {
+    font-size: 1.5rem;
+    padding-left: 0.6rem;
+  }
+  #userName {
+    font-size: 1.1rem;
+  }
+  #language {
+    font-size: 1rem;
+  }
+  #loginContainer {
+    padding: 1.2rem;
+  }
+  #signUpContainer {
+    padding: 1.2rem;
+  }
+  #tourist {
+    width: 4.2rem;
+  }
+  #tourG {
+    width: 4rem;
+  }
+}
+
+@media (width<= 435px) {
+  #loginContainer {
+    padding: 1.2rem;
+  }
+  #signUpContainer {
+    padding: 1.2rem;
+  }
+  #tourG {
+    width: 7rem;
+  }
+}
+
+@media (width<= 350px) {
+  #loginContainer {
+    padding: 1.2rem;
+  }
+  #roleContainer > label {
+    width: 3.75rem;
+  }
+  #sroleContainer > label {
+    width: 3.75rem;
+  }
+  #tourG {
+    width: 5rem;
+  }
+}
+
+@media (width<= 361px) {
+  #offerRange {
+    font-size: 0.85rem;
+    padding: 0.6rem;
+  }
+  #logo {
+    font-size: 1.25rem;
+    padding-left: 0.6rem;
+  }
+  #userName {
+    font-size: 0.9rem;
+  }
+  #language {
+    font-size: 0.9rem;
+  }
+}
+
+@media (width<= 339px) {
+  #datetimecont {
+    padding-inline: 0.2rem;
+  }
+}

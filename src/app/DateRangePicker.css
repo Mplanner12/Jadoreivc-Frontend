@@ -1,0 +1,108 @@
+.react-datepicker {
+  font-family: "Inter", sans-serif;
+  border: 0;
+}
+
+.react-datepicker__header {
+  background-color: #fff;
+  border-bottom: none;
+}
+
+.react-datepicker__day--selected {
+  background-color: #059669;
+  color: #fff;
+}
+
+.react-datepicker__day--keyboard-selected {
+  border-radius: 2rem;
+  background-color: #059669;
+  color: #fff;
+}
+
+.react-datepicker__current-month {
+  color: #134e4a;
+  font-weight: bold;
+}
+
+.react-datepicker__day-name {
+  font-size: 1rem;
+  color: #9ca3af;
+  margin-bottom: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.react-datepicker__month-name {
+  color: #115e59;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+}
+
+.react-datepicker__day {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #115e59;
+  margin: 0.1rem;
+}
+
+.react-datepicker__month-container {
+  border: none;
+  margin-bottom: 0.2rem;
+}
+
+.react-datepicker__header {
+  border: none;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range {
+  border-radius: 0;
+  background-color: #99f6e4; /* Optional: Change text color for better contrast */
+}
+
+/* Change the background color of the range between start and end dates */
+.react-datepicker__day--in-range,
+.react-datepicker__day--in-selecting-range {
+  background-color: #d4f3e6; /* Change this color to your desired range color */
+  color: #000; /* Optional: Change text color for better contrast */
+}
+
+/* Change the background color of the selected start and end dates */
+.react-datepicker__day--selected,
+.react-datepicker__day--selecting-range-start,
+.react-datepicker__day--selecting-range-end {
+  background-color: #059669; /* Change this color to your desired start/end color */
+  color: #fff; /* Optional: Change text color for better contrast */
+}
+
+.custom-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #003537;
+}
+
+.custom-arrow {
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #115e59; /* Change this color to your desired arrow color */
+}
+
+/* custom-datepicker.css */
+
+.react-datepicker__day-names {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 6.5px; /* Add padding to the day names container */
+}
+
+.react-datepicker__day-name {
+  margin-right: 10px; /* Adjust the margin to increase space */
+}
+
+.react-datepicker__day {
+  margin: 0 6.5px; /* Adjust the margin to increase space between days */
+}
