@@ -10,11 +10,15 @@ import { usePlannedTours } from "../../context/tourPlanContext";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/src/lib/utils";
 
-type tourProps = {
+type paramProps = {
+  id: string;
+};
+
+interface tourProps {
   onLocalsSelect: (selectedLocal: string) => void;
   onPersonSelect: (selectedPersons: string) => void;
-  params: { id: string };
-};
+  params: paramProps;
+}
 
 const Page = ({ onLocalsSelect, onPersonSelect, params }: tourProps) => {
   const touristID = params.id; // Access params.id correctly
@@ -31,7 +35,7 @@ const Page = ({ onLocalsSelect, onPersonSelect, params }: tourProps) => {
   const localsDropdownRef = useRef<HTMLUListElement>(null);
   const router = useRouter();
 
-  // const { createTourPlan } = usePlannedTours();
+  const { createTourPlan } = usePlannedTours();
 
   const toggleDropdown = () => {
     setPeopleOpen((isDropdownOpen) => !isDropdownOpen);
@@ -133,13 +137,13 @@ const Page = ({ onLocalsSelect, onPersonSelect, params }: tourProps) => {
     } catch (error) {
       console.error("Error creating tour plan:", error);
     }
-    // try {
-    //   await createTourPlan(tourPlanData);
-    //   router.push("/customTour");
-    // } catch (error) {
-    //   console.error("Error planning tour:", error);
-    //   alert("An error occurred while planning your tour.");
-    // }
+    try {
+      await createTourPlan(tourPlanData);
+      router.push("/customTour");
+    } catch (error) {
+      console.error("Error planning tour:", error);
+      alert("An error occurred while planning your tour.");
+    }
   };
 
   return (

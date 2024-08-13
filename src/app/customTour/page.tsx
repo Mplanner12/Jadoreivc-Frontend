@@ -13,6 +13,8 @@ import HashLoader from "react-spinners/HashLoader";
 
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { UserContext } from "../context/UserContex";
+import { FaRegUser } from "react-icons/fa6";
+import { FaRegUserCircle } from "react-icons/fa";
 
 interface plannedTour {
   id: string;
@@ -205,12 +207,24 @@ const Page = () => {
                     <div className="relative w-full gap-x-[1.3rem] md:gap-x-[1rem] flex justify-start items-center py-[0.85rem] pr-[2rem]">
                       <div className="w-full flex justify-start items-center gap-[0.85rem] md:gap-x-[1.7rem]">
                         <div className="w-fit md:relative md:top-[0.8rem] flex justify-center items-center">
-                          <img
+                          {tour.image ? (
+                            <img
+                              src={tour.image}
+                              alt=""
+                              width={65}
+                              className="md:w-[4rem]"
+                            />
+                          ) : (
+                            <div className="w-fit h-fit mt-[-1rem] flex justify-center items-center">
+                              <FaRegUserCircle size={45} />
+                            </div>
+                          )}
+                          {/* <img
                             src={`/offerImg.png`}
                             alt=""
                             width={65}
                             className="md:w-[4rem]"
-                          />
+                          /> */}
                         </div>
                         <div className="w-full flex justify-center items-center">
                           <p className="relative w-full text-start font-[500] text-[1.35rem] md:text-[1.2rem] text-teal-950">
@@ -227,9 +241,11 @@ const Page = () => {
                           aria-label="Loading Spinner"
                           data-testid="loader"
                         />
-                      ) : user && user.userType === "TOUR_GUIDE" ? (
+                      ) : currentTours &&
+                        user &&
+                        user.userType === "TOUR_GUIDE" ? (
                         <div className="flex justify-normal items-center">
-                          <Link href={`mailto:${tour.tourist.email}`}>
+                          <Link href={`mailto:${tour.tourist?.email}`}>
                             {" "}
                             {/* Link to contact page with tour ID */}
                             <MdOutlineMail

@@ -6,12 +6,12 @@ const PlannedTourContext = createContext<{
   tourPlans: any[];
   loading: boolean;
   fetchTourPlans: () => void;
-  // createTourPlan: (tourPlanData: any) => Promise<void>; // Fixed type definition
+  createTourPlan: (tourPlanData: any) => Promise<void>; // Fixed type definition
 }>({
   tourPlans: [],
   loading: true,
   fetchTourPlans: () => {},
-  // createTourPlan: async () => {}, // Default implementation of createTourPlan
+  createTourPlan: async () => {}, // Default implementation of createTourPlan
 });
 
 export const PlannedTourProvider = ({
@@ -34,8 +34,26 @@ export const PlannedTourProvider = ({
     }
   };
 
+  const createTourPlan = async (tourPlanData: any) => {
+    try {
+      const { data } = await axiosInstance.post(
+        "/api/plans/tourPlans",
+        tourPlanData
+      );
+      setTourPlans([...tourPlans, data.tourPlan]);
+    } catch (error) {
+      console.error("Error creating tour plan:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTourPlans();
+  }, []);
+
   return (
-    <PlannedTourContext.Provider value={{ tourPlans, loading, fetchTourPlans }}>
+    <PlannedTourContext.Provider
+      value={{ tourPlans, loading, fetchTourPlans, createTourPlan }}
+    >
       {children}
     </PlannedTourContext.Provider>
   );
