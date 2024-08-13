@@ -4,6 +4,7 @@
 import { usePathname } from "next/navigation";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
+import { Suspense } from "react";
 
 export default function ClientLayout({
   children,
@@ -15,10 +16,12 @@ export default function ClientLayout({
   const isAuthRoute = authRoutes.includes(pathname);
 
   return (
-    <>
-      {!isAuthRoute && <Header />}
-      <main>{children}</main>
-      {!isAuthRoute && <Footer />}
-    </>
+    <Suspense fallback={null}>
+      <>
+        {!isAuthRoute && <Header />}
+        <main>{children}</main>
+        {!isAuthRoute && <Footer />}
+      </>
+    </Suspense>
   );
 }
