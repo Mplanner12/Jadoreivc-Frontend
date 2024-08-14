@@ -119,16 +119,6 @@ const Page = ({ params }: { params: { id: string } }) => {
     };
 
     try {
-      const { data } = await axiosInstance.post(
-        "/api/plans/tourPlans",
-        tourPlanData
-      );
-      setTourPlans([...tourPlans, data.tourPlan]);
-      router.push("/customTour");
-    } catch (error) {
-      console.error("Error creating tour plan:", error);
-    }
-    try {
       await createTourPlan(tourPlanData);
       router.push("/customTour");
     } catch (error) {
