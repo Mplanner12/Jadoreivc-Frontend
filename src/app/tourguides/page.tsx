@@ -11,6 +11,7 @@ import {
 } from "../../components/ui/carousel";
 import FeaturedGuides from "../Components/FeaturedGuides";
 import axiosInstance from "@/src/lib/utils";
+import LoadingScreen from "../Components/Loader";
 
 interface TourGuide {
   name: string;
@@ -85,7 +86,7 @@ const Page = () => {
   );
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<LoadingScreen/>}>
       <div className="w-full m-0 p-0 flex flex-col justify-center">
         {/* <Header /> */}
         <div className="h-full w-full">

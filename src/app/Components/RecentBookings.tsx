@@ -7,59 +7,61 @@ const RecentBookings = () => {
   const Bookings = [
     {
       title:
-        "Information about the tour - (Jasmine booked a city tour with Joshua in Ivory Coast)",
-      quote: "“Quote review from Jasmine”",
-      rating: "4.8",
-      noofratings: "(243)",
-      image: "/bookings.png",
+        "Information about the tour - (Bamba enjoyed a wildlife tour with Moussa in Côte d'Ivoire)",
+      quote: "“A breathtaking adventure through the wild!”",
+      rating: "4.7",
+      noofratings: "(310)",
+      image: "/tour7.jpeg",
+      price: "price",
+      height: "300px",
+    },
+    {
+      title:
+        "Information about the tour - (Aminata had a historic tour with Fanta in Côte d'Ivoire)",
+      quote: "“Learned so much about the rich history!”",
+      rating: "4.6",
+      noofratings: "(270)",
+      image: "/tour8.jpeg",
       price: "price",
     },
     {
       title:
-        "Information about the tour - (Jasmine booked a city tour with Joshua in Ivory Coast)",
-      quote: "“Quote review from Jasmine”",
+        "Information about the tour - (Kouassi explored the city with Awa in Côte d'Ivoire)",
+      quote: "“The city tour was vibrant and insightful.”",
       rating: "4.8",
-      noofratings: "(243)",
-      image: "/bookings.png",
+      noofratings: "(220)",
+      image: "/tour6.jpeg",
       price: "price",
     },
     {
       title:
-        "Information about the tour - (Jasmine booked a city tour with Joshua in Ivory Coast)",
-      quote: "“Quote review from Jasmine”",
-      rating: "4.8",
-      noofratings: "(243)",
-      image: "/bookings.png",
+        "Information about the tour - (Fatou took a beach tour with Fatoumata in Côte d'Ivoire)",
+      quote: "“Relaxing and refreshing beach experience!”",
+      rating: "4.9",
+      noofratings: "(290)",
+      image: "/tour3.jpg",
       price: "price",
     },
     {
       title:
-        "Information about the tour - (Jasmine booked a city tour with Joshua in Ivory Coast)",
-      quote: "“Quote review from Jasmine”",
-      rating: "4.8",
-      noofratings: "(243)",
-      image: "/bookings.png",
+        "Information about the tour - (Marie booked a cultural tour with Koffi in Côte d'Ivoire)",
+      quote: "“Amazing experience, highly recommended!”",
+      rating: "4.9",
+      noofratings: "(185)",
+      image: "tour2.jpg",
       price: "price",
     },
     {
       title:
-        "Information about the tour - (Jasmine booked a city tour with Joshua in Ivory Coast)",
-      quote: "“Quote review from Jasmine”",
-      rating: "4.8",
-      noofratings: "(243)",
-      image: "/bookings.png",
-      price: "price",
-    },
-    {
-      title:
-        "Information about the tour - (Jasmine booked a city tour with Joshua in Ivory Coast)",
-      quote: "“Quote review from Jasmine”",
-      rating: "4.8",
-      noofratings: "(243)",
-      image: "/bookings.png",
+        "Information about the tour - (Adama joined a night tour with Oulimata in Côte d'Ivoire)",
+      quote: "“The nightlife is truly electrifying!”",
+      rating: "4.7",
+      noofratings: "(199)",
+      image: "/tour4.jpeg",
       price: "price",
     },
   ];
+
   return (
     <div className="mb-[4rem] p-[2rem] md:px-[3.5rem] pt-[1rem] md:pt-[2rem] pb-[1rem] w-full flex flex-col justify-center">
       <div className="w-full flex justify-between items-center">
@@ -85,13 +87,11 @@ const RecentBookings = () => {
               key={index}
               className="mt-[1.75rem] md:mb-[2.75rem] flex flex-col justify-center"
             >
-              {/* <div className="absolute -mt-[23.5rem] md:-mt-[23.25rem] ml-[1.25rem] z-20 w-fit p-[0.65rem] px-[1.15rem] bg-white rounded-full text-emerald-600">
-                {booking.price}
-              </div> */}
               <div className="md:w-full mb-[1.5rem]">
                 <div className="">
                   <img
                     className="w-full rounded-xl"
+                    style={{ height: "300px", objectFit: "cover" }} // Set height and object-fit
                     src={booking.image}
                     alt="image"
                   />
@@ -104,7 +104,7 @@ const RecentBookings = () => {
               </div>
               <div className="text-teal-950 md:gap-x-[12rem] md:w-full flex justify-between md:left-[1rem] relative md:top-[0.5rem] items-center">
                 <div className="w-full flex flex-col md:flex-row justify-between md:items-center md:-mt-[1rem]">
-                  <div className="flex justify-start items-center text-[0.85rem] mb-[0.75rem] font-[500] md:pt-[0.75rem]">
+                  <div className="flex justify-start items-center text-[0.85rem] md:w-[15rem] mb-[0.75rem] font-[500] md:pt-[0.75rem]">
                     {booking.quote}
                   </div>
                   <div className="flex justify-start items-center gap-x-[1.25rem]">

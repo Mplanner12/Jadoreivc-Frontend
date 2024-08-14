@@ -4,6 +4,7 @@ import React from "react";
 import { FaRegCircleUser } from "react-icons/fa6";
 
 interface User {
+  id: string;
   fullName: string;
   profileImage: string;
   userType: string;
@@ -32,7 +33,7 @@ const UserPopUp: React.FC<UserPopUpProps> = ({
   return (
     <div className="absolute z-20 ml-[-6rem] gap-y-[1.5rem] md:ml-[-2rem] flex flex-col items-center p-[2rem] bg-white shadow-lg rounded-lg">
       <Link
-        href={"/profile:id"}
+        href={`/profile/${user.id}`}
         className="w-full flex justify-center items-center"
       >
         {profileImage ? (

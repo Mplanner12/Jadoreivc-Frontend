@@ -50,8 +50,36 @@ const UserProvider: React.FC<any> = ({
     fetchUser();
   }, []);
 
+  const fetchUser = async () => {
+    try {
+      const { data } = await axiosInstance.get("/api/users/auth/currentUser");
+      setUser(data.user);
+      // console.log(user?.fullName.split("")[0]);
+    } catch (error) {
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+  // fetchUser();
+
+  const updateUser = async (updatedUserData: any) => {
+    try {
+      const { data } = await axiosInstance.put(
+        "/api/users/auth/profile",
+        updatedUserData
+      );
+      setUser(data.user);
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
+    fetchUser();
+  };
+
   return (
-    <UserContext.Provider value={{ user, setUser, loading }}>
+    <UserContext.Provider
+      value={{ user, setUser, loading, updateUser, fetchUser }}
+    >
       {children}
     </UserContext.Provider>
   );

@@ -1,10 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { Suspense } from "react";
 import { MdOutlineMail } from "react-icons/md";
+import LoadingScreen from "../Components/Loader";
 
 const Page = () => {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<LoadingScreen />}>
       <div className="m-0 p-0 flex flex-col justify-center items-center">
         {/* <Header /> */}
         <div className="h-full w-full flex flex-col justify-center items-center">

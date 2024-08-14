@@ -9,10 +9,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <ServerLayout>
-        <ClientLayout>{children}</ClientLayout>
-      </ServerLayout>
-    </Suspense>
+    // <Suspense fallback={<div>Loading...</div>}>
+    <ServerLayout>
+      <ClientLayout>{children}</ClientLayout>
+    </ServerLayout>
+    // </Suspense>
   );
 }

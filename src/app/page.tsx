@@ -48,7 +48,7 @@ export default function Home() {
   };
 
   return (
-    <Suspense fallback={<LoadingScreen />}>
+    // <Suspense fallback={<LoadingScreen />}>
       <>
         {loading ? (
           <LoadingScreen />
@@ -143,6 +143,6 @@ export default function Home() {
           </ClientOnly>
         )}
       </>
-    </Suspense>
+    // </Suspense>
   );
 }

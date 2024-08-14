@@ -9,16 +9,7 @@ import TimePicker from "../../Components/TimePicker";
 import { usePlannedTours } from "../../context/tourPlanContext";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/src/lib/utils";
-
-// type paramProps = {
-//   id: string;
-// };
-
-// interface tourProps {
-//   onLocalsSelect: (selectedLocal: string) => void;
-//   onPersonSelect: (selectedPersons: string) => void;
-//   params: paramProps;
-// }
+import LoadingScreen from "../../Components/Loader";
 
 const Page = ({ params }: { params: { id: string } }) => {
   const touristID = params.id; // Access params.id correctly
@@ -147,7 +138,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   };
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<LoadingScreen />}>
       <div className="m-0 p-0 flex flex-col justify-center items-center">
         {/* <Header /> */}
         <div className="h-full w-full">

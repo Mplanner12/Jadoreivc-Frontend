@@ -3,7 +3,10 @@
 import React, { CSSProperties } from "react";
 import { FaStar } from "react-icons/fa6";
 import Link from "next/link";
-import { HiOutlineLocationMarker } from "react-icons/hi";
+import {
+  HiOutlineExclamationCircle,
+  HiOutlineLocationMarker,
+} from "react-icons/hi";
 import { TourGuideContext } from "../context/tourGuideContext";
 import { useContext } from "react";
 import GridSkeletonLoader from "./GridSkeleton";
@@ -125,11 +128,22 @@ const FeaturedGuides = ({
                 <div className="w-full mt-[0.35rem] mb-[0.25rem] flex flex-col justify-center h-full">
                   <div className="w-full h-full flex flex-col md:justify-start md:gap-y-[0.85rem] justify-between items-start">
                     <div className="w-full flex justify-between items-center h-fit pb-[0.5rem] gap-y-[0.25rem] text-teal-950 tracking-wide">
-                      <p className="text-[1rem] text-blue-950 font-semibold">
-                        {guide.user.fullName.split(" ")[0]}
-                      </p>
-                      <div className="flex flex-col justify-center items-center gap-y-[0.5rem] py-[0.3rem]">
-                        <div className="w-fit gap-x-[0.5rem] flex justify-center items-center">
+                      <div className="flex flex-col justify-start items-center">
+                        <div className="w-full pl-[0.25rem] text-[1rem] text-start text-blue-950 font-semibold">
+                          {guide.user.fullName.split(" ")[0]}
+                        </div>
+                        <div className="w-fit gap-x-[0.3rem] text-base font-normal flex justify-between items-center">
+                          <HiOutlineLocationMarker
+                            className="text-emerald-900"
+                            size={17}
+                          />{" "}
+                          <p className="text-[0.85rem] text-emerald-900 tracking-tighter font-[500]">
+                            {guide.location}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex flex-col justify-start mt-[0.25rem] items-start gap-y-[0.5rem] py-[0.3rem]">
+                        <div className="w-fit gap-x-[0.25rem] flex justify-center items-center">
                           <div className="text-[0.85rem] font-semibold text-blue-950">
                             {guide.rating}
                           </div>
@@ -137,34 +151,27 @@ const FeaturedGuides = ({
                             <FaStar color="orange" size={15} />
                             {/* <CiStar size={13} /> */}
                           </div>
+                          <p className="text-sm tracking-tighter">(243)</p>
+                          {/* ({guide.user.reviews.length}) */}
+                        </div>
+                        <div className="flex h-fit py-0.5 text-[0.7rem] justify-center items-center gap-x-[0.25rem]">
+                          <div className="text-teal-800">
+                            {guide?.user?.languages != null &&
+                              guide?.user?.languages[0]}
+                          </div>
+                          {guide?.user?.languages != null &&
+                            guide?.user?.languages.length > 1 && (
+                              <div className="text-teal-800 border-l-[1.5px] border-teal-700 pl-[0.25rem]">
+                                {guide.user?.languages[1]}
+                              </div>
+                            )}
                         </div>
                       </div>
                     </div>
-                    <div className="w-fit gap-x-[0.3rem] mt-[-0.5rem] md:mt-[-1rem] text-base font-normal flex justify-between items-center">
-                      <HiOutlineLocationMarker
-                        className="text-emerald-900"
-                        size={17}
-                      />{" "}
-                      <p className="text-[0.85rem] text-emerald-900 tracking-tighter font-[500]">
-                        {guide.location}
-                      </p>
-                    </div>
-                    <div className="w-full flex justify-between items-center">
-                      <div className="text-[0.8rem] font-[500] text-blue-950">
+                    <div className="w-full flex justify-between mt-[-0.5rem] items-center">
+                      <div className="text-[0.8rem] pl-[0.5rem] font-[500] text-blue-950">
                         4 Reviews
                         {/* {guide.noofreviews} */}
-                      </div>
-                      <div className="flex h-fit py-0.5 text-[0.7rem] justify-center items-center gap-x-[0.25rem]">
-                        <div className="text-teal-800">
-                          {guide?.user?.languages != null &&
-                            guide?.user?.languages[0]}
-                        </div>
-                        {guide?.user?.languages != null &&
-                          guide?.user?.languages.length > 1 && (
-                            <div className="text-teal-800 border-l-[1.5px] border-teal-700 pl-[0.25rem]">
-                              {guide.user?.languages[1]}
-                            </div>
-                          )}
                       </div>
                     </div>
                   </div>
@@ -188,8 +195,16 @@ const FeaturedGuides = ({
               data-testid="loader"
             />
           </div>
-          <div className="text-gray-500 text-center">
-            Something went wrong, please try again...
+          <div className="md:mt-[6.5rem] flex justify-center items-center w-full h-full">
+            <div className="flex flex-col justify-center items-center gap-y-4">
+              <HiOutlineExclamationCircle className="text-gray-500 text-5xl" />
+              <p className="text-gray-500 text-lg font-medium">
+                No toursGuides found or no tours matching your criteria
+              </p>
+              <p className="text-gray-500 text-sm">
+                Try adjusting your filters or Refreshing the page.
+              </p>
+            </div>
           </div>
         </div>
       )}
