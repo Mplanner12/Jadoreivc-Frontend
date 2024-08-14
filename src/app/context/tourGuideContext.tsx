@@ -78,7 +78,7 @@ const TourGuideProvider: React.FC<any> = ({
         `/api/tourGuides/tourGuides/${id}`
       );
       setTourGuide(data.tourGuide);
-      console.log(data.tourGuide);
+      // console.log(data.tourGuide);
     } catch (error) {
       console.error("Error fetching tour guide:", error);
     } finally {

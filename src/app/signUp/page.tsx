@@ -57,7 +57,7 @@ const Page = () => {
   // Use useEffect to update the value for react-hook-form
   useEffect(() => {
     setValue("userType", userType);
-    console.log(userType);
+    // console.log(userType);
   }, [userType, setValue]);
 
   const togglePasswordVisibility = () => {
@@ -66,7 +66,7 @@ const Page = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      console.log(data);
+      // console.log(data);
       await registerUser(data);
     } catch (error) {
       console.error("Registration failed", error);

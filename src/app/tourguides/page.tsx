@@ -53,7 +53,7 @@ const Page = () => {
       try {
         const response = await axiosInstance.get("/api/tourGuides/tourGuides");
         const data: any = response.data;
-        console.log(filteredGuides());
+        (filteredGuides());
         setGuides(data.tourGuides);
         setFilteredGuidesData(dataToUse); // Filter on initial load
       } catch (error) {

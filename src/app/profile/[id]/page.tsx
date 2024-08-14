@@ -134,7 +134,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const handleFormSubmit = async (data: any) => {
     try {
       updateUser(data);
-      console.log("Form submitted successfully:", data);
+      // console.log("Form submitted successfully:", data);
     } catch (error) {
       console.error("Error submitting form:", error);
       // Handle errors, such as displaying an error message to the user.

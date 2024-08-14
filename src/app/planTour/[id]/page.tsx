@@ -92,11 +92,11 @@ const Page = ({ params }: { params: { id: string } }) => {
   }, []);
 
   const handlePlanTour = async () => {
-    console.log("selectedLocation:", selectedLocation);
-    console.log("startDate:", startDate);
-    console.log("endDate:", endDate);
-    console.log("selectedTime:", selectedTime);
-    console.log("selectedPersons:", selectedPersons);
+    // console.log("selectedLocation:", selectedLocation);
+    // console.log("startDate:", startDate);
+    // console.log("endDate:", endDate);
+    // console.log("selectedTime:", selectedTime);
+    // console.log("selectedPersons:", selectedPersons);
     if (
       !selectedLocation ||
       !startDate ||

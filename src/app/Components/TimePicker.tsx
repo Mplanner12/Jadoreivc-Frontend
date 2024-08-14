@@ -57,7 +57,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ onTimeChange }) => {
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const handleTimeChange = (time: string) => {
     setSelectedTime(time);
-    console.log("Time Selected:", time); // Log the selected time
+    // console.log("Time Selected:", time); // Log the selected time
     onTimeChange(time);
   };
 

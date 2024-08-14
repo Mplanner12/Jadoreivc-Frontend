@@ -61,7 +61,7 @@ const Page = () => {
   const onSubmit = async (data: any) => {
     try {
       login(data.email, data.password, data.userType);
-      console.log(data);
+      // console.log(data);
     } catch (error) {
       console.error("Login error:", error);
     }

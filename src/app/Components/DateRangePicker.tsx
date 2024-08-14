@@ -23,23 +23,13 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
         <DatePicker
           className="rounded-xl"
           selected={selectedStart}
-          // onChange={(date) => {
-          //   if (date) {
-          //     const utcStartDate = moment(date).utc().toDate();
-          //     onStartDateChange(utcStartDate);
-          //     setSelectedStart(utcStartDate);
-          //     console.log("Start Date Selected:", utcStartDate);
-          //   } else {
-          //     onStartDateChange(null);
-          //   }
-          // }}
           onChange={(date) => {
             if (date) {
               const adjustedDate = moment(date).add(1, "day").toDate();
               // .toDate();
               onStartDateChange(adjustedDate);
               setSelectedStart(adjustedDate);
-              console.log("Adjusted Start Date:", adjustedDate);
+              // console.log("Adjusted Start Date:", adjustedDate);
             } else {
               onStartDateChange(null);
             }
@@ -72,18 +62,6 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
         <DatePicker
           className="end-date"
           selected={selectedEnd}
-          // onChange={(date) => {
-          //   if (date) {
-          //     const utcStartDate = moment(date).utc().toDate();
-          //     // const dateString = new Date(date).toLocaleDateString("fr-FR");
-          //     console.log(utcStartDate);
-          //     onEndDateChange(utcStartDate);
-          //     setSelectedEnd(utcStartDate);
-          //     console.log("End Date Selected:", utcStartDate);
-          //   } else {
-          //     onEndDateChange(null);
-          //   }
-          // }}
           onChange={(date) => {
             if (date) {
               const adjustedDate = moment(date)
@@ -91,7 +69,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
                 .toDate();
               onEndDateChange(adjustedDate);
               setSelectedEnd(adjustedDate);
-              console.log("Adjusted End Date:", adjustedDate);
+              // console.log("Adjusted End Date:", adjustedDate);
             } else {
               onEndDateChange(null);
             }
