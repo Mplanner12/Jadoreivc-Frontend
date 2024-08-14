@@ -107,7 +107,7 @@ const Header = () => {
             {/* Render the "Tours" link only if the user is a TOUR_GUIDE */}
             {user.userType === "TOUR_GUIDE" && (
               <div className="justify-center items-center hidden md:flex">
-                <Link href={`/customTour}`}>
+                <Link href={"/customTour"}>
                   <h1 className="font-semibold text-[1.25rem]">Tours</h1>
                 </Link>
               </div>

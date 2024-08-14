@@ -70,9 +70,9 @@ const FeaturedGuides = ({
     return Array.isArray(value);
   }
 
-  const guidesToDisplay = isArray(guides)
-    ? guides.slice(0, guideCount)
-    : tourGuides?.slice(0, guideCount) || [];
+  // Prioritize the 'guides' prop if it's provided
+  const guidesToDisplay = isArray(guides) ? guides : tourGuides;
+
   const filteredGuides = guidesToDisplay?.filter((guide) => {
     const locationMatch =
       location?.toLowerCase() === "" ||
@@ -82,6 +82,7 @@ const FeaturedGuides = ({
       guide.user.fullName.toLowerCase().includes(tourGuideName?.toLowerCase());
     return locationMatch && nameMatch;
   });
+
   return (
     <div className="px-[1rem] py-[2rem] md:px-[4rem] pt-[1rem] md:pt-[2rem] pb-[1rem] w-full flex flex-col justify-center mb-[2rem] md:mb-[3rem]">
       <div className="w-full flex justify-between items-center mb-[2.5rem] md:mb[1.5rem]">

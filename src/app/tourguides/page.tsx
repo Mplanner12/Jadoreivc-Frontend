@@ -35,22 +35,6 @@ const Page = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 3;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.get("/api/tourGuides/tourGuides");
-        const data: any = response.data;
-        console.log(data.tourGuides);
-        setGuides(data.tourGuides);
-      } catch (error) {
-        console.error("Error fetching tour guides:", error);
-        setGuides([]); // Fallback to empty array on error
-      }
-    };
-
-    fetchData();
-  }, []);
-
   // Function to filter tour guides based on selected filter
   const filteredGuides = () => {
     const guidesArray = Array.isArray(guides) ? guides : [];
@@ -63,11 +47,23 @@ const Page = () => {
     }
   };
 
-  // Update filteredGuidesData whenever guides or selectedFilter changes
   useEffect(() => {
-    setFilteredGuidesData(filteredGuides());
-    console.log(filteredGuides());
-  }, [guides, selectedFilter]);
+    const fetchData = async () => {
+      const dataToUse = filteredGuides();
+      try {
+        const response = await axiosInstance.get("/api/tourGuides/tourGuides");
+        const data: any = response.data;
+        console.log(filteredGuides());
+        setGuides(data.tourGuides);
+        setFilteredGuidesData(dataToUse); // Filter on initial load
+      } catch (error) {
+        console.error("Error fetching tour guides:", error);
+        setGuides([]); // Fallback to empty array on error
+      }
+    };
+
+    fetchData();
+  }, [selectedFilter]);
 
   // Calculating the total number of pages
   const totalPages = Math.ceil(filteredGuidesData.length / pageSize);
@@ -86,7 +82,7 @@ const Page = () => {
   );
 
   return (
-    <Suspense fallback={<LoadingScreen/>}>
+    <Suspense fallback={<LoadingScreen />}>
       <div className="w-full m-0 p-0 flex flex-col justify-center">
         {/* <Header /> */}
         <div className="h-full w-full">

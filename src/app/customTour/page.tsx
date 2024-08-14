@@ -282,7 +282,7 @@ const Page = () => {
                           </p>
                         </div>
                       </div>
-                      <div className="relative left-[-3rem] mt-[0.5rem] md:left-[-1rem]">
+                      {/* <div className="relative left-[-3rem] mt-[0.5rem] md:left-[-1rem]">
                         {loading ? (
                           <HashLoader
                             cssOverride={override}
@@ -298,7 +298,7 @@ const Page = () => {
                           <div className="flex justify-normal items-center">
                             <Link href={`mailto:${tour.tourist?.email}`}>
                               {" "}
-                              {/* Link to contact page with tour ID */}
+                              Link to contact page with tour ID
                               <MdOutlineMail
                                 size={28}
                                 className="text-teal-900"
@@ -308,7 +308,7 @@ const Page = () => {
                         ) : (
                           <span>&nbsp;</span>
                         )}
-                      </div>
+                      </div> */}
                     </Link>
                   </Suspense>
                 );
