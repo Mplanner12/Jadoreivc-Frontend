@@ -3,7 +3,11 @@ import Link from "next/link";
 import { IoIosArrowDown } from "react-icons/io";
 import { RxHamburgerMenu } from "react-icons/rx";
 
-export default function HamburgerMenu() {
+interface HeaderProps {
+  userId?: string;
+}
+
+export default function HamburgerMenu({ userId }: HeaderProps) {
   return (
     <Menu
       as="div"
@@ -46,7 +50,7 @@ export default function HamburgerMenu() {
             as="div"
             className={"mt-[1rem] flex justify-center items-center"}
           >
-            <Link href={"/planTour"}>
+            <Link href={`/planTour/${userId}`}>
               <button
                 type="submit"
                 className="uppercase w-[13rem] py-[1.3rem] block px-[0.25rem] text-center font-light text-[1.rem] text-white data-[focus]:bg-gray-100 rounded-full bg-orange-400 data-[focus]:text-gray-900 hover:bg-emerald-600 hover:text-white"

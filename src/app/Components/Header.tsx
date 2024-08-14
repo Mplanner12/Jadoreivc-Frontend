@@ -163,7 +163,20 @@ const Header = () => {
           )}
         </div>
         <div className="px-[0.5rem] flex justify-center items-center">
-          <HamburgerMenu />
+          {loading ? (
+            <HashLoader
+              cssOverride={override}
+              color="green"
+              loading={loading}
+              size={25}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          ) : user ? (
+            <HamburgerMenu userId={user.id} />
+          ) : (
+            <HamburgerMenu />
+          )}
         </div>
         {loading ? (
           <HashLoader
