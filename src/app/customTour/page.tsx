@@ -210,7 +210,7 @@ const Page = () => {
                   <Suspense fallback={<LoadingScreen />} key={tour.id}>
                     <Link
                       className="p-0 m-0 w-fit h-full flex justify-between gap-x-[1rem] md:gap-x-[2.5rem] items-start py-[1rem] md:py-[0.7rem] pl-[0.7rem] md:pr-[0.5rem] bg-slate-50 shadow-md rounded-xl"
-                      href={"/makeOffer"}
+                      href={`/makeOffer/${tour.id}`}
                     >
                       <div className="w-fit md:relative md:top-[1.35rem] flex justify-center items-center">
                         {tour.image ? (
