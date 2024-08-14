@@ -241,7 +241,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               <select
                 value={selectedPersons}
                 onChange={handlePersonsChange}
-                className="flex w-full text-[1.225rem] font-[500] text-teal-900 bg-slate-100 border-none justify-between items-center p-2.5 mt-[0.85rem] px-[1.25rem] rounded md:w-fit"
+                className="flex w-full text-[1.225rem] font-[500] text-teal-900 bg-slate-100 border-none justify-between items-center p-2.5 mt-[0.85rem] px-[1.25rem] rounded md:w-[19rem]"
               >
                 {peopleOptions.map((person, index) => (
                   <option key={index} value={person.value}>
