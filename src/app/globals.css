@@ -8,8 +8,8 @@ html {
 
 .text-border {
   color: transparent;
-  -webkit-text-stroke: 0.25px white; /* Adjust the width and color as needed */
-  stroke: 0.1px white;
+  -webkit-text-stroke: 0.75px white; /* Adjust the width and color as needed */
+  stroke: 0.4px white;
 }
 
 @media (width<= 480px) {
