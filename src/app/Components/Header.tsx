@@ -11,6 +11,7 @@ import { UserContext } from "../context/UserContex";
 import ClipLoader from "react-spinners/ClipLoader";
 import HashLoader from "react-spinners/HashLoader";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import axiosInstance from "@/src/lib/utils";
 
 interface HeaderProps {
   fullName: string;
@@ -25,11 +26,6 @@ const override: CSSProperties = {
 const Header = () => {
   const { user, loading } = useContext(UserContext);
   const router = useRouter();
-
-  const axiosInstance = axios.create({
-    baseURL: "http://localhost:5000/api/users",
-    withCredentials: true,
-  });
 
   const [showPopUp, setShowPopUp] = useState(false);
 
