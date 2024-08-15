@@ -315,7 +315,7 @@ const Page = () => {
               })}
             </div>
           ) : (
-            <div className="md:mt-[6.5rem] flex justify-center items-center w-full h-full">
+            <div className="px-[1rem] md:mt-[6.5rem] flex justify-center items-center w-full h-full">
               <div className="flex flex-col justify-center items-center gap-y-4">
                 <HiOutlineExclamationCircle className="text-gray-500 text-5xl" />
                 <p className="text-gray-500 text-lg font-medium">

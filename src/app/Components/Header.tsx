@@ -61,7 +61,7 @@ const Header = () => {
 
   const logout = async () => {
     try {
-      await axiosInstance.get("/auth/logout");
+      await axiosInstance.get("/api/users/auth/logout");
       // console.log("Logout");
       router.refresh();
       window.location.href = "/logIn";
