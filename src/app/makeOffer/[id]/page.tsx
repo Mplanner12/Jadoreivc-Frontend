@@ -7,6 +7,7 @@ import LoadingScreen from "../../Components/Loader";
 import { usePathname } from "next/navigation";
 import axiosInstance from "@/src/lib/utils";
 import { FaRegUserCircle } from "react-icons/fa";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 const Page = ({ params }: { params: { id: string } }) => {
   // const pathname = usePathname();
@@ -25,7 +26,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         );
         setTour(response.data.tourPlan);
       } catch (error) {
-        setError(error);
+        setError("Please Login to complete this request");
       } finally {
         setLoading(false);
       }
@@ -42,16 +43,29 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   if (error) {
     return (
-      <div className="m-0 p-0 flex flex-col justify-center items-center">
-        <p>Error fetching tour: {error.message}</p>
+      <div className="h-screen m-0 p-0 flex flex-col justify-center items-center">
+        <div className="flex flex-col justify-center items-center gap-y-4">
+          <HiOutlineExclamationCircle className="text-gray-500 text-5xl" />
+          <p className="text-gray-500 text-lg font-medium">{error}</p>
+          <p className="text-gray-500 text-sm">
+            You can only make an offer to the tourist after you&rsquo;ve signed
+            in
+          </p>
+        </div>
       </div>
     );
   }
 
   if (!tour) {
     return (
-      <div className="m-0 p-0 flex flex-col justify-center items-center">
-        <p>Tour not found.</p>
+      <div className="h-screen m-0 p-0 flex flex-col justify-center items-center">
+        <div className="flex flex-col justify-center items-center gap-y-4">
+          <HiOutlineExclamationCircle className="text-gray-500 text-5xl" />
+          <p className="text-gray-500 text-lg font-medium">Tour not found.</p>
+          <p className="text-gray-500 text-sm">
+            Please check the status of the tour or try refreshing the page.
+          </p>
+        </div>
       </div>
     );
   }

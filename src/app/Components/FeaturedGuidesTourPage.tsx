@@ -57,7 +57,7 @@ const override: CSSProperties = {
   margin: "0 auto",
 };
 
-const FeaturedGuides = ({
+const FeaturedGuidesTourPage = ({
   guideCount,
   hideViewMore = false,
   guides,
@@ -213,4 +213,4 @@ const FeaturedGuides = ({
   );
 };
 
-export default FeaturedGuides;
+export default FeaturedGuidesTourPage;

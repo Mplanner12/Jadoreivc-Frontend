@@ -68,15 +68,18 @@ const Page = () => {
   };
 
   return (
-    <div className="bg-emerald-600 w-full h-full flex justify-center md:justify-between">
+    <div className="bg-emerald-600 w-full h-screen flex justify-center items-center md:justify-between">
       <div
-        id="loginContainer"
-        className="bg-white w-full h-full flex flex-col justify-center items-center pt-[2rem] px-[2.35rem] md:px-[5.8rem] pb-[8rem]"
+        id="signUpContainer"
+        className="bg-white w-full h-screen flex flex-col justify-center items-center pt-[1.5rem] px-[2.35rem] md:px-[5.85rem] pb-[1rem]"
       >
-        <div className="h-full mb-[1.85rem] md:mb-[4.5rem] w-full flex justify-center items-center">
-          <h1 className="w-full h-full text-start text-emerald-600 text-[1.3rem] font-[500]">
+        <div className="relative top-[-1rem] h-fit mb-[1.85rem] md:mb-[0.5rem] w-full flex justify-center items-center">
+          <Link
+            href={"/"}
+            className="w-full h-fit text-start text-emerald-600 text-[1.85rem] font-[500]"
+          >
             Jadoreivc
-          </h1>
+          </Link>
         </div>
         <div className="w-full py-[1rem] pb-2 px-[0.25rem] flex justify-center items-center">
           <h1 className="w-full text-start ml-[0.25rem] text-teal-950 text-[1.25rem] md:text-[1.5rem] font-semibold">

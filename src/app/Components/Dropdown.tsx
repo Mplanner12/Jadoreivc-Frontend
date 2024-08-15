@@ -9,7 +9,7 @@ export default function Dropdown() {
           id="language"
           className="inline-flex w-full justify-center gap-x-1.5 bg-white px-1 py-2 text-[1.1rem] font-semibold text-gray-900  hover:bg-gray-50"
         >
-          ENG
+          FRN
           <IoIosArrowDown
             aria-hidden="true"
             className="-mr-1 h-5 w-5 text-gray-400"
@@ -25,7 +25,7 @@ export default function Dropdown() {
               href="#"
               className="block px-4 py-2 text-base text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
             >
-              FRN
+              ENG
             </a>
           </MenuItem>
         </div>
