@@ -24,7 +24,7 @@ const override: CSSProperties = {
 };
 
 const Header = () => {
-  const { user, loading } = useContext(UserContext);
+  const { user, loading, setUser } = useContext(UserContext);
   const router = useRouter();
 
   const [showPopUp, setShowPopUp] = useState(false);
@@ -62,14 +62,13 @@ const Header = () => {
   const logout = async () => {
     try {
       await axiosInstance.get("/api/users/auth/logout");
-      // console.log("Logout");
-      router.refresh();
-      window.location.href = "/logIn";
+      setUser(null);
+      window.location.reload(); // Redirect to the login page after logout
+      router.push("/logIn");
     } catch (error) {
       console.error("Logout failed", error);
     }
     setShowPopUp(false);
-    router.push("/");
   };
 
   return (
