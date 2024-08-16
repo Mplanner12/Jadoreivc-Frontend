@@ -26,23 +26,21 @@ const images = [
 
 export function LogoCarousel() {
   const plugin = React.useRef<AutoplayType>(
-    Autoplay({ delay: 2000, stopOnInteraction: true })
+    Autoplay({ delay: 2000, stopOnInteraction: false }) // Set stopOnInteraction to false
   );
 
   return (
-    <div className="md:hidden w-full h-full flex flex-col justify-center items-center mt-[2.5rem] mb-[3.85rem] py-[1.75rem] bg-emerald-50">
-      <h1 className="text-4xl font-bold mb-[0.7rem] text-teal-950">
+    <div className="w-full h-full flex flex-col justify-center items-center mt-[2.5rem] mb-[3.85rem] py-[1.75rem] bg-emerald-50">
+      <h1 className="text-4xl md:text-[3.25rem] font-bold mb-[0.7rem] text-teal-950">
         Trusted By
       </h1>
-      <Carousel
-        plugins={[plugin.current]}
-        className="w-full"
-        onMouseEnter={plugin.current.stop}
-        onMouseLeave={plugin.current.reset}
-      >
+      <Carousel plugins={[plugin.current]} className="w-full px-0">
         <CarouselContent className="w-full h-fit">
           {images.map((image, index) => (
-            <CarouselItem key={image.alt} className="w-full h-fit basis-1/2">
+            <CarouselItem
+              key={image.alt}
+              className="w-full h-fit basis-[58%] md:basis-[35%] px-[1.85rem] md:px-[8rem]"
+            >
               <div className="p-1">
                 <Card className="w-full h-fit flex justify-center items-center bg-emerald-50">
                   <CardContent className="w-full h-fit flex aspect-square items-center justify-center p-6 py-1">

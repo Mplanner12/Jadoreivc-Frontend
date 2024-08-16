@@ -46,10 +46,9 @@ interface User {
 interface FeaturedGuidesProps {
   guideCount: number;
   hideViewMore?: boolean;
-  guides?: any;
-  location?: string; // Add location prop
-  tourGuideName?: string; // Add tourGuideName prop
-  tourGuides?: TourGuide[]; // Add tourGuides prop
+  guides?: TourGuide[]; // Change type to TourGuide[]
+  // location?: string; // Remove location prop
+  // tourGuideName?: string; // Remove tourGuideName prop
 }
 
 const override: CSSProperties = {
@@ -57,31 +56,17 @@ const override: CSSProperties = {
   margin: "0 auto",
 };
 
-const FeaturedGuidesTourPage = ({
+const FeaturedGuidesTourPage: React.FC<FeaturedGuidesProps> = ({
   guideCount,
   hideViewMore = false,
   guides,
-  location, // Receive location prop
-  tourGuideName, // Receive tourGuideName prop
-}: FeaturedGuidesProps) => {
+}: // location, // Remove location prop
+// tourGuideName, // Remove tourGuideName prop
+FeaturedGuidesProps) => {
   const { tourGuides, loading } = useContext(TourGuideContext);
 
-  function isArray(value: any): value is Array<any> {
-    return Array.isArray(value);
-  }
-
   // Prioritize the 'guides' prop if it's provided
-  const guidesToDisplay = isArray(guides) ? guides : tourGuides;
-
-  const filteredGuides = guidesToDisplay?.filter((guide) => {
-    const locationMatch =
-      location?.toLowerCase() === "" ||
-      guide.location.toLowerCase().includes(location?.toLowerCase());
-    const nameMatch =
-      tourGuideName?.toLowerCase() === "" ||
-      guide.user.fullName.toLowerCase().includes(tourGuideName?.toLowerCase());
-    return locationMatch && nameMatch;
-  });
+  const guidesToDisplay = guides || tourGuides;
 
   return (
     <div className="px-[1rem] py-[2rem] md:px-[4rem] pt-[1rem] md:pt-[2rem] pb-[1rem] w-full flex flex-col justify-center mb-[2rem] md:mb-[3rem]">
@@ -107,10 +92,10 @@ const FeaturedGuidesTourPage = ({
       </div>
       {loading ? (
         <GridSkeletonLoader count={6} />
-      ) : filteredGuides?.length > 0 ? (
+      ) : guidesToDisplay?.length > 0 ? (
         <div className="block">
           <div className="md:gap-x-6 md:h-fit w-full h-fit flex flex-col justify-center md:grid md:grid-cols-4 items-center ">
-            {filteredGuides?.slice(0, guideCount).map((guide) => (
+            {guidesToDisplay?.slice(0, guideCount).map((guide) => (
               <Link
                 className="w-full h-full px-[1.25rem] mb-[1.85rem]"
                 key={guide.user.id}

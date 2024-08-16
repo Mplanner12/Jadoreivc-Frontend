@@ -12,11 +12,36 @@ import {
 import FeaturedGuides from "../Components/FeaturedGuides";
 import axiosInstance from "@/src/lib/utils";
 import LoadingScreen from "../Components/Loader";
+import FeaturedGuidesTourPage from "../Components/FeaturedGuidesTourPage";
 
 interface TourGuide {
-  name: string;
-  thingsToDo: string[];
-  tourGuides: [];
+  id: string;
+  userId: string;
+  location: string;
+  offerRange: number;
+  aboutMe: string;
+  motto: string;
+  thingsToDo: string[]; // Assuming this is an array of strings
+  summary: string;
+  tourHighlights: string[];
+  rating: number | null;
+  user: User;
+  reviews: any[];
+  name: string; // Add the 'name' property
+  // tourGuidests: any; // Add the 'tourGuidests' property
+}
+
+interface User {
+  id: string;
+  fullName: string;
+  address: string;
+  email: string;
+  password: string;
+  userType: string;
+  languages: string[];
+  image: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 const Buttons = [
@@ -31,7 +56,7 @@ const Buttons = [
 const Page = () => {
   const [selectedFilter, setSelectedFilter] = useState("");
   const [guides, setGuides] = useState<TourGuide[]>([]);
-  const [filteredGuidesData, setFilteredGuidesData] = useState<TourGuide[]>([]);
+  const [filteredGuidesData, setFilteredGuidesData] = useState<TourGuide[]>([]); // Initialize with guides
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 3;
 
@@ -49,13 +74,11 @@ const Page = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const dataToUse = filteredGuides();
       try {
         const response = await axiosInstance.get("/api/tourGuides/tourGuides");
         const data: any = response.data;
-        (filteredGuides());
         setGuides(data.tourGuides);
-        setFilteredGuidesData(dataToUse); // Filter on initial load
+        setFilteredGuidesData(data.tourGuides); // Set filteredGuidesData on initial load
       } catch (error) {
         console.error("Error fetching tour guides:", error);
         setGuides([]); // Fallback to empty array on error
@@ -63,6 +86,11 @@ const Page = () => {
     };
 
     fetchData();
+  }, []); // No dependency array, so it runs only once on mount
+
+  // Update filteredGuidesData when selectedFilter changes
+  useEffect(() => {
+    setFilteredGuidesData(filteredGuides());
   }, [selectedFilter]);
 
   // Calculating the total number of pages
@@ -99,6 +127,14 @@ const Page = () => {
             Tour Guides in Côte d’Ivoire
           </h1>
           <div className="w-full pl-[1.25rem]">
+            <div className="flex justify-center items-center">
+              <button
+                onClick={() => setSelectedFilter("")}
+                className="w-fit md:w-fit h-fit md:h-[4rem] py-[1.3rem] p-[1.85rem] uppercase font-[500] text-emerald-600 bg-slate-50 rounded-full active:bg-emerald-600 outline-none active:text-white text-[0.85rem] border-[1px] border-emerald-600 hover:bg-emerald-600 hover:text-white mb-4"
+              >
+                Clear Filters
+              </button>
+            </div>
             <Carousel className="w-full h-full py-[0rem] md:px-[4rem]">
               <CarouselContent className="w-full h-fit gap-x-[3.5rem] md:gap-x-[1rem]">
                 {Buttons.map((button) => (
@@ -126,7 +162,7 @@ const Page = () => {
               </CarouselContent>
             </Carousel>
           </div>
-          <FeaturedGuides
+          <FeaturedGuidesTourPage
             guideCount={12}
             hideViewMore={true}
             guides={currentGuides}

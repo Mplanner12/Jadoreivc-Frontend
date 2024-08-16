@@ -15,6 +15,7 @@ import { useState, useContext, useEffect, Suspense } from "react";
 import LoadingScreen from "./Components/Loader";
 import { TourGuideContext } from "./context/tourGuideContext";
 import Dive from "./Components/Dive";
+import FeaturedGuidesTourPage from "./Components/FeaturedGuidesTourPage";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -136,7 +137,7 @@ export default function Home() {
             />
             <RecentBookings />
             <LogoCarousel />
-            <LogoCarouselMd />
+            {/* <LogoCarouselMd /> */}
             <NewsAndUpdate />
             <NewsAndUpdateMd />
           </div>
