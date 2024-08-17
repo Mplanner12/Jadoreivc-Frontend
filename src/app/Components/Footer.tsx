@@ -6,8 +6,6 @@ import { IoLogoTiktok } from "react-icons/io5";
 import { FaTwitter } from "react-icons/fa6";
 import { GrLinkedin } from "react-icons/gr";
 import Link from "next/link";
-import AStore from "../../../public/AppStore.png";
-import GStore from "../../../public/GoogleStore.png";
 
 const Buttons = [
   { text: "City Tours", href: "" },
