@@ -10,44 +10,84 @@ import {
   CarouselItem,
 } from "../../components/ui/carousel";
 import Image from "next/image";
-import News1 from "../../../public/News1.png";
-import News2 from "../../../public/News2.png";
-import News3 from "../../../public/News3.png";
-import News4 from "../../../public/News4.png";
-import News5 from "../../../public/News5.png";
+import Abijan from "../../../public/Abijan.jpg";
+import Bouake from "../../../public/Bouaké.jpeg";
+import Daloa from "../../../public/Daloa.jpg";
+import SanPedro from "../../../public/San-Pédro.jpg";
+import Yamoussoukro from "../../../public/Yamoussoukro2.jpg";
+import Man from "../../../public/Man.jpg";
+import Gagnoa from "../../../public/Gagnoa.jpg";
+import Abengourou from "../../../public/Abengourou.jpg";
+import Odienné from "../../../public/Odienné.jpg";
+import Korhogo from "../../../public/Korhogo.jpg";
 
 const NewsUpdate = [
   {
-    text: "Smart Farming: 5 Agri-Tech Solutions Boosting Crop Yields in Nigeria",
-    src: News1,
+    text: "Abidjan - The economic capital and largest city, known for its modern infrastructure, vibrant economy, and cultural diversity.",
+    src: Abijan,
     alt: "News1",
     width: 400,
     height: 270,
   },
   {
-    text: "The Future of Nigerian Agriculture: 5 Agri-Tech Trends to Watch",
-    src: News2,
+    text: "Bouaké - The second-largest city, located in the central part of the country, known for its trade and agricultural activities.",
+    src: Bouake,
+    alt: "News1",
+    width: 400,
+    height: 270,
+  },
+  {
+    text: "Daloa - A major city in the west-central region, known as a hub for cocoa and coffee production",
+    src: Daloa,
     alt: "News2",
     width: 400,
     height: 270,
   },
   {
-    text: "Northern Nigeria's Agricultural Boom: Key Crops and Techniques",
-    src: News3,
+    text: "San-Pédro - A port city in the southwest, important for its port facilities and connection to the cocoa export industry",
+    src: SanPedro,
     alt: "News3",
     width: 400,
     height: 270,
   },
   {
-    text: "The Role of Traditional and Modern Techniques in Northern Nigerian Agriculture",
-    src: News4,
+    text: "Yamoussoukro - The political and administrative capital, famous for the Basilica of Our Lady of Peace, one of the largest churches in the world",
+    src: Yamoussoukro,
     alt: "News4",
     width: 400,
     height: 270,
   },
   {
-    text: "Top 5 Agri-Tech Startups Leading the Agricultural Revolution in Nigeria",
-    src: News5,
+    text: "Korhogo - A city in the northern part of the country, known for its cultural heritage and traditional crafts.",
+    src: Korhogo,
+    alt: "News5",
+    width: 400,
+    height: 270,
+  },
+  {
+    text: "Man - Located in the mountainous western region, Man is known for its scenic beauty, waterfalls, and the rich cultural traditions of the Dan people",
+    src: Man,
+    alt: "News5",
+    width: 400,
+    height: 270,
+  },
+  {
+    text: "Gagnoa - A city in the central-western region, known for its agricultural activities and vibrant local markets",
+    src: Gagnoa,
+    alt: "News5",
+    width: 400,
+    height: 270,
+  },
+  {
+    text: "Abengourou - A city in the eastern part of the country, known for its role in the cocoa industry and its proximity to the Ghanaian border",
+    src: Abengourou,
+    alt: "News5",
+    width: 400,
+    height: 270,
+  },
+  {
+    text: "Odienné - Located in the northwestern part of the country, known for its cultural diversity and proximity to the borders with Mali and Guinea",
+    src: Odienné,
     alt: "News5",
     width: 400,
     height: 270,
@@ -58,8 +98,8 @@ const NewsAndUpdate = () => {
     Autoplay({ delay: 2000, stopOnInteraction: true })
   );
   return (
-    <div className="md:hidden p-[2rem] md:px-[4.25rem] pt-[1rem] md:pt-[2rem] pb-[1rem] w-full flex flex-col justify-center mb-[4rem] md:mb-[32rem]">
-      <div className="w-full flex justify-between items-center md:mb-[-1.5rem]  mb-[0.5rem]">
+    <div className="p-[2rem] md:px-[3.25rem] pt-[1rem] md:pt-[2rem] pb-[1rem] w-full flex flex-col justify-center mb-[3rem] md:mb-[3rem]">
+      <div className="w-full flex justify-between items-center md:mb-[1.5rem] mb-[0.5rem]">
         <div className="py-[1.25rem]">
           <h1
             id="mini-header"
@@ -82,25 +122,26 @@ const NewsAndUpdate = () => {
           onMouseEnter={plugin.current.stop}
           onMouseLeave={plugin.current.reset}
         >
-          <CarouselContent className="w-full h-fit">
+          <CarouselContent className="w-full h-full flex">
             {NewsUpdate.map((news, index) => (
-              <CarouselItem key={news.alt} className="w-full h-fit basis-[83%]">
-                <div className="py-[4rem]">
-                  <Card className="w-full h-fit flex justify-center items-center">
-                    <CardContent className="w-full h-fit flex aspect-square items-center justify-center p-2 py-1">
-                      <div className="w-full h-fit mb-[1.5rem] flex flex-col justify-center items-center rounded-md gap-y-1.5">
+              <CarouselItem
+                key={news.alt}
+                className="w-full h-full flex-none basis-[83%] md:basis-[23%] flex justify-center items-center"
+              >
+                <div className="w-full h-full flex justify-center items-center">
+                  <Card className="w-full h-full flex justify-center items-center">
+                    <CardContent className="w-full h-full flex flex-col items-center justify-center p-2 py-1">
+                      <div className="w-full h-[325px] flex justify-center items-center mb-[1.5rem]">
                         <Image
-                          className="rounded-lg px-[0.5rem]"
+                          className="rounded-3xl w-full h-full object-cover px-[0.5rem]"
                           src={news.src}
                           alt={news.alt}
-                          width={news.width}
-                          height={news.height}
                         />
-                        <div className="w-fit px-[1.5rem]">
-                          <p className="text-teal-950 text-[1.1rem] font-semibold tracking-wide text-start">
-                            {news.text}
-                          </p>
-                        </div>
+                      </div>
+                      <div className="w-full px-[1.5rem]">
+                        <p className="w-full text-teal-950 text-[1.1rem] font-semibold tracking-wide text-start">
+                          {news.text}
+                        </p>
                       </div>
                     </CardContent>
                   </Card>
@@ -109,7 +150,7 @@ const NewsAndUpdate = () => {
             ))}
           </CarouselContent>
           {/* <CarouselPrevious />
-        <CarouselNext /> */}
+  <CarouselNext /> */}
         </Carousel>
       </div>
     </div>

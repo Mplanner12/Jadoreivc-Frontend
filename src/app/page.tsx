@@ -139,7 +139,7 @@ export default function Home() {
             <LogoCarousel />
             {/* <LogoCarouselMd /> */}
             <NewsAndUpdate />
-            <NewsAndUpdateMd />
+            {/* <NewsAndUpdateMd /> */}
           </div>
         </ClientOnly>
       )}

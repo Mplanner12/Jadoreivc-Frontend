@@ -96,7 +96,7 @@ const Footer = () => {
       </div>
       <div className="w-full pb-[3rem] md:pb-[0.5rem] md:mt-[-2rem] md:relative md:top-[0.8rem] pt-[4.5rem] flex justify-start md:justify-center items-start md:items-center">
         <p className="text-white text-sm font-[300]">
-          All Rights Reserved - Jadoreivc 2024
+          All Rights Reserved - Jadoreivc @2024
         </p>
       </div>
     </div>
