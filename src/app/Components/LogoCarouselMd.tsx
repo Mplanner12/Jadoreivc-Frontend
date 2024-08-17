@@ -11,7 +11,7 @@ const images = [
   { src: Qredet, alt: "Qredet Logo", width: 150, height: 200 },
   { src: Explore, alt: "Explore Logo", width: 50, height: 50 },
   { src: cartAGro, alt: "CartAGro Logo", width: 200, height: 300 },
-  { src: NewCatsLogo, alt: "NewCats Logo 2", width: 150, height: 200 },
+  // { src: NewCatsLogo, alt: "NewCats Logo 2", width: 150, height: 200 },
 ];
 
 const LogoCarouselMd = () => {
