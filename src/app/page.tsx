@@ -3,9 +3,7 @@ import Hero from "./Components/Hero";
 import FeaturedGuides from "./Components/FeaturedGuides";
 import RecentBookings from "./Components/RecentBookings";
 import { LogoCarousel } from "./Components/LogoCarouselSm";
-import LogoCarouselMd from "./Components/LogoCarouselMd";
 import NewsAndUpdate from "./Components/NewsAndUpdateSm";
-import NewsAndUpdateMd from "./Components/NewsAndUpdateMd";
 import { ImLocation } from "react-icons/im";
 import { IoMdSearch } from "react-icons/io";
 import { IoMdTime } from "react-icons/io";
@@ -15,7 +13,6 @@ import { useState, useContext, useEffect, Suspense } from "react";
 import LoadingScreen from "./Components/Loader";
 import { TourGuideContext } from "./context/tourGuideContext";
 import Dive from "./Components/Dive";
-import FeaturedGuidesTourPage from "./Components/FeaturedGuidesTourPage";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -137,9 +134,7 @@ export default function Home() {
             />
             <RecentBookings />
             <LogoCarousel />
-            {/* <LogoCarouselMd /> */}
             <NewsAndUpdate />
-            <NewsAndUpdateMd />
           </div>
         </ClientOnly>
       )}
