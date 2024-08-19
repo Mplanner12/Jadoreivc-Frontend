@@ -10,7 +10,7 @@ import {
   CarouselItem,
 } from "../../components/ui/carousel";
 import Image from "next/image";
-import Abijan from "../../../public/Abijan.jpg";
+import Abijan from "../../../public/AbijanImg.jpg";
 import Bouake from "../../../public/Bouaké.jpeg";
 import Daloa from "../../../public/Daloa.jpg";
 import SanPedro from "../../../public/San-Pédro.jpg";
@@ -20,6 +20,7 @@ import Gagnoa from "../../../public/Gagnoa.jpg";
 import Abengourou from "../../../public/Abengourou.jpg";
 import Odienné from "../../../public/Odienné.jpg";
 import Korhogo from "../../../public/Korhogo.jpg";
+import Dioulatièdougou from "../../../public/Dioulatièdougou.jpg";
 
 const NewsUpdate = [
   {
@@ -88,6 +89,13 @@ const NewsUpdate = [
   {
     text: "Odienné - Located in the northwestern part of the country, known for its cultural diversity and proximity to the borders with Mali and Guinea",
     src: Odienné,
+    alt: "News5",
+    width: 400,
+    height: 270,
+  },
+  {
+    text: "Dioulatièdougou - A small town in the northwestern part of the country, known for its vibrant local culture, traditional crafts, and beautiful surrounding landscapes that attract visitors.",
+    src: Dioulatièdougou,
     alt: "News5",
     width: 400,
     height: 270,

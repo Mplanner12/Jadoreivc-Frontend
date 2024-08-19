@@ -60,28 +60,11 @@ const override: CSSProperties = {
 const FeaturedGuides = ({
   guideCount,
   hideViewMore = false,
-  guides,
-  location, // Receive location prop
-  tourGuideName, // Receive tourGuideName prop
+  tourGuides = [],
 }: FeaturedGuidesProps) => {
-  const { tourGuides, loading } = useContext(TourGuideContext);
+  const { loading } = useContext(TourGuideContext);
 
-  function isArray(value: any): value is Array<any> {
-    return Array.isArray(value);
-  }
-
-  // Prioritize the 'guides' prop if it's provided
-  const guidesToDisplay = isArray(guides) ? guides : tourGuides;
-
-  const filteredGuides = guidesToDisplay?.filter((guide) => {
-    const locationMatch =
-      location?.toLowerCase() === "" ||
-      guide.location.toLowerCase().includes(location?.toLowerCase());
-    const nameMatch =
-      tourGuideName?.toLowerCase() === "" ||
-      guide.user.fullName.toLowerCase().includes(tourGuideName?.toLowerCase());
-    return locationMatch && nameMatch;
-  });
+  if (loading) return <GridSkeletonLoader />;
 
   return (
     <div className="px-[1rem] py-[2rem] md:px-[4rem] pt-[1rem] md:pt-[2rem] pb-[1rem] w-full flex flex-col justify-center mb-[2rem] md:mb-[3rem]">
@@ -105,12 +88,14 @@ const FeaturedGuides = ({
           </Link>
         )}
       </div>
+
+      {/* Display Filtered Guides */}
       {loading ? (
         <GridSkeletonLoader count={6} />
-      ) : filteredGuides?.length > 0 ? (
+      ) : tourGuides?.length > 0 ? (
         <div className="block">
           <div className="md:gap-x-6 md:h-fit w-full h-fit flex flex-col justify-center md:grid md:grid-cols-4 items-center ">
-            {filteredGuides?.slice(0, guideCount).map((guide) => (
+            {tourGuides?.slice(0, guideCount).map((guide) => (
               <Link
                 className="w-full h-full px-[1.25rem] mb-[1.85rem]"
                 key={guide.user.id}
@@ -212,5 +197,4 @@ const FeaturedGuides = ({
     </div>
   );
 };
-
 export default FeaturedGuides;
