@@ -7,15 +7,6 @@ import { FaTwitter } from "react-icons/fa6";
 import { GrLinkedin } from "react-icons/gr";
 import Link from "next/link";
 
-const Buttons = [
-  { text: "City Tours", href: "" },
-  { text: "Cultural Tours", href: "" },
-  { text: "Day Cruises", href: "" },
-  { text: "Bus Tours", href: "" },
-  { text: "Beach Tours", href: "" },
-  { text: "Food Tours", href: "" },
-];
-
 const Footer = () => {
   return (
     <div className="w-full h-full bg-emerald-600 flex flex-col justify-between items-center py-[2.75rem] px-[2.25rem] md:px-[5.5rem] md:py-[3rem]">
@@ -30,20 +21,28 @@ const Footer = () => {
               className="w-full h-full px-[0.25rem] py-[0.25rem] rounded-full" // Reduced padding for smaller screens
             />
           </div>
-          <div className="bg-orange-400 rounded-full relative">
+          <Link
+            href={"https://www.instagram.com/jadoreivc/?locale=undefined"}
+            className="bg-orange-400 rounded-full relative"
+          >
             <PiInstagramLogo
               size={20}
               color="white"
               className="w-full h-full px-[0.25rem] py-[0.25rem] rounded-full" // Reduced padding for smaller screens
             />
-          </div>
-          <div className="bg-orange-400 rounded-full relative">
+          </Link>
+          <Link
+            href={
+              "https://www.tiktok.com/@jadoreivc?is_from_webapp=1&sender_device=pc"
+            }
+            className="bg-orange-400 rounded-full relative"
+          >
             <IoLogoTiktok
               size={20}
               color="white"
               className="w-full h-full px-[0.25rem] py-[0.25rem] rounded-full" // Reduced padding for smaller screens
             />
-          </div>
+          </Link>
           <div className="bg-orange-400 rounded-full relative">
             <FaTwitter
               size={20}
@@ -51,13 +50,13 @@ const Footer = () => {
               className="w-full h-full px-[0.25rem] py-[0.25rem] rounded-full" // Reduced padding for smaller screens
             />
           </div>
-          <div className="bg-orange-400 rounded-full relative">
+          {/* <div className="bg-orange-400 rounded-full relative">
             <GrLinkedin
               size={20}
               color="white"
               className="w-full h-full px-[0.25rem] py-[0.25rem] rounded-full" // Reduced padding for smaller screens
             />
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="w-full h-full border-t-[1px] border-white my-[2rem]"></div>
