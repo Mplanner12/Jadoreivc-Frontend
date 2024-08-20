@@ -73,10 +73,13 @@ const Footer = () => {
             >
               <p className="w-full cursor-pointer">Support</p>
             </Link>
-            <Link href={""} className="w-fit cursor-pointer py-[0.5rem]">
+            <Link href={"/Terms"} className="w-fit cursor-pointer py-[0.5rem]">
               <p className="w-full cursor-pointer">Terms of Service</p>
             </Link>
-            <Link href={""} className="w-fit cursor-pointer py-[0.5rem]">
+            <Link
+              href={"/PrivacyPolicy"}
+              className="w-fit cursor-pointer py-[0.5rem]"
+            >
               <p className="w-full cursor-pointer">Privacy policy</p>
             </Link>
           </div>

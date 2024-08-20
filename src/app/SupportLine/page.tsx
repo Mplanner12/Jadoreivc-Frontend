@@ -23,10 +23,10 @@ const SupportLine: React.FC = () => {
         Support Line – Contact
       </h1>
       <p className="text-lg text-center mb-8">
-        J'adore IVC Support Line - We&apos;re Here to Help!
+        J'adoreivc Support Line - We&apos;re Here to Help!
       </p>
       <p className="text-lg text-center mb-8">
-        J'adoreIVC, Prioritize your experience and satisfaction. Whether
+        J'adoreivc, Prioritize your experience and satisfaction. Whether
         you&apos;re planning your next adventure in Côte d&apos;Ivoire, need
         assistance with booking a tour, or have any inquiries, our support team
         is here to assist you every step of the way.
