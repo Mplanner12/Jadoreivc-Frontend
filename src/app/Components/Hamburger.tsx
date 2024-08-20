@@ -40,7 +40,7 @@ export default function HamburgerMenu({ userId }: HeaderProps) {
           {/* <MenuItem/> */}
           <MenuItem as="div">
             <a
-              href="/profile"
+              href={"/Blog"}
               className="block px-4 font-semibold text-teal-900 py-2 text-base text-[1.15rem] data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
             >
               Blog

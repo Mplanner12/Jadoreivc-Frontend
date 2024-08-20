@@ -8,7 +8,10 @@ import { motion } from "framer-motion";
 const Page = () => {
   return (
     <div className="container mx-auto px-4 pb-16 pt-[0rem]">
-      <div className="relative h-[32rem] w-full overflow-hidden">
+      <div
+        id="BlogHeader"
+        className="relative h-[32rem] w-full overflow-hidden"
+      >
         <Image
           src="/Blog.webp"
           alt="J'adoreivc - Authentic Cultural Experiences in Côte d'Ivoire"
@@ -19,19 +22,22 @@ const Page = () => {
           className="rounded-lg shadow-lg"
         />
         <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-white font-bold text-4xl bg-black bg-opacity-50 px-8 py-4 rounded-lg"
+          id="BlogHeadertxt"
+          className="absolute top-[40%] md:top-1/2 left-1/4 md:left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-white font-bold text-4xl bg-black bg-opacity-50 px-4 py-4 rounded-lg"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.5, ease: "easeInOut" }}
         >
-          <h1 className="text-5xl text-emerald-400">Welcome to J'adoreivc</h1>
-          <p className="text-2xl text-white">
+          <h1 className="text-3xl md:text-5xl text-emerald-400">
+            Welcome to J'adoreivc
+          </h1>
+          <p className="text-lg md:text-2xl text-white">
             Your Gateway to Authentic Cultural Experiences in Côte d'Ivoire
           </p>
         </motion.div>
       </div>
 
-      <div className="mt-16">
+      <div className="mt-[0.5rem] md:mt-16">
         <h2 className="text-3xl font-bold mb-4 text-emerald-700">
           J'adoreivc: Experience Côte d'Ivoire Authentically
         </h2>
