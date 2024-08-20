@@ -112,7 +112,7 @@ const Header = () => {
           <span>&nbsp;</span>
         )}
         <div className="justify-center items-center hidden md:flex">
-          <Link href={"/"}>
+          <Link href={"/Blog"}>
             <h1 className="font-semibold text-[1.25rem]">Blog</h1>
           </Link>
         </div>

@@ -1,11 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useContext, useEffect } from "react";
-import Dive from "./Dive";
-import Search from "./Search";
 import { motion } from "framer-motion"; // Import framer-motion
-
-import { TourGuideContext } from "../context/tourGuideContext"; // Import the context
-import { useRouter } from "next/navigation";
 
 interface User {
   id: string;
