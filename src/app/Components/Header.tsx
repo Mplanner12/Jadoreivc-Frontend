@@ -184,8 +184,8 @@ const Header = () => {
           />
         ) : user ? (
           <>
-            {/* "Tours" link is rendered only if the user is a TOUR_GUIDE */}
-            {user.userType == !"TOUR_GUIDE" && (
+            {/* "Tours" link is rendered only if the user is a TOURIST */}
+            {user.userType === "TOURIST" && (
               <div className="w-fit hidden md:flex justify-end items-center px-[1.5rem] ">
                 <Link href={`/planTour/${user.id}`}>
                   <button
