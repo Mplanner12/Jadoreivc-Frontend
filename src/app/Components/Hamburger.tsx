@@ -1,13 +1,27 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import Link from "next/link";
-import { IoIosArrowDown } from "react-icons/io";
 import { RxHamburgerMenu } from "react-icons/rx";
+import HashLoader from "react-spinners/HashLoader";
+import { CSSProperties } from "react";
+import { PiPencilLineLight } from "react-icons/pi";
 
+interface User {
+  id: string;
+  fullName: string;
+  profileImage: string;
+  userType: string;
+  loading: boolean;
+}
 interface HeaderProps {
-  userId?: string;
+  user?: User;
 }
 
-export default function HamburgerMenu({ userId }: HeaderProps) {
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+};
+
+export default function HamburgerMenu({ user }: HeaderProps) {
   return (
     <Menu
       as="div"
@@ -50,14 +64,35 @@ export default function HamburgerMenu({ userId }: HeaderProps) {
             as="div"
             className={"mt-[1rem] flex justify-center items-center"}
           >
-            <Link href={`/planTour/${userId}`}>
-              <button
-                type="submit"
-                className="uppercase w-[13rem] py-[1.3rem] block px-[0.25rem] text-center font-light text-[1.rem] text-white data-[focus]:bg-gray-100 rounded-full bg-orange-400 data-[focus]:text-gray-900 hover:bg-emerald-600 hover:text-white"
-              >
-                Plan your Tour
-              </button>
-            </Link>
+            {user?.loading ? (
+              // {loading ? (
+              <HashLoader
+                cssOverride={override}
+                color="green"
+                loading={user.loading}
+                size={25}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
+            ) : user ? (
+              <>
+                {/* "Tours" link is rendered only if the user is a TOURIST */}
+                {user.userType === "TOURIST" && (
+                  <div className="w-fit hidden md:flex justify-end items-center px-[1.5rem] ">
+                    <Link href={`/planTour/${user?.id}`}>
+                      <button
+                        type="submit"
+                        className="uppercase w-[13rem] py-[1.3rem] block px-[0.25rem] text-center font-light text-[1.rem] text-white data-[focus]:bg-gray-100 rounded-full bg-orange-400 data-[focus]:text-gray-900 hover:bg-emerald-600 hover:text-white"
+                      >
+                        Plan your Tour
+                      </button>
+                    </Link>
+                  </div>
+                )}
+              </>
+            ) : (
+              <span>&nbsp;</span>
+            )}
           </MenuItem>
         </div>
       </MenuItems>

@@ -71,7 +71,7 @@ const Page = () => {
     <div className="bg-emerald-600 w-full h-screen flex justify-center items-center md:justify-between">
       <div
         id="signUpContainer"
-        className="bg-white w-full h-screen flex flex-col justify-center items-center pt-[1.5rem] px-[2.35rem] md:px-[5.85rem] pb-[1rem]"
+        className="bg-white w-full h-screen flex flex-col justify-center items-center pt-[1.5rem] px-[2.35rem] md:px-[2.85rem] pb-[1rem]"
       >
         <div className="relative top-[-1rem] h-fit mb-[1.85rem] md:mb-[0.5rem] w-full flex justify-center items-center">
           <Link
@@ -224,8 +224,18 @@ const Page = () => {
       </div>
       <div
         id="green"
-        className="hidden md:flex w-full h-full bg-inherit fill-emerald-600"
-      ></div>
+        className="hidden md:flex w-full h-full bg-inherit fill-emerald-600 relative"
+      >
+        <video
+          className="absolute top-0 left-0 w-full h-full object-cover"
+          autoPlay
+          loop
+          muted
+        >
+          <source src="/j'adoreivc.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
     </div>
   );
 };

@@ -4,10 +4,10 @@ import { IoIosArrowDown } from "react-icons/io";
 export default function Dropdown() {
   return (
     <Menu as="div" className="relative inline-block text-left">
-      <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-base font-semibold text-gray-900  hover:bg-gray-50">
+      <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 md:py-2 text-base font-semibold text-gray-900  hover:bg-gray-50">
         <div
           id="language"
-          className="inline-flex w-full justify-center gap-x-1.5 bg-white px-1 py-2 text-[1.1rem] font-semibold text-gray-900  hover:bg-gray-50"
+          className="inline-flex w-full justify-center gap-x-1.5 bg-white px-1 py-1 md:py-2 text-[1.1rem] font-semibold text-gray-900  hover:bg-gray-50"
         >
           FRN
           <IoIosArrowDown
