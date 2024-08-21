@@ -64,9 +64,9 @@ const Footer = () => {
         <div className="w-full flex flex-col justify-start items-start gap-y-[0.85rem] md:gap-y-[1.5rem] ">
           <h1 className="text-white text-lg font-semibold">Company</h1>
           <div className="w-full text-sm font-[300] text-white text-start flex flex-col md:flex-row md:gap-x-[1.75rem] gap-y-[0.75rem]">
-            <Link href={""} className="w-fit cursor-pointer py-[0.5rem]">
+            {/* <Link href={""} className="w-fit cursor-pointer py-[0.5rem]">
               <p className="w-full">About Us</p>
-            </Link>
+            </Link> */}
             <Link
               href={"/SupportLine"}
               className="w-fit cursor-pointer py-[0.5rem]"

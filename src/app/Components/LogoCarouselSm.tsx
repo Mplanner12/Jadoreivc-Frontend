@@ -39,7 +39,7 @@ export function LogoCarousel() {
           {images.map((image, index) => (
             <CarouselItem
               key={image.alt}
-              className="w-full h-fit basis-[58%] md:basis-[35%] px-[1.85rem] md:px-[2.3rem]"
+              className="w-full h-fit md:h-[18rem] 2xl:h-fit basis-[58%] md:basis-[35%] px-[1.85rem] md:px-[2.3rem]"
             >
               <div className="p-1">
                 <Card className="w-full h-fit flex justify-center items-center bg-emerald-50">

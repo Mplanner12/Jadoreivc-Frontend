@@ -5,17 +5,14 @@ import { MdEmail } from "react-icons/md";
 
 const PrivacyPolicy: React.FC = () => {
   return (
-    <div className="container mx-auto px-4 py-16">
-      <h1 className="text-3xl font-bold text-center mb-8 text-emerald-600">
-        Privacy Policy
-      </h1>
-      <p className="text-lg text-center mb-8 text-gray-600">
+    <div className="container mx-auto px-4 py-16 md:px-[7rem]">
+      <h1 className="text-[2.5rem] font-bold text-center mb-6 mt-[-1rem] text-emerald-600">
         J'adoreivc Privacy Policy
-      </p>
-      <p className="text-lg text-center mb-8 text-gray-600">
+      </h1>
+      <p className="text-xs text-center -mt-[2rem] mb-[3rem] text-gray-600">
         Last Updated: 5/5/2024
       </p>
-      <p className="text-lg text-center mb-8 text-gray-600">
+      <p className="text-lg text-start mb-8 text-gray-600">
         At J'adoreivc, we are committed to protecting your privacy. This Privacy
         Policy explains how we collect, use, disclose, and safeguard your
         personal information when you access or use our platform, including our
@@ -23,10 +20,10 @@ const PrivacyPolicy: React.FC = () => {
         referred to as the "Service").
       </p>
 
-      <h2 className="text-2xl font-bold text-center mb-4 text-emerald-600">
+      <h2 className="text-3xl font-bold text-center mb-4 text-emerald-600">
         1. Information We Collect
       </h2>
-      <p className="text-lg text-center mb-8 text-gray-600">
+      <p className="text-lg text-start mb-2 text-gray-600">
         We may collect and process the following types of information:
       </p>
       <ul className="list-disc list-inside ml-8 text-gray-600">
@@ -48,15 +45,15 @@ const PrivacyPolicy: React.FC = () => {
           store certain information.
         </li>
       </ul>
-      <p className="text-lg text-center mb-8 text-gray-600">
+      <p className="italic text-lg text-start mb-8 text-gray-600">
         Cookies are small data files stored on your device. You can control the
         use of cookies through your browser settings.
       </p>
 
-      <h2 className="text-2xl font-bold text-center mb-4 text-emerald-600">
+      <h2 className="text-3xl font-bold text-center mb-4 text-emerald-600">
         2. How We Use Your Information
       </h2>
-      <p className="text-lg text-center mb-8 text-gray-600">
+      <p className="text-lg text-start mb-2 text-gray-600">
         We use the information we collect for the following purposes:
       </p>
       <ul className="list-disc list-inside ml-8 text-gray-600">
@@ -87,10 +84,10 @@ const PrivacyPolicy: React.FC = () => {
         </li>
       </ul>
 
-      <h2 className="text-2xl font-bold text-center mb-4 text-emerald-600">
+      <h2 className="text-3xl mt-[2rem] font-bold text-center mb-4 text-emerald-600">
         3. How We Share Your Information
       </h2>
-      <p className="text-lg text-center mb-8 text-gray-600">
+      <p className="text-lg text-start mb-2 text-gray-600">
         We do not sell, rent, or trade your personal information to third
         parties. However, we may share your information in the following
         circumstances:
@@ -114,10 +111,10 @@ const PrivacyPolicy: React.FC = () => {
         </li>
       </ul>
 
-      <h2 className="text-2xl font-bold text-center mb-4 text-emerald-600">
+      <h2 className="text-3xl mt-[2rem] font-bold text-center mb-4 text-emerald-600">
         4. Your Rights and Choices
       </h2>
-      <p className="text-lg text-center mb-8 text-gray-600">
+      <p className="text-lg text-center mb-3 text-gray-600">
         You have the following rights regarding your personal information:
       </p>
       <ul className="list-disc list-inside ml-8 text-gray-600">
@@ -142,10 +139,10 @@ const PrivacyPolicy: React.FC = () => {
         </li>
       </ul>
 
-      <h2 className="text-2xl font-bold text-center mb-4 text-emerald-600">
+      <h2 className="text-3xl mt-[2rem] font-bold text-center mb-4 text-emerald-600">
         5. Security of Your Information
       </h2>
-      <p className="text-lg text-center mb-8 text-gray-600">
+      <p className="text-lg text-start mb-8 text-gray-600">
         We take the security of your personal information seriously and
         implement reasonable measures to protect it from unauthorized access,
         alteration, disclosure, or destruction. However, no method of
@@ -153,10 +150,10 @@ const PrivacyPolicy: React.FC = () => {
         we cannot guarantee absolute security.
       </p>
 
-      <h2 className="text-2xl font-bold text-center mb-4 text-emerald-600">
+      <h2 className="text-3xl mt-[2rem] font-bold text-center mb-4 text-emerald-600">
         6. International Data Transfers
       </h2>
-      <p className="text-lg text-center mb-8 text-gray-600">
+      <p className="text-lg text-start mb-8 text-gray-600">
         J'adoreivc operates globally, and your information may be transferred to
         and processed in countries outside of your residence, including Côte
         d'Ivoire. We ensure that such transfers comply with applicable data
@@ -164,27 +161,27 @@ const PrivacyPolicy: React.FC = () => {
         standard as in your home country.
       </p>
 
-      <h2 className="text-2xl font-bold text-center mb-4 text-emerald-600">
+      <h2 className="text-3xl mt-[2rem] font-bold text-center mb-4 text-emerald-600">
         7. Children’s Privacy
       </h2>
-      <p className="text-lg text-center mb-8 text-gray-600">
+      <p className="text-lg text-start mb-8 text-gray-600">
         Our services are not intended for children under the age of 13. We do
         not knowingly collect personal information from children under 13. If we
         become aware that we have collected personal information from a child
         under 13, we will take steps to delete such information.
       </p>
 
-      <h2 className="text-2xl font-bold text-center mb-4 text-emerald-600">
+      <h2 className="text-3xl mt-[2rem] font-bold text-center mb-4 text-emerald-600">
         8. Changes to This Privacy Policy
       </h2>
-      <p className="text-lg text-center mb-8 text-gray-600">
+      <p className="text-lg text-start mb-8 text-gray-600">
         We may update this Privacy Policy from time to time. Any changes will be
         posted on this page with an updated "Last Updated" date. We encourage
         you to review this Privacy Policy periodically to stay informed about
         how we are protecting your information.
       </p>
 
-      <h2 className="text-2xl font-bold text-center mb-4 text-emerald-600">
+      <h2 className="text-3xl mt-[7rem] font-bold text-center mb-4 text-emerald-600">
         9. Contact Us
       </h2>
       <p className="text-lg text-center mb-8 text-gray-600">
