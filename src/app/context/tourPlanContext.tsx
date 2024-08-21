@@ -4,12 +4,12 @@ import axiosInstance from "@/src/lib/utils";
 
 const PlannedTourContext = createContext<{
   tourPlans: any[];
-  loading: boolean;
+  plansLoading: boolean;
   fetchTourPlans: () => void;
   createTourPlan: (tourPlanData: any) => Promise<void>; // Fixed type definition
 }>({
   tourPlans: [],
-  loading: true,
+  plansLoading: true,
   fetchTourPlans: () => {},
   createTourPlan: async () => {}, // Default implementation of createTourPlan
 });
@@ -20,17 +20,17 @@ export const PlannedTourProvider = ({
   children: React.ReactNode;
 }) => {
   const [tourPlans, setTourPlans] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [plansLoading, setPlansLoading] = useState(true);
 
   const fetchTourPlans = async () => {
-    setLoading(true);
+    setPlansLoading(true);
     try {
       const { data } = await axiosInstance.get("/api/plans/tourPlans");
       setTourPlans(data.tourPlans);
     } catch (error) {
       console.error("Error fetching tour plans:", error);
     } finally {
-      setLoading(false);
+      setPlansLoading(false);
     }
   };
 
@@ -52,7 +52,7 @@ export const PlannedTourProvider = ({
 
   return (
     <PlannedTourContext.Provider
-      value={{ tourPlans, loading, fetchTourPlans, createTourPlan }}
+      value={{ tourPlans, plansLoading, fetchTourPlans, createTourPlan }}
     >
       {children}
     </PlannedTourContext.Provider>

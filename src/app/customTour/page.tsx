@@ -5,12 +5,9 @@ import React, { useEffect, useState, CSSProperties, useContext } from "react";
 import Filter from "../Components/Filter";
 import { IoFilterOutline } from "react-icons/io5";
 import PaginationButtons from "../Components/Pagination";
-import { MdOutlineMail } from "react-icons/md";
 import Link from "next/link";
 import { usePlannedTours } from "../context/tourPlanContext";
 import FadeLoader from "react-spinners/FadeLoader";
-import HashLoader from "react-spinners/HashLoader";
-
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { UserContext } from "../context/UserContex";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -47,9 +44,9 @@ const Page = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [plannedToursData, setPlannedToursData] = useState<plannedTour[]>([]);
 
-  const { user, userLoading } = useContext(UserContext);
+  const { user, loading } = useContext(UserContext);
 
-  const { fetchTourPlans, tourPlans, loading } = usePlannedTours();
+  const { fetchTourPlans, tourPlans, plansLoading } = usePlannedTours();
 
   const handleDaysSelect = (selectedDays: number | null) => {
     setSelectedDays(selectedDays);
@@ -170,7 +167,7 @@ const Page = () => {
               </div>
             )}
           </div>
-          {loading ? (
+          {plansLoading ? (
             <div className="w-full mt-[6.5rem] h-full flex justify-center items-center">
               <FadeLoader
                 cssOverride={override}
@@ -189,18 +186,15 @@ const Page = () => {
                 const formattedStartDate = startDate.toLocaleDateString(
                   "en-US",
                   {
-                    // weekday: "short",
                     month: "short",
                     day: "numeric",
                   }
                 );
                 const formattedEndDate = endDate.toLocaleDateString("en-US", {
-                  // weekday: "short",
                   month: "short",
                   day: "numeric",
                 });
 
-                // Calculating the difference in days
                 const diffTime = Math.abs(
                   endDate.getTime() - startDate.getTime()
                 );
@@ -208,123 +202,104 @@ const Page = () => {
 
                 return (
                   <Suspense fallback={<LoadingScreen />} key={tour.id}>
-                    <Link
-                      className="p-0 m-0 w-fit h-full flex justify-between gap-x-[1rem] md:gap-x-[2.5rem] items-start py-[1rem] md:py-[0.7rem] pl-[0.7rem] md:pr-[0.5rem] bg-slate-50 shadow-md rounded-xl"
-                      href={`/makeOffer/${tour.id}`}
-                    >
-                      <div className="w-fit md:relative md:top-[1.35rem] flex justify-center items-center">
-                        {tour.image ? (
-                          <img
-                            src={tour.image}
-                            alt=""
-                            width={65}
-                            className="md:w-[4rem]"
-                          />
-                        ) : (
-                          <div className="w-fit h-fit md:mt-[-1rem] flex justify-center items-center">
-                            <FaRegUserCircle
-                              size={45}
-                              className="text-teal-900"
+                    {loading ? (
+                      <div className="w-full mt-[6.5rem] h-full flex justify-center items-center">
+                        <FadeLoader
+                          cssOverride={override}
+                          color="green"
+                          loading={loading}
+                          aria-label="Loading Spinner"
+                          data-testid="loader"
+                        />
+                      </div>
+                    ) : (
+                      <Link
+                        className="p-0 m-0 w-fit h-full flex justify-between gap-x-[1rem] md:gap-x-[2.5rem] items-start py-[1rem] md:py-[0.7rem] pl-[0.7rem] md:pr-[0.5rem] bg-slate-50 shadow-md rounded-xl"
+                        href={
+                          user.userType === "TOUR_GUIDE"
+                            ? `/makeOffer/${tour.id}`
+                            : "#"
+                        }
+                      >
+                        <div className="w-fit md:relative md:top-[1.35rem] flex justify-center items-center">
+                          {tour.image ? (
+                            <img
+                              src={tour.image}
+                              alt=""
+                              width={65}
+                              className="md:w-[4rem]"
                             />
-                          </div>
-                        )}
-                      </div>
-                      <div className="w-full flex flex-col justify-start items-center ">
-                        <div className="relative w-full gap-x-[1.3rem] md:gap-x-[0.2rem] flex justify-start items-center py-[0.85rem] pr-[2.5rem] md:pr-[3rem]">
-                          <div className="w-full flex justify-start items-center gap-[0.85rem] md:gap-x-[0.27rem]">
-                            <div className="w-full flex justify-center items-center">
-                              <p className="relative w-full text-start font-semibold text-[1.5rem] md:text-[1.4rem] text-teal-900">
-                                {tour.location}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="mt-[-1rem] px-[0.25rem] md:pl-[0rem] w-full flex flex-col justify-start items-center gap-x-[2rem] py-[1rem] md:pt-0">
-                          <div className="w-full flex justify-start items-center gap-x-[0.75rem] py-[0.5rem] text-[1rem] md:text-[0.9rem] text-gray-400">
-                            <div className="w-[3rem] md:w-[3rem]">
-                              {diffDays} days{" "}
-                            </div>
-                            <div className="w-[6rem] md:w-[7rem]">
-                              {formattedStartDate} - {formattedEndDate}
-                            </div>
-                            <div className="flex justify-end items-center">
-                              {tour.numberOfPeople.length < 2
-                                ? "just me"
-                                : tour.numberOfPeople}{" "}
-                              <p className="text-center">persons</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="w-full flex justify-start gap-[0.75rem] md:gap-x-[0.5rem] items-center px-[0rem] md:pl-[0rem] md:px-[1.25rem] text-[0.85rem] font-semibold mt-[-0.5rem]">
-                          <div className="flex justify-center items-center gap-x-[0.5rem]">
-                            {tour.guidePreference.length > 0 ? (
-                              tour.guidePreference.map((local: any) => (
-                                <button
-                                  key={local}
-                                  className="p-[0.65rem] md:p-[0.5rem] py-[0.5rem] rounded-full text-[0.8rem] bg-slate-50 hover:bg-emerald-600 hover:text-white active:bg-emerald-600 active:text-white border focus:bg-emerald-600 focus:text-white border-emerald-600 text-emerald-600"
-                                >
-                                  {local}
-                                </button>
-                              ))
-                            ) : (
-                              <button
-                                key={tour.guidePreference}
-                                className="p-[0.65rem] md:p-[0.5rem] py-[0.5rem] rounded-full text-[0.8rem] bg-slate-50 hover:bg-emerald-600 hover:text-white active:bg-emerald-600 active:text-white border focus:bg-emerald-600 focus:text-white border-emerald-600 text-emerald-600"
-                              >
-                                {tour.guidePreference}
-                              </button>
-                            )}
-                          </div>
-                        </div>
-                        <div className="w-full mx-auto flex justify-start py-[1rem] items-center gap-x-[2rem]">
-                          <p className="w-full text-[0.85rem] justify-start md:pl-[0rem] flex text-center text-gray-400">
-                            Posted {tour.time}
-                          </p>
-                        </div>
-                      </div>
-                      {/* <div className="relative left-[-3rem] mt-[0.5rem] md:left-[-1rem]">
-                        {loading ? (
-                          <HashLoader
-                            cssOverride={override}
-                            color="green" // Set your desired loader color
-                            loading={loading}
-                            size={25} // Adjust size as needed
-                            aria-label="Loading Spinner"
-                            data-testid="loader"
-                          />
-                        ) : currentTours &&
-                          user &&
-                          user.userType === "TOUR_GUIDE" ? (
-                          <div className="flex justify-normal items-center">
-                            <Link href={`mailto:${tour.tourist?.email}`}>
-                              {" "}
-                              Link to contact page with tour ID
-                              <MdOutlineMail
-                                size={28}
+                          ) : (
+                            <div className="w-fit h-fit md:mt-[-1rem] flex justify-center items-center">
+                              <FaRegUserCircle
+                                size={45}
                                 className="text-teal-900"
                               />
-                            </Link>
+                            </div>
+                          )}
+                        </div>
+                        <div className="w-full flex flex-col justify-start items-center ">
+                          <div className="relative w-full gap-x-[1.3rem] md:gap-x-[0.2rem] flex justify-start items-center py-[0.85rem] pr-[2.5rem] md:pr-[3rem]">
+                            <div className="w-full flex justify-start items-center gap-[0.85rem] md:gap-x-[0.27rem]">
+                              <div className="w-full flex justify-center items-center">
+                                <p className="relative w-full text-start font-semibold text-[1.5rem] md:text-[1.4rem] text-teal-900">
+                                  {tour.location}
+                                </p>
+                              </div>
+                            </div>
                           </div>
-                        ) : (
-                          <span>&nbsp;</span>
-                        )}
-                      </div> */}
-                    </Link>
+                          <div className="mt-[-1rem] px-[0.25rem] md:pl-[0rem] w-full flex flex-col justify-start items-center gap-x-[2rem] py-[1rem] md:pt-0">
+                            <div className="w-full flex justify-start items-center gap-x-[0.75rem] py-[0.5rem] text-[1rem] md:text-[0.9rem] text-gray-400">
+                              <div className="w-[3rem] md:w-[3rem]">
+                                {diffDays} days
+                              </div>
+                              <div className="w-[6rem] md:w-[7rem]">
+                                {formattedStartDate} - {formattedEndDate}
+                              </div>
+                              <div className="flex justify-end items-center">
+                                {tour.numberOfPeople.length < 2
+                                  ? "just me"
+                                  : tour.numberOfPeople}{" "}
+                                <p className="text-center">persons</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="w-full flex justify-start gap-[0.75rem] md:gap-x-[0.5rem] items-center px-[0rem] md:pl-[0rem] md:px-[1.25rem] text-[0.85rem] font-semibold mt-[-0.5rem]">
+                            <div className="flex justify-center items-center gap-x-[0.5rem]">
+                              {tour.guidePreference.length > 0 ? (
+                                tour.guidePreference.map((local: any) => (
+                                  <button
+                                    key={local}
+                                    className="p-[0.65rem] md:p-[0.5rem] py-[0.5rem] rounded-full text-[0.8rem] bg-slate-50 hover:bg-emerald-600 hover:text-white active:bg-emerald-600 active:text-white border focus:bg-emerald-600 focus:text-white border-emerald-600 text-emerald-600"
+                                  >
+                                    {local}
+                                  </button>
+                                ))
+                              ) : (
+                                <button
+                                  key={tour.guidePreference}
+                                  className="p-[0.65rem] md:p-[0.5rem] py-[0.5rem] rounded-full text-[0.8rem] bg-slate-50 hover:bg-emerald-600 hover:text-white active:bg-emerald-600 active:text-white border focus:bg-emerald-600 focus:text-white border-emerald-600 text-emerald-600"
+                                >
+                                  {tour.guidePreference}
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                          <div className="w-full mx-auto flex justify-start py-[1rem] items-center gap-x-[2rem]">
+                            <p className="w-full text-[0.85rem] justify-start md:pl-[0rem] flex text-center text-gray-400">
+                              Posted {tour.time}
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    )}
                   </Suspense>
                 );
               })}
             </div>
           ) : (
-            <div className="px-[1rem] md:mt-[6.5rem] flex justify-center items-center w-full h-full">
-              <div className="flex flex-col justify-center items-center gap-y-4">
-                <HiOutlineExclamationCircle className="text-gray-500 text-5xl" />
-                <p className="text-gray-500 text-lg font-medium">
-                  No tours found or no tours matching your criteria.
-                </p>
-                <p className="text-gray-500 text-sm">
-                  Try adjusting your filters or Refreshing the page.
-                </p>
-              </div>
+            <div className="w-full mt-[6.5rem] h-full flex justify-center items-center">
+              <p>No tours available at the moment.</p>
             </div>
           )}
         </div>
