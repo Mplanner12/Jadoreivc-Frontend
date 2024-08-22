@@ -39,12 +39,12 @@ export function LogoCarousel() {
           {images.map((image, index) => (
             <CarouselItem
               key={image.alt}
-              className="w-full h-fit md:h-[18rem] 2xl:h-fit basis-[58%] md:basis-[35%] px-[1.85rem] md:px-[2.3rem]"
+              className="w-full h-fit md:h-[14rem] 2xl:h-fit basis-[58%] md:basis-[23%] px-[1.85rem] md:px-[0.3rem]"
             >
               <div className="p-1">
                 <Card className="w-full h-fit flex justify-center items-center bg-emerald-50">
-                  <CardContent className="w-full h-fit flex aspect-square items-center justify-center p-6 py-1">
-                    <div className="w-full h-fit mb-[1.5rem] flex flex-col justify-center items-center">
+                  <CardContent className="w-full md:w-fit h-fit md:h-[13rem] flex aspect-square items-center justify-center p-0 py-1">
+                    <div className="w-full md:w-fit md:px-[1rem] h-fit mb-[1.5rem] flex flex-col justify-center items-center">
                       <Image
                         src={image.src}
                         alt={image.alt}

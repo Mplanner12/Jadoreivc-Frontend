@@ -13,7 +13,7 @@ const Page = () => {
         className="relative h-[32rem] w-full overflow-hidden"
       >
         <Image
-          src="/Blog.webp"
+          src="/blog.webp"
           alt="J'adoreivc - Authentic Cultural Experiences in Côte d'Ivoire"
           layout="responsive"
           width={400}
@@ -37,7 +37,7 @@ const Page = () => {
         </motion.div>
       </div>
 
-      <div className="mt-[0.5rem] md:mt-16">
+      <div className="mt-[0.5rem] md:mt-16 px-[2.5rem]">
         <h2 className="text-3xl font-bold mb-4 text-emerald-700">
           J'adoreivc: Experience Côte d'Ivoire Authentically
         </h2>
