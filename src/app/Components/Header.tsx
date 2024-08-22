@@ -86,9 +86,7 @@ const Header = () => {
           </div>
           <div className="hidden w-full h-full md:flex justify-start items-center">
             <p className="text-orange-400 font-semibold md:text-lg">
-              {" "}
-              Your Gateway to Authentic Cultural Experiences in Côte
-              d&apos;Ivoire
+              Authentic Côte d&apos;Ivoire Experiences
             </p>
           </div>
         </div>
