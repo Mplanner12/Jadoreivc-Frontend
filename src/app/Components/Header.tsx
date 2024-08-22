@@ -12,6 +12,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import HashLoader from "react-spinners/HashLoader";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import axiosInstance from "@/src/lib/utils";
+import { motion } from "framer-motion"; // Import motion
 
 interface HeaderProps {
   fullName: string;
@@ -85,9 +86,14 @@ const Header = () => {
             </Link>
           </div>
           <div className="hidden w-full h-full md:flex justify-start items-center">
-            <p className="text-orange-400 font-semibold md:text-lg">
+            <motion.p
+              className="text-orange-400 font-semibold md:text-lg"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeInOut" }}
+            >
               Authentic Côte d&apos;Ivoire Experiences
-            </p>
+            </motion.p>
           </div>
         </div>
         <div className="w-fit flex justify-between items-center gap-x-[0.25rem] ml-[0.2rem] md:ml-0 md:gap-x-[.95rem] text-slate-900">
@@ -213,10 +219,15 @@ const Header = () => {
         </div>
       </div>
       <div className="w-full h-full md:hidden mt-[-0.25rem] justify-start items-center">
-        <p className="text-orange-400 font-semibold text-sm text-center">
+        <motion.p
+          className="text-orange-400 font-semibold text-sm text-center"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+        >
           {" "}
-          Your Gateway to Authentic Cultural Experiences in Côte d&apos;Ivoire
-        </p>
+          Authentic Côte d&apos;Ivoire Experiences
+        </motion.p>
       </div>
     </div>
   );

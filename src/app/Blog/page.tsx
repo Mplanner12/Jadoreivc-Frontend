@@ -13,7 +13,7 @@ const Page = () => {
         className="relative h-[32rem] w-full overflow-hidden"
       >
         <Image
-          src="/blog.webp"
+          src="/blogphoto.jpg"
           alt="J'adoreivc - Authentic Cultural Experiences in Côte d'Ivoire"
           layout="responsive"
           width={400}
