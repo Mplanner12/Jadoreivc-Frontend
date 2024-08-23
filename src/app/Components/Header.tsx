@@ -82,7 +82,7 @@ const Header = () => {
               href={"/"}
               className="text-emerald-600 font-semibold text-3xl"
             >
-              J’adoreivc
+              J’ADOREICV
             </Link>
           </div>
           <div className="hidden w-full h-full md:flex justify-start items-center">
@@ -92,7 +92,7 @@ const Header = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: "easeInOut" }}
             >
-              Authentic Côte d&apos;Ivoire Experiences
+              YOUR LOCAL PRIVATE TOUR GUIDE SEARCH
             </motion.p>
           </div>
         </div>
@@ -226,7 +226,7 @@ const Header = () => {
           transition={{ duration: 0.8, ease: "easeInOut" }}
         >
           {" "}
-          Authentic Côte d&apos;Ivoire Experiences
+          YOUR LOCAL PRIVATE TOUR GUIDE SEARCH
         </motion.p>
       </div>
     </div>
