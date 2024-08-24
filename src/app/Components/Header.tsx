@@ -96,7 +96,7 @@ const Header = () => {
             </motion.p>
           </div>
         </div>
-        <div className="w-fit flex justify-between items-center gap-x-[0.25rem] ml-[0.2rem] md:ml-0 md:gap-x-[.95rem] text-slate-900">
+        <div className="w-fit flex justify-start items-center gap-x-[0.25rem] ml-[0.2rem] md:ml-0 md:gap-x-[.5rem] text-slate-900">
           <div className="justify-center items-center hidden md:flex">
             <Link href="/">
               <h1 className="font-semibold text-[1.25rem]">Home</h1>
@@ -164,11 +164,22 @@ const Header = () => {
                 )}
               </div>
             ) : (
-              <Link href={"/signUp"}>
-                <h1 id="userName" className="font-semibold text-[1.25rem]">
-                  Sign up
-                </h1>
-              </Link>
+              <div className="w-full md:w-fit h-full flex justify-start md:gap-x-[0.15rem] items-center">
+                <div className="w-full md:w-[5rem] h-full">
+                  <Link href={"/signUp"}>
+                    <h1 id="userName" className="font-semibold text-[1.25rem]">
+                      Sign up
+                    </h1>
+                  </Link>
+                </div>
+                <div className="w-full md:w-[2.25rem] h-full">
+                  <Link href={"/signUp"}>
+                    <h1 id="userName" className="font-semibold text-[1.25rem]">
+                      Login
+                    </h1>
+                  </Link>
+                </div>
+              </div>
             )}
           </div>
           <div className="px-[0.5rem] flex justify-center items-center">
