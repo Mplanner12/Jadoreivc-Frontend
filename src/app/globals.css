@@ -2,7 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* html {
+  font-style: inter;
+} */
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
 html {
+  font-family: "Roboto", sans-serif; /* Apply Roboto to all elements */
   font-style: inter;
 }
 
@@ -67,7 +74,7 @@ html {
   #carouselBtn {
     flex-basis: 25%;
   }
-  #BlogHeader{
+  #BlogHeader {
     height: 20rem;
   }
   #BlogHeadertxt {

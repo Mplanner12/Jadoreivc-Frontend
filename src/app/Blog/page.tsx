@@ -12,15 +12,17 @@ const Page = () => {
         id="BlogHeader"
         className="relative h-[32rem] w-full overflow-hidden"
       >
-        <Image
-          src="/blogphoto.jpg"
-          alt="J'adoreivc - Authentic Cultural Experiences in Côte d'Ivoire"
-          layout="responsive"
-          width={400}
-          height={100}
-          objectFit="cover"
+        <video
+          // className="absolute top-0 left-0 w-full h-full object-cover"
+          // className="absolute w-full h-full  md:h-[32.75rem] object-cover mix-blend-overlay"
           className="rounded-lg shadow-lg"
-        />
+          autoPlay
+          loop
+          muted
+        >
+          <source src="/man 05.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
         <motion.div
           id="BlogHeadertxt"
           className="absolute top-[40%] md:top-1/2 left-1/4 md:left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-white font-bold text-4xl bg-black bg-opacity-50 px-4 py-4 rounded-lg"
