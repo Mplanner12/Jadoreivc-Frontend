@@ -204,19 +204,19 @@ const Page = ({ params }: { params: { id: string } }) => {
                       </div>
                       <div className="py-[2rem] md:pt-[0.5rem] w-full flex justify-center items-center text-teal-900 text-[1.15rem]">
                         <p className="font-[500]">
-                          Contact{" "}
+                          Book{" "}
                           <span className="font-bold">
                             {tourGuide.user.fullName.split(" ")[0]}{" "}
                           </span>
-                          directly
+                          for a Tour
                         </p>
                       </div>
                       <div className="w-[90%] pb-[1.35rem] flex justify-center items-center">
                         <Link
                           href={`mailto:${tourGuide.user.email}`}
-                          className="w-[90%] flex justify-center items-center text-emerald-600 font-[500] border-emerald-600 border-[1px] rounded-full text-[1.35rem] bg-slate-50 shadow-sm p-[0.85rem] px-[8.25rem]"
+                          className="w-fit flex justify-center items-center text-emerald-600 font-[500] border-emerald-600 border-[1px] rounded-full text-[1.35rem] bg-slate-50 shadow-sm p-[0.85rem] px-[5.5rem]"
                         >
-                          Contact
+                          <p className="w-[8rem]">Book now</p>
                         </Link>
                       </div>
                     </div>

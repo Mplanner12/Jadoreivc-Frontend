@@ -108,6 +108,36 @@ html {
 }
 
 @media (width<= 435px) {
+  #headerParent {
+    position: relative;
+    left: -0.5rem;
+  }
+  #userName {
+    position: relative;
+    left: -0.5rem;
+  }
+  #language {
+    /* position: relative;
+    left: -0.65rem; */
+  }
+  #authparent {
+    position: relative;
+    left: -0.35rem;
+    width: 4.3rem;
+  }
+  #authContainer {
+    width: 4.35rem;
+  }
+  #auth {
+    width: 4.35rem;
+    font-size: 1.1rem;
+  }
+  #authIcon {
+    width: 1rem;
+  }
+  #loginHead {
+    width: 2.9rem;
+  }
   #loginContainer {
     padding: 1.2rem;
   }

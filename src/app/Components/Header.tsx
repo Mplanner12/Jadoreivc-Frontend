@@ -13,6 +13,7 @@ import HashLoader from "react-spinners/HashLoader";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import axiosInstance from "@/src/lib/utils";
 import { motion } from "framer-motion"; // Import motion
+import { BsChevronDown } from "react-icons/bs"; // Import ChevronDown icon
 
 interface HeaderProps {
   fullName: string;
@@ -29,6 +30,7 @@ const Header = () => {
   const router = useRouter();
 
   const [showPopUp, setShowPopUp] = useState(false);
+  const [showAuthDropdown, setShowAuthDropdown] = useState(false); // State for auth dropdown
 
   const handleTogglePopUp = () => {
     setShowPopUp((showPopUp) => !showPopUp);
@@ -96,7 +98,10 @@ const Header = () => {
             </motion.p>
           </div>
         </div>
-        <div className="w-fit flex justify-start items-center gap-x-[0.25rem] ml-[0.2rem] md:ml-0 md:gap-x-[.5rem] text-slate-900">
+        <div
+          id="headerParent"
+          className="w-fit flex justify-start items-center gap-x-[0.25rem] ml-[0.2rem] md:ml-0 md:gap-x-[.5rem] text-slate-900"
+        >
           <div className="justify-center items-center hidden md:flex">
             <Link href="/">
               <h1 className="font-semibold text-[1.25rem]">Home</h1>
@@ -130,7 +135,7 @@ const Header = () => {
               <h1 className="font-semibold text-[1.25rem]">Blog</h1>
             </Link>
           </div>
-          <div className="flex justify-center items-center">
+          <div id="language" className="flex justify-center items-center">
             <Dropdown />
           </div>
           <div className="flex justify-center items-center mr-1">
@@ -164,25 +169,63 @@ const Header = () => {
                 )}
               </div>
             ) : (
-              <div className="w-full md:w-fit h-full flex justify-start md:gap-x-[0.15rem] items-center">
-                <div className="w-full md:w-[5rem] h-full">
-                  <Link href={"/signUp"}>
-                    <h1 id="userName" className="font-semibold text-[1.25rem]">
-                      Sign up
+              <div className="w-full h-full">
+                <div
+                  id="authparent"
+                  className="md:hidden relative w-full md:w-fit h-full flex justify-start md:gap-x-[0.15rem] items-center"
+                >
+                  <div
+                    className="w-[7rem] md:w-fit h-full flex justify-start gap-x-[0.1rem] items-center"
+                    onClick={() => setShowAuthDropdown(!showAuthDropdown)}
+                  >
+                    <h1 id="auth" className="font-semibold text-[1.25rem]">
+                      {showAuthDropdown ? "Login" : "Sign up"}
                     </h1>
-                  </Link>
+                    <BsChevronDown id="authIcon" size={12} />
+                  </div>
+                  {showAuthDropdown && (
+                    <div
+                      className="absolute top-full left-0 bg-white shadow-md rounded-md mt-1 z-10"
+                      style={{ width: "100%" }}
+                    >
+                      <Link
+                        href={"/signUp"}
+                        className="block px-4 py-2 hover:bg-gray-100"
+                      >
+                        Sign up
+                      </Link>
+                      <Link
+                        href={"/logIn"}
+                        className="block px-4 py-2 hover:bg-gray-100"
+                      >
+                        Login
+                      </Link>
+                    </div>
+                  )}
                 </div>
-                <div className="w-full md:w-[2.25rem] h-full">
-                  <Link href={"/signUp"}>
-                    <h1 id="userName" className="font-semibold text-[1.25rem]">
-                      Login
-                    </h1>
-                  </Link>
+                <div
+                  id="authparent"
+                  className="hidden md:flex relative w-full md:w-fit h-full justify-start md:gap-x-[0.15rem] items-center"
+                >
+                  <div id="authContainer" className="w-full md:w-[5rem] h-full">
+                    <Link href={"/signUp"}>
+                      <h1 id="auth" className="font-semibold text-[1.25rem]">
+                        Sign up
+                      </h1>
+                    </Link>
+                  </div>
+                  <div id="loginHead" className="w-full md:w-[2.25rem] h-full">
+                    <Link href={"/logIn"}>
+                      <h1 id="auth" className="font-semibold text-[1.25rem]">
+                        Login
+                      </h1>
+                    </Link>
+                  </div>
                 </div>
               </div>
             )}
           </div>
-          <div className="px-[0.5rem] flex justify-center items-center">
+          <div className="px-[0.5rem] flex justify-center items-center relative left-[0.7rem]">
             {loading ? (
               <HashLoader
                 cssOverride={override}
