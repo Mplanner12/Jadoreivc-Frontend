@@ -11,9 +11,10 @@ import { MdChevronRight } from "react-icons/md";
 import { TourGuideContext } from "@/src/app/context/tourGuideContext";
 import { useContext } from "react";
 import ClientOnly from "@/src/app/Components/ClientOnly";
-// import BarLoader from "react-spinners/BarLoader";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import LoadingScreen from "@/src/app/Components/Loader";
+import { UserContext } from "@/src/app/context/UserContex";
+import { AiFillSchedule } from "react-icons/ai";
 
 const override: CSSProperties = {
   display: "block",
@@ -21,6 +22,7 @@ const override: CSSProperties = {
 };
 
 const Page = ({ params }: { params: { id: string } }) => {
+  const { user, setUser, role } = useContext(UserContext);
   const tourGuideId = params.id; // Access the ID from the URL
   const { fetchTourGuideById, tourGuide, loading, setTourGuide } =
     useContext(TourGuideContext);
@@ -203,7 +205,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                         </div>
                       </div>
                       <div className="py-[2rem] md:pt-[0.5rem] w-full flex justify-center items-center text-teal-900 text-[1.15rem]">
-                        <p className="font-[500]">
+                        <p className="font-[500] text-center">
                           Book{" "}
                           <span className="font-bold">
                             {tourGuide.user.fullName.split(" ")[0]}{" "}
@@ -212,12 +214,32 @@ const Page = ({ params }: { params: { id: string } }) => {
                         </p>
                       </div>
                       <div className="w-[90%] pb-[1.35rem] flex justify-center items-center">
-                        <Link
-                          href={`mailto:${tourGuide.user.email}`}
-                          className="w-fit flex justify-center items-center text-emerald-600 font-[500] border-emerald-600 border-[1px] rounded-full text-[1.35rem] bg-slate-50 shadow-sm p-[0.85rem] px-[5.5rem]"
-                        >
-                          <p className="w-[8rem]">Book now</p>
-                        </Link>
+                        {loading ? (
+                          <SyncLoader
+                            loading={loading}
+                            color="green"
+                            size={15}
+                            margin={5}
+                            speedMultiplier={1}
+                          />
+                        ) : (
+                          <div className="w-full h-full flex justify-center items-center">
+                            {user ? (
+                              <Link
+                                href={`/planTour/${user.id}`}
+                                className="w-full flex justify-center items-center rounded-xl border border-emerald-600 shadow-sm"
+                              >
+                                <p className="w-[8rem]">Book now</p>
+                                <AiFillSchedule
+                                  size={40}
+                                  className="text-emerald-600"
+                                />
+                              </Link>
+                            ) : (
+                              <span>&nbsp;</span>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="flex justify-center items-center p-[2rem] px-[0.85rem]">

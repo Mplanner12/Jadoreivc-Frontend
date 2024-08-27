@@ -11,6 +11,35 @@ import { useRouter } from "next/navigation";
 import axiosInstance from "@/src/lib/utils";
 import LoadingScreen from "../../Components/Loader";
 
+interface User {
+  id: string;
+  fullName: string;
+  address: string;
+  email: string;
+  password: string;
+  userType: string;
+  languages: string[];
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+}
+interface TourGuide {
+  id: string;
+  userId: string;
+  location: string;
+  offerRange: number;
+  aboutMe: string;
+  motto: string;
+  thingsToDo: string[]; // Assuming this is an array of strings
+  summary: string;
+  tourHighlights: string[];
+  rating: number | null;
+  user: User;
+  reviews: any[];
+  name: string; // Add the 'name' property
+  // tourGuidests: any; // Add the 'tourGuidests' property
+}
+
 const Page = ({ params }: { params: { id: string } }) => {
   const touristID = params.id; // Access params.id correctly
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
@@ -21,6 +50,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [tourPlans, setTourPlans] = useState<any[]>([]);
+  const [guides, setGuides] = useState<TourGuide[]>([]);
 
   const peopleDropdownRef = useRef<HTMLUListElement>(null);
   const localsDropdownRef = useRef<HTMLUListElement>(null);
@@ -45,6 +75,21 @@ const Page = ({ params }: { params: { id: string } }) => {
     { text: "5 persons", value: 5 },
     { text: "more", value: 8 },
   ];
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get("/api/tourGuides/tourGuides");
+        const data: any = response.data;
+        setGuides(data.tourGuides);
+      } catch (error) {
+        console.error("Error fetching tour guides:", error);
+        setGuides([]);
+      }
+    };
+
+    fetchData();
+  }, []);
   const localsOptions = ["MAN", "WOMAN", "COUPLE", "FAMILY", "FRIENDS"];
 
   const handlePersonsChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -247,34 +292,39 @@ const Page = ({ params }: { params: { id: string } }) => {
                 htmlFor=""
                 className="w-full py-[0.35rem] pl-[0.3rem] font-[500] text-[1.25rem] text-start text-teal-900"
               >
-                Looking for a local
+                choose a local Guide
               </label>
               <ul
                 ref={localsDropdownRef} // Attach the reference to the dropdown
                 className="w-full mt-1 flex flex-col justify-start items-start"
               >
-                {localsOptions.map((local) => (
-                  <li
-                    key={local}
-                    className="p-1 hover:bg-gray-200 text-teal-900 text-[1rem] cursor-pointer flex justify-start gap-x-[0.7rem] items-center"
-                    onClick={() => handleLocalsSelect(local)}
-                  >
-                    {selectedLocals.includes(local) ? (
-                      <MdCheckBox
-                        size={31}
-                        className="text-teal-900 mr-2 border-none"
-                      />
-                    ) : (
-                      <RiCheckboxBlankLine
-                        className="text-teal-950 font-extralight rounded-[3rem] border-[0px]"
-                        size={27}
-                      />
-                    )}
-                    <p className="text-[1.1rem] capitalize text-teal-900 font-[500]">
-                      {local}
-                    </p>
-                  </li>
-                ))}
+                {guides.length !== 0 &&
+                  guides.slice(0, 7).map((guide) => (
+                    <li
+                      key={guide.id}
+                      className="p-1 hover:bg-gray-200 text-teal-900 text-[1rem] cursor-pointer flex justify-start gap-x-[0.7rem] items-center"
+                      onClick={() =>
+                        handleLocalsSelect(guide.user.fullName.split(" ")[0])
+                      }
+                    >
+                      {selectedLocals.includes(
+                        guide.user.fullName.split(" ")[0]
+                      ) ? (
+                        <MdCheckBox
+                          size={31}
+                          className="text-teal-900 mr-2 border-none"
+                        />
+                      ) : (
+                        <RiCheckboxBlankLine
+                          className="text-teal-950 font-extralight rounded-[3rem] border-[0px]"
+                          size={27}
+                        />
+                      )}
+                      <p className="text-[1.1rem] text-teal-900 font-[500]">
+                        {guide.user.fullName} ${guide.offerRange}/hr
+                      </p>
+                    </li>
+                  ))}
               </ul>
             </div>
             <div className="w-full md:w-fit h-full mt-[2rem] pb-[4rem] flex justify-center items-center">

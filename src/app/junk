@@ -1,0 +1,184 @@
+            <div className="w-full flex md:h-full md:px-[10rem] md:pr-[7rem] md:border-r-[1.5px] border-gray-300">
+              {" "}
+              <form
+                onSubmit={handleSubmit(handleFormSubmit)}
+                action=""
+                className="w-full bg-none border-0 px-[1.75rem]"
+              >
+                <div className="w-full flex flex-col justify-center gap-y-[0.85rem]">
+                  <div className="w-full h-fit flex flex-col justify-between">
+                    <label
+                      className="py-[0.35rem] text-[1rem] text-slate-500"
+                      htmlFor="fullname"
+                    >
+                      Full Name
+                    </label>
+                    <input
+                      {...register("fullName")}
+                      className="p-[1rem] shadow-sm rounded-lg border-2 hover:border-emerald-600 active:border-emerald-600 outline-emerald-600 text-[1rem]"
+                      // value={user?.fullName || ""}
+                      // onChange={}
+                      type="text"
+                      name="fullname"
+                      id=""
+                      placeholder="David Goliath"
+                    />
+                  </div>
+                  <div className="flex items-center justify-center h-48 w-96 bg-inherit border border-gray-400 rounded-lg">
+                    <div className="text-center">
+                      <div className="flex justify-center mb-6">
+                        <BsCamera size={40} />
+                      </div>
+                      <p className="text-gray-500 text-lg">
+                        Input profile picture
+                      </p>
+                    </div>
+                  </div>
+                  <div className="w-full md:mt-[0.7rem]  flex flex-col justify-center items-center relative">
+                    <label
+                      htmlFor=""
+                      className="py-[0rem] w-full text-start text-[1rem] text-slate-500"
+                    >
+                      Languages
+                    </label>
+                    <button
+                      className="w-full flex bg-white border border-gray-500 justify-between gap-x-[8rem] md:gap-x-[2.5rem] items-center py-[1rem] md:py-[0.8rem] mt-[0.85rem] px-[1.25rem] rounded"
+                      onClick={handleLanguageDropdownToggle}
+                    >
+                      <p>Select Languages</p>
+                      <MdKeyboardArrowDown
+                        size={32}
+                        className="text-gray-600"
+                      />
+                    </button>
+                    <ul
+                      ref={languageDropdownRef}
+                      className={`w-full px-[1.5rem] flex flex-col justify-start md:pt-[1rem] items-center rounded ${
+                        isDropdownOpen ? "block" : "hidden"
+                      }`}
+                    >
+                      {languageOptions.map((language) => (
+                        <li
+                          key={language}
+                          className="w-full p-1 text-[1.1rem] text-teal-950 cursor-pointer flex justify-between items-center"
+                          onClick={() => handleLanguageChange(language)}
+                        >
+                          {language}
+                          {selectedLanguage.includes(language) ? (
+                            <FaXmark className="text-teal-900" />
+                          ) : (
+                            <FaCheck className="text-teal-900" />
+                          )}
+                          {/* <FaXmark className="text-teal-900" /> */}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="w-full h-fit flex flex-col justify-between">
+                    <label
+                      className="py-[0.35rem] text-[1rem] text-gray-600"
+                      htmlFor="about"
+                    >
+                      About Me
+                    </label>
+                    <textarea
+                      {...register("aboutMe")} // Register the textarea field
+                      className="p-[1rem] h-[8rem] shadow-sm rounded-lg border-2 hover:border-emerald-600 active:border-emerald-600 outline-emerald-600 text-[0.9rem]"
+                      name="about"
+                      id="about"
+                      placeholder="Write a little more about your personality"
+                      // value={about}
+                      // onChange={(e) => setAbout(e.target.value)}
+                    />
+                  </div>
+                  <div className="w-full h-fit flex flex-col justify-between">
+                    <label
+                      className="py-[0.35rem] text-[1rem] text-gray-600"
+                      htmlFor="motto"
+                    >
+                      Motto
+                    </label>
+                    <textarea
+                      {...register("motto")} // Register the textarea field
+                      className="p-[1rem] h-[8rem] shadow-sm rounded-lg border-2 hover:border-emerald-600 active:border-emerald-600 outline-emerald-600 text-[0.9rem]"
+                      name="motto"
+                      id="motto"
+                      placeholder="Write a short text describing why your visitors should choose you"
+                      // value={motto}
+                      // onChange={(e) => setMotto(e.target.value)}
+                    />
+                  </div>
+                  <div className="w-full mt-[1rem] px-[0rem] flex flex-col justify-center items-center relative">
+                    <label
+                      htmlFor=""
+                      className="w-full py-[0rem] text-[1.2rem] text-start text-teal-900"
+                    >
+                      Things to Do
+                    </label>
+                    <ul className="w-full mt-1 flex flex-col justify-start items-cente">
+                      {thingsToDoOptions.map((thingToDo) => (
+                        <li
+                          key={thingToDo}
+                          className="p-1 hover:bg-gray-200 text-[1rem] cursor-pointer flex justify-start gap-x-[0.45rem] items-center"
+                          onClick={() => handleThingsToDoSelect(thingToDo)}
+                        >
+                          {selectedThingsToDo.includes(thingToDo) ? ( // Check if local is selected
+                            <MdCheckBox
+                              size={22}
+                              className="text-emerald-900"
+                            /> // Show blue tick if selected
+                          ) : (
+                            <ImCheckboxUnchecked
+                              size={20}
+                              className="text-emerald-900 mr-2"
+                            />
+                          )}
+                          <p className="text-[0.9rem] text-teal-900">
+                            {thingToDo}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="w-full flex flex-col justify-start items-center">
+                    <label
+                      className="w-full text-start py-[0.5rem] text-[0.9rem] text-gray-600"
+                      htmlFor="offer"
+                    >
+                      Hourly Rate
+                    </label>
+                    <input
+                      {...register("offerRange")} // Register the input field
+                      type="number"
+                      name="offer"
+                      id=""
+                      className="w-full p-[0.8rem] shadow-sm rounded-lg border-2 hover:border-emerald-600 active:border-emerald-600 outline-emerald-600 text-[1rem]"
+                      placeholder="$100"
+                    />
+                  </div>
+                  <div className="w-full h-fit flex flex-col justify-between">
+                    <label
+                      className="py-[0.35rem] text-[1rem] text-gray-600"
+                      htmlFor="email"
+                    >
+                      Contact Information
+                    </label>
+                    <input
+                      {...register("email")} // Register the input field
+                      className="p-[1rem] shadow-sm rounded-lg border-2 hover:border-emerald-600 active:border-emerald-600 outline-emerald-600 text-[1rem]"
+                      type="email"
+                      name="contact"
+                      id=""
+                      placeholder="Jamie124@gmail.com"
+                    />
+                  </div>
+                  <div className="w-full h-full mt-[1rem] mb-[3rem] md:mb-0">
+                    <input
+                      type="submit"
+                      value="SAVE AND CONTINUE"
+                      className="w-full h-full p-[0.75rem] font-[500] text-[0.9rem] text-center bg-orange-400 rounded-full text-white"
+                    />
+                  </div>
+                </div>
+              </form>
+            </div>

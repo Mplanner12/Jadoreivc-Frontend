@@ -26,6 +26,7 @@ const UserProvider: React.FC<any> = ({
   children: React.ReactNode;
 }) => {
   const [user, setUser] = useState<User | any>(null);
+  const [role, setRole] = useState<string | any>(null);
   let [loading, setLoading] = useState<boolean>(true);
 
   // Function to update the user state on login
@@ -40,6 +41,9 @@ const UserProvider: React.FC<any> = ({
       try {
         const { data } = await axiosInstance.get("/api/users/auth/currentUser");
         setUser(data.user);
+        setRole(data.userType);
+        console.log(role);
+
         // console.log(user?.fullName.split("")[0]);
       } catch (error) {
         setUser(null);
@@ -54,6 +58,8 @@ const UserProvider: React.FC<any> = ({
     try {
       const { data } = await axiosInstance.get("/api/users/auth/currentUser");
       setUser(data.user);
+      setRole(data.userType);
+      console.log(data.userType);
       // console.log(user?.fullName.split("")[0]);
     } catch (error) {
       setUser(null);
@@ -78,7 +84,7 @@ const UserProvider: React.FC<any> = ({
 
   return (
     <UserContext.Provider
-      value={{ user, setUser, loading, updateUser, fetchUser }}
+      value={{ user, setUser, loading, updateUser, fetchUser, role, setRole }}
     >
       {children}
     </UserContext.Provider>

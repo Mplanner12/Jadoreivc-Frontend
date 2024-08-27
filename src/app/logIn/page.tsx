@@ -5,30 +5,42 @@ import { LuEye, LuEyeOff } from "react-icons/lu";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/src/lib/utils";
-import { UserContext } from "../context/UserContex";
-import { useContext } from "react";
 
 const Page = () => {
-  const [selectedRole, setSelectedRole] = useState<string | null>("TOURIST");
   const [showPassword, setShowPassword] = useState(false);
-  const [user, setUser] = useState(null);
-  const [userType, setUserType] = useState<string | null>("TOURIST"); // For react-hook-form
-  const [errorMessage, setErrorMessage] = useState(""); // State for error message
+  const [errorMessage, setErrorMessage] = useState("");
+  const [selectedRole, setSelectedRole] = useState<any>("TOURIST"); // For conditional rendering
 
-  // const currentUser = useContext(UserContext);
+  const router = useRouter();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setValue,
+  } = useForm({
+    defaultValues: {
+      userType: "TOURIST", // Set default value for userType
+      email: "",
+      password: "",
+    },
+  });
 
   const login = async (email: string, password: string, userType: string) => {
     try {
       const { data } = await axiosInstance.post("/api/users/auth/login", {
         email,
         password,
+        userType,
       });
+      localStorage.setItem("userRole", selectedRole);
+      let userRole = localStorage.getItem("userRole"); // Getting the value from local storage
+      console.log(userRole);
+
       if (data.success === true) {
-        setUser((user) => user);
         window.location.href = "/";
       }
     } catch (error: any) {
-      // Handle the error response from the server
       if (error?.response && error?.response.data) {
         setErrorMessage(error.response.data.message);
       } else {
@@ -37,22 +49,6 @@ const Page = () => {
       console.error("Login failed", error);
     }
   };
-  const router = useRouter();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm();
-
-  const handleRoleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedRole(event.target.id);
-    setUserType(event.target.value); // Update the value for react-hook-form
-    register("userType", {
-      required: true,
-      value: userType, // Use roleValue for registration
-    });
-  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -60,12 +56,20 @@ const Page = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      login(data.email, data.password, data.userType);
-      // console.log(data);
+      await login(data.email, data.password, data.userType);
     } catch (error) {
       console.error("Login error:", error);
     }
   };
+
+  const handleRoleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedValue = event.target.value;
+    setSelectedRole(event.target.id);
+    setValue("userType", event.target.value); // Correctly using event.target.value
+    // setUserType(selectedValue); // Set the correct value for react-hook-form
+  };
+  // const handleRoleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  // };
 
   return (
     <div className="bg-emerald-600 w-full h-screen flex justify-center items-center md:justify-between">
@@ -94,17 +98,19 @@ const Page = () => {
             <div className="w-full flex justify-between gap-3 py-[0.75rem] mb-[0.5rem] pr-[1rem] md:pr-0 items-center">
               <div
                 id="roleContainer"
-                className="shadow-sm w-fit gap-x-[1rem] flex justify-start items-center py-[1.2rem] px-[1rem] rounded-[0.5rem] border-2 active:border-emerald-600 hover:border-emerald-600 "
+                className="shadow-sm w-fit gap-x-[1rem] flex justify-start items-center py-[1.2rem] px-[1rem] rounded-[0.5rem] border-2 active:border-emerald-600 hover:border-emerald-600"
               >
                 <input
                   style={{ transform: "scale(1.5)" }}
                   type="radio"
                   id="TOURIST"
+                  // className={`w-fit mr-1 p-0`}
                   className={`w-fit mr-1 p-0${
                     selectedRole === "TOURIST" ? "border-emerald-600" : ""
                   }`}
                   checked={selectedRole === "TOURIST"}
                   value="TOURIST"
+                  {...register("userType")}
                   onChange={handleRoleChange}
                 />
                 <label
@@ -116,7 +122,7 @@ const Page = () => {
               </div>
               <div
                 id="roleContainer"
-                className="shadow-sm w-fit gap-x-[1rem] flex justify-start items-center py-[1.2rem] px-[1rem] rounded-[0.5rem] border-2 active:border-emerald-600 hover:border-emerald-600 "
+                className="shadow-sm w-fit gap-x-[1rem] flex justify-start items-center py-[1.2rem] px-[1rem] rounded-[0.5rem] border-2 active:border-emerald-600 hover:border-emerald-600"
               >
                 <input
                   style={{ transform: "scale(1.5)" }}
@@ -126,8 +132,9 @@ const Page = () => {
                     selectedRole === "TOUR_GUIDE" ? "bg-emerald-600" : ""
                   }`}
                   checked={selectedRole === "TOUR_GUIDE"}
-                  onChange={handleRoleChange}
                   value="TOUR_GUIDE"
+                  {...register("userType")}
+                  onChange={handleRoleChange}
                 />
                 <label
                   htmlFor="guide"
@@ -156,7 +163,6 @@ const Page = () => {
                     },
                   })}
                 />
-                {/* Extract the error message from the FieldError object */}
                 {errors.email && (
                   <p className="text-red-500 text-sm mt-1">
                     {`${errors.email.message}`}
@@ -210,7 +216,7 @@ const Page = () => {
                 <div className="mt-[1.9rem] flex justify-center items-center">
                   <Link href={"/signUp"}>
                     <p className="text-[0.75rem]">
-                      Dont have an account?
+                      Don`&apos;t have an account?
                       <span className="text-emerald-600 font-[500]">
                         Sign Up
                       </span>
@@ -222,7 +228,7 @@ const Page = () => {
           </form>
         </div>
       </div>
-      <div
+      {/* <div
         id="green"
         className="hidden md:flex w-full h-full bg-inherit fill-emerald-600 relative"
       >
@@ -235,7 +241,7 @@ const Page = () => {
           <source src="/j'adoreivc.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-      </div>
+      </div> */}
     </div>
   );
 };

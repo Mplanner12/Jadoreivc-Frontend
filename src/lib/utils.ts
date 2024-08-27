@@ -12,4 +12,12 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
+export const getUserRole = () => {
+  if (typeof window !== "undefined") {
+    // Check if window is defined
+    return localStorage.getItem("userRole");
+  }
+  return null; // Or return a default value
+};
+
 export default axiosInstance;

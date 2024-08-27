@@ -31,9 +31,9 @@ const UserPopUp: React.FC<UserPopUpProps> = ({
   userType,
 }) => {
   return (
-    <div className="absolute z-20 ml-[-6rem] gap-y-[1.5rem] md:ml-[-2rem] flex flex-col items-center p-[2rem] bg-white shadow-lg rounded-lg">
-      <Link
-        href={`/profile/${user.id}`}
+    <div className="absolute z-20 ml-[-6rem] gap-y-[1rem] md:ml-[-2rem] flex flex-col items-center p-[2rem] bg-white shadow-lg rounded-lg">
+      <div
+        // href={`/profile/${user.id}`}
         className="w-full flex justify-center items-center"
       >
         {profileImage ? (
@@ -47,6 +47,12 @@ const UserPopUp: React.FC<UserPopUpProps> = ({
             <FaRegCircleUser size={45} />
           </div>
         )}
+      </div>
+      <Link
+        href={`/profile/${user.id}`}
+        className="w-full p-[0.35rem] flex justify-center items-center shadow-md rounded-xl border border-emerald-600"
+      >
+        view Profile
       </Link>
       {/* <p className="font-semibold mb-2">{fullName}</p> */}
       {/* {user.userType === "TOURIST" ? (

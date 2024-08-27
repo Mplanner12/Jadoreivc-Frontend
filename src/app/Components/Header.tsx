@@ -11,7 +11,7 @@ import { UserContext } from "../context/UserContex";
 import ClipLoader from "react-spinners/ClipLoader";
 import HashLoader from "react-spinners/HashLoader";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import axiosInstance from "@/src/lib/utils";
+import axiosInstance, { getUserRole } from "@/src/lib/utils";
 import { motion } from "framer-motion"; // Import motion
 import { BsChevronDown } from "react-icons/bs"; // Import ChevronDown icon
 
@@ -26,7 +26,8 @@ const override: CSSProperties = {
 };
 
 const Header = () => {
-  const { user, loading, setUser } = useContext(UserContext);
+  let userRole = getUserRole();
+  const { user, loading, setUser, role } = useContext(UserContext);
   const router = useRouter();
 
   const [showPopUp, setShowPopUp] = useState(false);
@@ -66,6 +67,7 @@ const Header = () => {
     try {
       await axiosInstance.get("/api/users/auth/logout");
       setUser(null);
+      localStorage.removeItem("userRole");
       window.location.href = "/logIn";
       // router.push("/logIn");
     } catch (error) {
@@ -84,7 +86,7 @@ const Header = () => {
               href={"/"}
               className="text-emerald-600 font-semibold text-3xl"
             >
-              J’ADOREICV
+              J’ADOREIVC
             </Link>
           </div>
           <div className="hidden w-full h-full md:flex justify-start items-center">
@@ -236,7 +238,7 @@ const Header = () => {
                 data-testid="loader"
               />
             ) : user ? (
-              <HamburgerMenu user={user} />
+              <HamburgerMenu userRole={userRole} user={user} />
             ) : (
               <HamburgerMenu />
             )}
@@ -253,7 +255,7 @@ const Header = () => {
           ) : user ? (
             <>
               {/* "Tours" link is rendered only if the user is a TOURIST */}
-              {user.userType === "TOURIST" && (
+              {userRole === "TOURIST" && (
                 <div className="w-fit hidden md:flex justify-end items-center px-[1.5rem] ">
                   <Link href={`/planTour/${user.id}`}>
                     <button
@@ -261,7 +263,9 @@ const Header = () => {
                       className="w-full flex justify-start items-center gap-x-[0.5rem] uppercase py-[1.3rem] px-[0.85rem] text-center font-light text-[1.rem] text-white rounded-full bg-orange-400 hover:bg-emerald-600 hover:text-white"
                     >
                       <PiPencilLineLight size={30} color="white" className="" />
-                      <p className="uppercase">Plan your Tour</p>
+                      <p className="uppercase md:w-[8rem] md:text-sm">
+                        Plan your Tour
+                      </p>
                     </button>
                   </Link>
                 </div>

@@ -4,6 +4,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import HashLoader from "react-spinners/HashLoader";
 import { CSSProperties } from "react";
 import { PiPencilLineLight } from "react-icons/pi";
+import { getUserRole } from "@/src/lib/utils";
 
 interface User {
   id: string;
@@ -14,6 +15,7 @@ interface User {
 }
 interface HeaderProps {
   user?: User;
+  userRole?: any;
 }
 
 const override: CSSProperties = {
@@ -21,7 +23,8 @@ const override: CSSProperties = {
   margin: "0 auto",
 };
 
-export default function HamburgerMenu({ user }: HeaderProps) {
+export default function HamburgerMenu({ user, userRole }: HeaderProps) {
+  // let userRole = getUserRole();
   return (
     <Menu
       as="div"
@@ -77,8 +80,8 @@ export default function HamburgerMenu({ user }: HeaderProps) {
             ) : user ? (
               <>
                 {/* "Tours" link is rendered only if the user is a TOURIST */}
-                {user.userType === "TOURIST" && (
-                  <div className="w-fit hidden md:flex justify-end items-center px-[1.5rem] ">
+                {userRole === "TOURIST" && (
+                  <div className="w-fit flex justify-end items-center px-[1.5rem] ">
                     <Link href={`/planTour/${user?.id}`}>
                       <button
                         type="submit"
