@@ -96,7 +96,7 @@ const Header = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: "easeInOut" }}
             >
-              YOUR LOCAL PRIVATE TOUR GUIDE SEARCH
+              YOUR LOCAL PRIVATE TOUR GUIDE
             </motion.p>
           </div>
         </div>
@@ -284,7 +284,7 @@ const Header = () => {
           transition={{ duration: 0.8, ease: "easeInOut" }}
         >
           {" "}
-          YOUR LOCAL PRIVATE TOUR GUIDE SEARCH
+          YOUR LOCAL PRIVATE TOUR GUIDE
         </motion.p>
       </div>
     </div>
