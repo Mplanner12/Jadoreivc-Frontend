@@ -82,11 +82,11 @@ export default function Home() {
               </button>
             </div>
             <Dive />
+            <RecentBookings />
             <FeaturedGuides
               guideCount={5}
               tourGuides={filteredGuides} // Pass filtered guides to FeaturedGuides
             />
-            <RecentBookings />
             <LogoCarousel />
             <NewsAndUpdate />
           </div>
