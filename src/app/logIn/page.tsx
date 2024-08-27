@@ -228,7 +228,7 @@ const Page = () => {
           </form>
         </div>
       </div>
-      {/* <div
+      <div
         id="green"
         className="hidden md:flex w-full h-full bg-inherit fill-emerald-600 relative"
       >
@@ -241,7 +241,7 @@ const Page = () => {
           <source src="/j'adoreivc.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-      </div> */}
+      </div>
     </div>
   );
 };
