@@ -110,7 +110,7 @@ const Header = () => {
             </Link>
           </div>
           {loading ? (
-            <HashLoader
+            <ClipLoader
               cssOverride={override}
               color="green" // Set your desired loader color
               loading={loading}
@@ -144,9 +144,9 @@ const Header = () => {
             {loading ? (
               <ClipLoader
                 cssOverride={override}
-                color="green" // Set your desired loader color
+                color="green"
                 loading={loading}
-                size={25} // Adjust size as needed
+                size={25}
                 aria-label="Loading Spinner"
                 data-testid="loader"
               />
@@ -229,7 +229,7 @@ const Header = () => {
           </div>
           <div className="px-[0.5rem] flex justify-center items-center relative left-[0.7rem]">
             {loading ? (
-              <HashLoader
+              <ClipLoader
                 cssOverride={override}
                 color="green"
                 loading={loading}
@@ -244,7 +244,7 @@ const Header = () => {
             )}
           </div>
           {loading ? (
-            <HashLoader
+            <ClipLoader
               cssOverride={override}
               color="green"
               loading={loading}

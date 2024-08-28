@@ -15,6 +15,7 @@ import PacmanLoader from "react-spinners/PacmanLoader";
 import LoadingScreen from "@/src/app/Components/Loader";
 import { UserContext } from "@/src/app/context/UserContex";
 import { AiFillSchedule } from "react-icons/ai";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 const override: CSSProperties = {
   display: "block",
@@ -261,19 +262,25 @@ const Page = ({ params }: { params: { id: string } }) => {
     );
   } else if (showNotFound) {
     return (
-      <div className="w-full flex col justify-center items-center">
-        <div className="flex justify-center items-center">
+      <div className="w-full h-screen flex col justify-center items-center">
+        <div className="flex w-full h-full justify-center items-center">
           <PacmanLoader
             cssOverride={override}
-            color="green" // Set your desired loader color
+            color="green"
             loading={loading}
-            size={25} // Adjust size as needed
+            size={25}
             aria-label="Loading Spinner"
             data-testid="loader"
           />
         </div>
-        <div className="text-gray-500 text-center">
-          Something went wrong, please try again...
+        <div className="md:mt-[6.5rem] flex justify-center items-center w-full h-full">
+          <div className="flex flex-col justify-center items-center gap-y-4">
+            <HiOutlineExclamationCircle className="text-gray-500 text-5xl" />
+            <p className="text-gray-500 text-lg font-medium">
+              Error loading tour Guide details
+            </p>
+            <p className="text-gray-500 text-sm">Try Refreshing the page.</p>
+          </div>
         </div>
       </div>
     );
