@@ -1,16 +1,25 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useRef, useEffect, Suspense } from "react";
-import { HiOutlineChevronDown } from "react-icons/hi2";
-import { MdCheckBox } from "react-icons/md";
-import { RiCheckboxBlankLine } from "react-icons/ri";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  Suspense,
+  useContext,
+  CSSProperties,
+} from "react";
 import DateRangePicker from "../../Components/DateRangePicker";
-import TimePicker from "../../Components/TimePicker";
 import { usePlannedTours } from "../../context/tourPlanContext";
 import { useRouter } from "next/navigation";
-import axiosInstance from "@/src/lib/utils";
+import axiosInstance, { getUserRole } from "@/src/lib/utils";
 import LoadingScreen from "../../Components/Loader";
+import { UserContext } from "../../context/UserContex";
+import ClipLoader from "react-spinners/ClipLoader";
 
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+};
 interface User {
   id: string;
   fullName: string;
@@ -30,14 +39,13 @@ interface TourGuide {
   offerRange: number;
   aboutMe: string;
   motto: string;
-  thingsToDo: string[]; // Assuming this is an array of strings
+  thingsToDo: string[];
   summary: string;
   tourHighlights: string[];
   rating: number | null;
   user: User;
   reviews: any[];
-  name: string; // Add the 'name' property
-  // tourGuidests: any; // Add the 'tourGuidests' property
+  name: string;
 }
 
 const Page = ({ params }: { params: { id: string } }) => {
@@ -49,13 +57,16 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [tourPlans, setTourPlans] = useState<any[]>([]);
+  // const [tourPlans, setTourPlans] = useState<any[]>([]);
   const [guides, setGuides] = useState<TourGuide[]>([]);
+  const [submitting, setSubmitting] = useState(false);
 
   const peopleDropdownRef = useRef<HTMLUListElement>(null);
   const localsDropdownRef = useRef<HTMLUListElement>(null);
   const router = useRouter();
 
+  const role = getUserRole();
+  const { user, loading } = useContext(UserContext);
   const { createTourPlan } = usePlannedTours();
 
   const toggleDropdown = () => {
@@ -105,7 +116,6 @@ const Page = ({ params }: { params: { id: string } }) => {
         ? prevLocals.filter((l) => l !== local)
         : [...prevLocals, local];
 
-      // Log the updated selected locals
       console.log("Selected Locals:", updatedLocals);
 
       return updatedLocals;
@@ -136,18 +146,73 @@ const Page = ({ params }: { params: { id: string } }) => {
     };
   }, []);
 
+  const [guests, setGuests] = useState({
+    adults: 0,
+    children: 0,
+    infants: 0,
+    pets: 0,
+  });
+
+  const updateCount = (category: string, change: number) => {
+    setGuests((prev) => ({
+      ...prev,
+      [category as keyof typeof guests]: Math.max(
+        0,
+        prev[category as keyof typeof guests] + change
+      ),
+    }));
+  };
+
+  // const handlePlanTour = async () => {
+  //   // console.log("selectedLocation:", selectedLocation);
+  //   // console.log("startDate:", startDate);
+  //   // console.log("endDate:", endDate);
+  //   // console.log("selectedTime:", selectedTime);
+  //   // console.log("selectedPersons:", selectedPersons);
+  //   if (
+  //     !selectedLocation ||
+  //     !startDate ||
+  //     !endDate ||
+  //     !selectedTime ||
+  //     !selectedPersons
+  //   ) {
+  //     alert("Please fill in all the required fields.");
+  //     return;
+  //   }
+
+  //   const tourPlanData = {
+  //     touristId: touristID, // Use touristID here
+  //     location: selectedLocation,
+  //     startDate: startDate.toISOString(),
+  //     endDate: endDate.toISOString(),
+  //     time: selectedTime,
+  //     numberOfPeople: selectedPersons,
+  //     guidePreference: selectedLocals,
+  //   };
+
+  //   try {
+  //     await createTourPlan(tourPlanData);
+  //     router.push("/customTour");
+  //   } catch (error) {
+  //     console.error("Error planning tour:", error);
+  //     alert("An error occurred while planning your tour.");
+  //   }
+  // };
+
   const handlePlanTour = async () => {
-    // console.log("selectedLocation:", selectedLocation);
-    // console.log("startDate:", startDate);
-    // console.log("endDate:", endDate);
+    console.log("selectedLocation:", selectedLocation);
+    console.log("startDate:", startDate);
+    console.log("endDate:", endDate);
     // console.log("selectedTime:", selectedTime);
-    // console.log("selectedPersons:", selectedPersons);
+    console.log("selectedPersons:", selectedPersons);
+    console.log("selectedLocals:", selectedLocals);
     if (
       !selectedLocation ||
       !startDate ||
       !endDate ||
-      !selectedTime ||
-      !selectedPersons
+      !selectedLocals ||
+      // !selectedTime ||
+      !guests
     ) {
       alert("Please fill in all the required fields.");
       return;
@@ -158,18 +223,24 @@ const Page = ({ params }: { params: { id: string } }) => {
       location: selectedLocation,
       startDate: startDate.toISOString(),
       endDate: endDate.toISOString(),
-      time: selectedTime,
-      numberOfPeople: selectedPersons,
+      // time: selectedTime,
+      adults: guests.adults,
+      children: guests.children,
+      infants: guests.infants,
+      pets: guests.pets,
       guidePreference: selectedLocals,
     };
 
     try {
+      setSubmitting(true);
       await createTourPlan(tourPlanData);
-      router.push("/customTour");
+      alert("Tour planned successfully!");
+      // router.push("/payment");
     } catch (error) {
       console.error("Error planning tour:", error);
       alert("An error occurred while planning your tour.");
     }
+    setSubmitting(false);
   };
 
   return (
@@ -185,7 +256,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             height={100}
           />
         </div>
-        <div className="w-full flex flex-col justify-center md:py-[2rem] items-center mb-1 md:mb-[2rem] mt-[2rem] px-[1rem] md:px-[2.5rem]">
+        <div className="w-full flex flex-col justify-center md:py-[2rem] items-center mb-1 md:mb-[2rem] mt-[2rem] px-[1rem] md:px-[1.25rem]">
           <div className="w-full h-full flex flex-col justify-center items-center py-[1rem] pb-[3.85rem]">
             <div className="flex justify-start md:justify-center items-center py-[0.75rem]">
               <h1 className="text-[2.5rem] text-teal-950 font-semibold">
@@ -209,7 +280,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               </label>
               <input
                 type="text"
-                className="w-[95%] md:w-[100%] text-[1.25rem] p-2 px-[0.9rem] shadow-sm my-[0.7rem] bg-gray-100 border-gray-300 rounded outline-emerald-600 text-black"
+                className="w-[95%] md:w-[100%] text-[1.25rem] p-2 px-[0.9rem] shadow-md my-[0.7rem] bg-gray-100 border-gray-300 rounded outline-emerald-600 text-black"
                 value={
                   selectedLocation !== null ? selectedLocation.toString() : ""
                 } // Set input value from state
@@ -222,56 +293,20 @@ const Page = ({ params }: { params: { id: string } }) => {
             id="datetimecont"
             className="w-fit h-full flex flex-col justify-start items-center px-[1rem] pr-[0.5rem] md:pr-[1rem] mb-[2rem] md:mb-[0.25rem] md:pt-[0]"
           >
-            <div className="w-full pb-[1rem] flex text-start md:text-center px-[0.16rem] text-teal-900 text-[1.1rem] font-[500] justify-start md:justify-center md:ml-[-15.5rem] items-center">
-              <h1>Date</h1>
-            </div>
-            <div className="w-full md:fit h-full flex flex-col md:flex-row justify-center items-center md:py-[0.5rem] shadow-sm rounded-[0.5rem] border-[0.5px] pt-[0.3rem] md:pt-[0.1rem] md:pb-0 pr-[0.5rem] md:pr-[0.5rem] border-emerald-700 pb-[0.1rem] px-[.5rem] md:px-[0.5rem]">
+            {/* <div className="w-full pb-[1rem] flex text-start md:text-center px-[0.16rem] text-teal-900 text-[1.1rem] font-[500] justify-start md:justify-center md:ml-[-15.5rem] items-center"></div> */}
+            <div className="w-full md:fit h-full flex flex-col md:flex-row justify-center items-center md:py-[0.5rem] rounded-[0.5rem] pt-[0.3rem] md:pt-[0.1rem] md:pb-0 pr-[0.5rem] mt-[1rem] md:pr-[0.5rem] pb-[0.1rem] px-[.5rem] md:px-[0.5rem]">
               <DateRangePicker
                 onStartDateChange={(date) => setStartDate((startDate) => date)} // Passing the current state is unnecessary
                 onEndDateChange={(date) => setEndDate((endDate) => date)}
               />
-              <div className="w-full flex md:px-[0.25rem] justify-start items-center">
+              {/* <div className="w-full flex md:px-[0.25rem] justify-start items-center">
                 <TimePicker
                   onTimeChange={(time) => setSelectedTime((newTime) => time)}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
-          <div className="w-full md:w-fit h-full flex flex-col justify-start items-center -mt-[1rem] md:mt-0 py-[0.5rem] pb-[1.25rem]">
-            {/* <div className="w-full px-[2.7rem] md:w-fit flex flex-col justify-start items-center relative">
-            <label
-              htmlFor=""
-              className="py-[0rem] w-full text-start text-[1.2rem] font-[500] text-teal-900"
-            >
-              Number of People
-            </label>
-            <button
-              className="flex w-full text-[1.225rem] font-[500] text-teal-900 bg-slate-100 border-none justify-between gap-x-[4rem] items-center p-2.5 mt-[0.85rem] px-[1.25rem] rounded md:w-fit"
-              onClick={toggleDropdown}
-            >
-              {selectedPersons ? selectedPersons : "Just me"}
-              <HiOutlineChevronDown size={30} className="text-teal-800" />
-            </button>
-            {peopleOpen && (
-              <ul
-                ref={peopleDropdownRef} // Attach the reference to the dropdown
-                className="relative bg-slate-100 w-full md:w-full flex flex-col justify-center items-center mt-[0rem] z-20  border-gray-300 rounded shadow-md"
-              >
-                {peopleOptions.map((person) => (
-                  <li
-                    key={person}
-                    onClick={() => {
-                      console.log(`Clicked on: ${person}`);
-                      handlePersonsChange(person);
-                    }}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {person}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div> */}
+          {/* <div className="w-full md:w-fit h-full flex flex-col justify-start items-center -mt-[1rem] md:mt-0 py-[0.5rem] pb-[1.25rem]">
             <div>
               <select
                 value={selectedPersons}
@@ -285,16 +320,107 @@ const Page = ({ params }: { params: { id: string } }) => {
                 ))}
               </select>
             </div>
+          </div> */}
+          <div className="w-fit h-full flex flex-col justify-center items-center my-[0.75rem]">
+            <h1 className="w-full text-start text-[1.25rem] text-teal-950 my-[0.75rem]">
+              Guests
+            </h1>
+            <div className="w-full h-full flex flex-col justify-start items-center p-[1.15rem] shadow-md rounded-2xl border border-neutral-300  gap-y-[0.75rem]">
+              <div className="w-full guest-category flex justify-start items-center gap-x-[2.35rem]">
+                <div className="w-full h-full flex flex-col justify-start items-start">
+                  <label>Adults</label>
+                  <p className="text-xs">Ages 13 and above</p>
+                </div>
+                <div className="w-full h-full flex justify-end items-center gap-x-[1.25rem]">
+                  <button
+                    onClick={() => updateCount("adults", -1)}
+                    className="shadow-md p-[1rem] py-[0.5rem] rounded-full border border-neutral-400"
+                  >
+                    -
+                  </button>
+                  <span>{guests.adults}</span>
+                  <button
+                    onClick={() => updateCount("adults", 1)}
+                    className="shadow-md p-[1rem] py-[0.5rem] rounded-full border border-neutral-500"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <div className="w-full guest-category flex justify-start items-center gap-x-[2.35rem]">
+                <div className="w-full h-full flex flex-col justify-start items-start">
+                  <label>Children</label>
+                  <p className="text-xs">Ages 2-12</p>
+                </div>
+                <div className="w-full h-full flex justify-end items-center gap-x-[1.25rem]">
+                  <button
+                    onClick={() => updateCount("children", -1)}
+                    className="shadow-md p-[1rem] py-[0.5rem] rounded-full border border-neutral-400"
+                  >
+                    -
+                  </button>
+                  <span>{guests.children}</span>
+                  <button
+                    onClick={() => updateCount("children", 1)}
+                    className="shadow-md p-[1rem] py-[0.5rem] rounded-full border border-neutral-500"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <div className="w-full guest-category flex justify-start items-center gap-x-[2.35rem]">
+                <div className="w-full h-full flex flex-col justify-start items-start">
+                  <label>Infants</label>
+                  <p className="text-xs">Under 2</p>
+                </div>
+                <div className="w-full h-full flex justify-end items-center gap-x-[1.25rem]">
+                  <button
+                    onClick={() => updateCount("infants", -1)}
+                    className="shadow-md p-[1rem] py-[0.5rem] rounded-full border border-neutral-400"
+                  >
+                    -
+                  </button>
+                  <span>{guests.infants}</span>
+                  <button
+                    onClick={() => updateCount("infants", 1)}
+                    className="shadow-md p-[1rem] py-[0.5rem] rounded-full border border-neutral-500"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <div className="w-full guest-category flex justify-start items-center gap-x-[2.35rem]">
+                <div className="w-full h-full flex flex-col justify-start items-start">
+                  <label>Pets</label>
+                  <p className="text-xs">Are you bringing pets?</p>
+                </div>
+                <div className="w-full h-full flex justify-end items-center gap-x-[1.25rem]">
+                  <button
+                    onClick={() => updateCount("pets", -1)}
+                    className="shadow-md p-[1rem] py-[0.5rem] rounded-full border border-neutral-400"
+                  >
+                    -
+                  </button>
+                  <span>{guests.pets}</span>
+                  <button
+                    onClick={() => updateCount("pets", 1)}
+                    className="shadow-md p-[1rem] py-[0.5rem] rounded-full border border-neutral-500"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="w-full px-[1.9rem] md:w-fit h-full flex flex-col justify-center md:justify-start items-center font-[400] py-[0rem] pb-[1.85rem] mb-[2.5rem] md:mb-0">
-            <div className="w-fit md:w-full px-[1.2rem] md:px-[3.75rem] flex flex-col justify-center items-center relative">
+            <div className="w-fit md:w-full px-[1.2rem] md:px-[2rem] flex flex-col justify-center items-center relative">
               <label
                 htmlFor=""
                 className="w-full py-[0.35rem] pl-[0.3rem] font-[500] text-[1.25rem] text-start text-teal-900"
               >
                 choose a local Guide
               </label>
-              <ul
+              {/* <ul
                 ref={localsDropdownRef} // Attach the reference to the dropdown
                 className="w-full mt-1 flex flex-col justify-start items-start"
               >
@@ -325,14 +451,45 @@ const Page = ({ params }: { params: { id: string } }) => {
                       </p>
                     </li>
                   ))}
-              </ul>
-            </div>
-            <div className="w-full md:w-fit h-full mt-[2rem] pb-[4rem] flex justify-center items-center">
-              <button
-                onClick={handlePlanTour}
-                className="uppercase w-full h-full flex justify-center items-center p-[0.75rem] px-[2.85rem] md:px-[5.85rem] font-[500] text-[1.3rem] text-center bg-orange-400 rounded-full text-white"
+              </ul> */}
+              <select
+                className="w-full mt-1 text-teal-900 py-[0.75rem] outline-none text-[1rem] cursor-pointer border-[0.25px] border-neutral-200 bg-neutral-100 rounded px-2"
+                value={selectedLocals[selectedLocals.length - 1] || ""}
+                onChange={(e) => handleLocalsSelect(e.target.value)}
               >
-                plan new Journey
+                <option value="">Select a guide</option>
+                {guides.length !== 0 &&
+                  guides.slice(0, 7).map((guide) => (
+                    <option
+                      key={guide.id}
+                      value={guide.user.fullName.split(" ")[0]}
+                    >
+                      {guide.user.fullName} ${guide.offerRange}/hr
+                    </option>
+                  ))}
+              </select>
+            </div>
+            {/* {} */}
+            <div className="w-fit px md:w-fit h-full mt-[2rem] pb-[4rem] flex justify-center items-center">
+              <button
+                disabled={loading || submitting}
+                onClick={handlePlanTour}
+                className="uppercase md:w-[22.5rem] h-full flex justify-center items-center p-[0.75rem] px-[2.85rem] md:px-[5.85rem] font-[500] text-[1.3rem] text-center bg-orange-400 rounded-full text-white"
+              >
+                {loading ? (
+                  <ClipLoader
+                    cssOverride={override}
+                    color="green"
+                    loading={loading}
+                    size={25}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
+                ) : user && role === "TOURIST" ? (
+                  <>GO TO PAYMENT</>
+                ) : (
+                  <>plan new Journey</>
+                )}
               </button>
             </div>
           </div>

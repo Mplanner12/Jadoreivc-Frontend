@@ -4,7 +4,7 @@ import { IoIosArrowDown } from "react-icons/io";
 export default function Dropdown() {
   return (
     <Menu as="div" className="relative inline-block text-left">
-      <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 md:py-2 text-base font-semibold text-gray-900  hover:bg-gray-50">
+      <MenuButton className="inline-flex w-full border border-neutral-200 justify-center gap-x-1.5 rounded-md bg-white px-3 md:py-2 text-base font-semibold text-gray-900 ">
         <div
           id="language"
           className="inline-flex w-full justify-center gap-x-1.5 bg-white px-1 py-1 md:py-2 text-[1.1rem] font-semibold text-gray-900  hover:bg-gray-50"
@@ -17,7 +17,7 @@ export default function Dropdown() {
         </div>
       </MenuButton>
 
-      <MenuItems className="absolute right-0 z-10 mt-[-0.3rem] ml-[-0.5rem] border-[1px] w-[5.25rem] origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in">
+      <MenuItems className="absolute right-0 z-30 mt-[0.2rem] ml-[-0.5rem] border-[1px] w-[5.75rem] origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in">
         <div className="py-1">
           <MenuItem>
             <a

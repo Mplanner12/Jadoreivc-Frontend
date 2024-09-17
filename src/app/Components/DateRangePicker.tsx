@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import moment, { utc } from "moment";
+import moment from "moment";
 import { HiOutlineArrowRight, HiOutlineArrowLeft } from "react-icons/hi";
 import "../DateRangePicker.css";
+import { FaCalendarAlt } from "react-icons/fa";
 
 interface DateRangePickerProps {
   onStartDateChange: (date: Date | null) => void;
@@ -16,28 +17,45 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
 }) => {
   const [selectedStart, setSelectedStart] = useState<any>(null);
   const [selectedEnd, setSelectedEnd] = useState<any>(null);
+  const [showStartDatePlaceholder, setShowStartDatePlaceholder] =
+    useState(true);
+  const [showEndDatePlaceholder, setShowEndDatePlaceholder] = useState(true);
 
   return (
-    <div className="flex flex-col items-center md:flex-row md:gap-x-4 md:pr-[0.5rem] mb-4 md:mb-0">
-      <div className="flex justify-center items-center">
+    <div className="w-full flex flex-col justify-start md:flex-row items-center gap-x-[1.5rem] md:gap-x-[2rem] mb-4 md:mb-0">
+      <div className="w-full md:w-[8.25rem] flex flex-col justify-center items-start shadow-md">
+        <h1 className="w-full mt-[-1.5rem] mb-[0.5rem] pl-[0.25rem]">
+          Start Date
+        </h1>
+        {/* {showStartDatePlaceholder && (
+          <p className="w-full flex justify-start text-xs items-center gap-x-[2.5rem] pl-[0.85rem] py-0 relative z-20 top-[2rem]">
+            12/02/24
+            <FaCalendarAlt />
+          </p>
+        )} */}
         <DatePicker
-          className="rounded-xl"
+          className="w-[8.25rem] rounded-lg border-[0.5px] py-[0.5rem] border-neutral-100 bg-neutral-100"
           selected={selectedStart}
           onChange={(date) => {
             if (date) {
-              const adjustedDate = moment(date).add(1, "day").toDate();
-              // .toDate();
+              const adjustedDate = moment(date)
+                .add(moment(date).utcOffset(), "minutes")
+                .toDate();
               onStartDateChange(adjustedDate);
               setSelectedStart(adjustedDate);
-              // console.log("Adjusted Start Date:", adjustedDate);
             } else {
               onStartDateChange(null);
+            }
+          }}
+          onFocus={() => setShowStartDatePlaceholder(false)}
+          onBlur={() => {
+            if (!selectedStart) {
+              setShowStartDatePlaceholder(true);
             }
           }}
           selectsStart
           startDate={selectedStart}
           endDate={selectedEnd}
-          inline
           renderCustomHeader={({ monthDate, decreaseMonth, increaseMonth }) => (
             <div className="custom-header">
               <HiOutlineArrowLeft
@@ -58,9 +76,16 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
           )}
         />
       </div>
-      <div className="md:border-l-[1px] border-gray-400 md:pl-[0.7rem] flex justify-center items-center">
+      <div className="w-full md:w-[8.25rem] flex flex-col justify-center items-start shadow-md">
+        <h1 className="mt-[-1.5rem] mb-[0.5rem] pl-[0.25rem]">End Date</h1>
+        {/* {showEndDatePlaceholder && (
+          <p className="w-full flex justify-start text-xs items-center gap-x-[2.5rem] pl-[0.85rem] py-0 relative z-20 top-[2rem]">
+            12/02/24
+            <FaCalendarAlt />
+          </p>
+        )} */}
         <DatePicker
-          className="end-date"
+          className="w-[8.25rem] rounded-lg border-[0.5px] py-[0.5rem] border-neutral-100 bg-neutral-100"
           selected={selectedEnd}
           onChange={(date) => {
             if (date) {
@@ -69,16 +94,20 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
                 .toDate();
               onEndDateChange(adjustedDate);
               setSelectedEnd(adjustedDate);
-              // console.log("Adjusted End Date:", adjustedDate);
             } else {
               onEndDateChange(null);
+            }
+          }}
+          onFocus={() => setShowEndDatePlaceholder(false)}
+          onBlur={() => {
+            if (!selectedEnd) {
+              setShowEndDatePlaceholder(true);
             }
           }}
           selectsEnd
           startDate={selectedStart}
           endDate={selectedEnd}
           minDate={selectedStart}
-          inline
           renderCustomHeader={({ monthDate, decreaseMonth, increaseMonth }) => (
             <div className="custom-header">
               <HiOutlineArrowLeft

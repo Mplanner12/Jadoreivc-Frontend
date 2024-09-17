@@ -2,6 +2,7 @@
 import Link from "next/link";
 import React from "react";
 import { FaRegCircleUser } from "react-icons/fa6";
+import ClipLoader from "react-spinners/ClipLoader";
 
 interface User {
   id: string;
@@ -12,8 +13,9 @@ interface User {
 }
 
 interface UserPopUpProps {
-  fullName: string;
-  profileImage: string;
+  // fullName: string;
+  // profileImage: string;
+  loading: boolean;
   userType: string;
   // onSwitchToTourGuide: () => void;
   // onSwitchToTourist: () => void;
@@ -22,40 +24,98 @@ interface UserPopUpProps {
 }
 
 const UserPopUp: React.FC<UserPopUpProps> = ({
-  fullName,
-  profileImage,
+  // fullName,
+  // profileImage,
   // onSwitchToTourGuide,
   // onSwitchToTourist,
+  loading,
   onLogout,
   user,
   userType,
 }) => {
   return (
-    <div className="absolute z-20 ml-[-6rem] gap-y-[1rem] md:ml-[-2rem] flex flex-col items-center p-[2rem] bg-white shadow-lg rounded-lg">
-      <div
-        // href={`/profile/${user.id}`}
-        className="w-full flex justify-center items-center"
-      >
-        {profileImage ? (
-          <img
-            src={profileImage}
-            alt="Profile"
-            className="w-14 h-14 md:w-11 md:h-11 rounded-full mb-1"
+    <div
+      className={`absolute z-20 ml-[-1rem] mt-[18.75rem] gap-y-[1rem] md:ml-[1rem] ${
+        user ? "md:mt-[22.5rem]" : "md:mt-[10.75rem]"
+      } flex flex-col items-center p-[2rem] py-[0.75rem] md:py-[2rem] bg-white shadow-lg rounded-lg`}
+    >
+      <div className="justify-center items-center mr-1 w-full flex flex-col gap-y-2 md:gap-y-[1rem] h-full">
+        {/* Moved loading and user check outside to avoid nesting issues */}
+        {loading ? (
+          <ClipLoader
+            color="green"
+            loading={user.loading}
+            size={25}
+            aria-label="Loading Spinner"
+            data-testid="loader"
           />
+        ) : user ? (
+          <>
+            <Link
+              href={`/profile/${user.id}`}
+              className="w-full flex justify-center items-center"
+            ></Link>
+            <Link
+              href={`/profile/${user.id}`}
+              className="w-fit p-2 md:p-3 flex justify-center items-center shadow-md rounded-xl border border-emerald-600 hover:bg-orange-400 hover:text-white after:bg-emerald-600 after:text-white"
+            >
+              ACCOUNT
+            </Link>
+            <Link // Changed div to Link for consistency
+              href={"/messages"} // Added href for navigation
+              className="w-fit p-2 md:p-3 flex justify-center items-center shadow-md rounded-xl border border-emerald-600 hover:bg-orange-400 hover:text-white after:bg-emerald-600 after:text-white"
+            >
+              MESSAGES
+            </Link>
+            <Link
+              href={`/help`}
+              className="w-full p-2 md:p-3 flex justify-center items-center shadow-md rounded-xl border border-emerald-600 hover:bg-orange-400 hover:text-white after:bg-emerald-600 after:text-white"
+            >
+              HELP
+            </Link>
+            <button
+              onClick={onLogout}
+              className="w-full p-2 md:p-3 flex justify-center items-center shadow-md border border-emerald-600 rounded-xl hover:bg-orange-400 hover:text-white after:bg-emerald-600 after:text-white"
+            >
+              LOGOUT
+            </button>
+          </>
         ) : (
-          <div className="flex justify-center items-center w-fit rounded-full border-[1px] border-emerald-600">
-            <FaRegCircleUser size={45} />
+          <div id="authContainer">
+            <Link href={"/signUp"}>
+              <h1
+                // id="auth"
+                className="font-semibold text-[1.25rem]"
+              >
+                Sign up
+              </h1>
+            </Link>
+            <div
+              // id="loginHead"
+              className="w-full md:w-[2.25rem] h-full"
+            >
+              <Link href={"/logIn"}>
+                <h1 id="auth" className="font-semibold text-[1.25rem]">
+                  Login
+                </h1>
+              </Link>
+            </div>
           </div>
         )}
       </div>
-      <Link
-        href={`/profile/${user.id}`}
-        className="w-full p-[0.35rem] flex justify-center items-center shadow-md rounded-xl border border-emerald-600"
-      >
-        view Profile
-      </Link>
-      {/* <p className="font-semibold mb-2">{fullName}</p> */}
-      {/* {user.userType === "TOURIST" ? (
+    </div>
+  );
+};
+
+export default UserPopUp;
+
+
+
+{
+  /* <p className="font-semibold mb-2">{fullName}</p> */
+}
+{
+  /* {user.userType === "TOURIST" ? (
         <button
           onClick={onSwitchToTourGuide}
           className="w-full py-2 px-4 mb-2 rounded-3xl text-white bg-orange-400 hover:bg-orange-600"
@@ -69,15 +129,5 @@ const UserPopUp: React.FC<UserPopUpProps> = ({
         >
           SWITCH TO TOURIST
         </button>
-      )} */}
-      <button
-        onClick={onLogout}
-        className="w-full py-2 text-gray-700 font-semibold rounded-lg hover:bg-gray-300"
-      >
-        LOGOUT
-      </button>
-    </div>
-  );
-};
-
-export default UserPopUp;
+      )} */
+}

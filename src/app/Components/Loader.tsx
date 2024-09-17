@@ -1,28 +1,38 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { FaTruckPlane } from "react-icons/fa6";
+// import { XlviLoader } from "react-awesome-loaders";
 
 const LoadingScreen: React.FC = () => {
   return (
-    <div className="flex justify-center items-center h-screen bg-emerald-600">
-      <div className="relative">
+    <div
+      id="Loader"
+      className="flex justify-center flex-col w-full items-center h-screen bg-white"
+    >
+      <svg className="top-[-3.5rem] relative" viewBox="0 0 100 100">
+        <g>
+          <path d="M 50,100 A 1,1 0 0 1 50,0" />
+        </g>
+        <g>
+          <path d="M 50,75 A 1,1 0 0 0 50,-25" />
+        </g>
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop
+              offset="0%"
+              style={{ stopColor: "#059669", stopOpacity: 1 }}
+            />
+            <stop
+              offset="100%"
+              style={{ stopColor: "#F97316", stopOpacity: 1 }}
+            />
+          </linearGradient>
+        </defs>
+      </svg>
+      {/* <div className="relative">
         <div className="animate-spin rounded-full h-24 w-24 border-t-4 border-orange-400 border-solid"></div>
         <div className="absolute inset-0 flex flex-col justify-center items-center text-teal-900">
           <div className="animate-bounce">
-            {/* <svg
-              className="w-16 h-16"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17.657 16.657l-1.414 1.414m-2.829 0a5 5 0 11-7.07-7.07l1.415-1.415a5 5 0 017.07 7.07zM11 11l4.243-4.243a4 4 0 10-5.657-5.657L5.343 5.343M9 15l-4.243 4.243a4 4 0 005.657 5.657L15 17"
-              />
-            </svg> */}
             <FaTruckPlane size={60} color="black" />
           </div>
           <div className="text-[2.2rem] mt-[4.5rem] flex justify-center gap-x-[0.5rem] items-center font-bold text-orange-400">
@@ -34,10 +44,12 @@ const LoadingScreen: React.FC = () => {
               src="/logoJadoreivc.png"
               alt="logo"
             />
-            {/* <div className=" text-teal-900 font-bold">J’adoreivc...</div> */}
           </div>
         </div>
-      </div>
+      </div> */}
+      <p className="text-3xl md:text-5xl font-bold text-emerald-700 animate-pulse">
+        J’ADOREIVC
+      </p>
     </div>
   );
 };
