@@ -233,9 +233,17 @@ const Page = ({ params }: { params: { id: string } }) => {
 
     try {
       setSubmitting(true);
-      await createTourPlan(tourPlanData);
-      alert("Tour planned successfully!");
-      // router.push("/payment");
+      if (user && role === "TOURIST") {
+        const response = await createTourPlan(tourPlanData);
+        console.log("Tour plan created:", response);
+        // Assuming createTourPlan returns the created tour plan object
+        const tourPlanId = response; // Adjust if needed based on your API response
+
+        router.push(`/checkout/${tourPlanId}`); // Pass tourPlanId to checkout
+        alert("Tour planned successfully!");
+      } else {
+        router.push("/logIn");
+      }
     } catch (error) {
       console.error("Error planning tour:", error);
       alert("An error occurred while planning your tour.");
@@ -291,7 +299,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           </div>
           <div
             id="datetimecont"
-            className="w-fit h-full flex flex-col justify-start items-center px-[1rem] pr-[0.5rem] md:pr-[1rem] mb-[2rem] md:mb-[0.25rem] md:pt-[0]"
+            className="w-full lg:w-fit h-full flex flex-col justify-start items-center px-[2rem] lg:px-[1rem] md:pr-[1rem] mb-[2rem] md:mb-[0.25rem] md:pt-[0]"
           >
             {/* <div className="w-full pb-[1rem] flex text-start md:text-center px-[0.16rem] text-teal-900 text-[1.1rem] font-[500] justify-start md:justify-center md:ml-[-15.5rem] items-center"></div> */}
             <div className="w-full md:fit h-full flex flex-col md:flex-row justify-center items-center md:py-[0.5rem] rounded-[0.5rem] pt-[0.3rem] md:pt-[0.1rem] md:pb-0 pr-[0.5rem] mt-[1rem] md:pr-[0.5rem] pb-[0.1rem] px-[.5rem] md:px-[0.5rem]">
@@ -474,7 +482,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               <button
                 disabled={loading || submitting}
                 onClick={handlePlanTour}
-                className="uppercase md:w-[22.5rem] h-full flex justify-center items-center p-[0.75rem] px-[2.85rem] md:px-[5.85rem] font-[500] text-[1.3rem] text-center bg-orange-400 rounded-full text-white"
+                className="uppercase md:w-[24.5rem] h-full flex justify-center items-center p-[0.75rem] px-[2.85rem] md:px-[3rem] font-[500] text-[1.3rem] text-center bg-orange-400 rounded-full text-white"
               >
                 {loading ? (
                   <ClipLoader

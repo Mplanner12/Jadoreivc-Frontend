@@ -22,8 +22,8 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
   const [showEndDatePlaceholder, setShowEndDatePlaceholder] = useState(true);
 
   return (
-    <div className="w-full flex flex-col justify-start md:flex-row items-center gap-x-[1.5rem] md:gap-x-[2rem] mb-4 md:mb-0">
-      <div className="w-full md:w-[8.25rem] flex flex-col justify-center items-start shadow-md">
+    <div className="w-full flex flex-col justify-start md:flex-row items-center gap-y-[2.85rem] md:gap-x-[2rem] mb-4 md:mb-0">
+      <div className="w-full md:w-[8.25rem] flex flex-col justify-center items-start">
         <h1 className="w-full mt-[-1.5rem] mb-[0.5rem] pl-[0.25rem]">
           Start Date
         </h1>
@@ -34,7 +34,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
           </p>
         )} */}
         <DatePicker
-          className="w-[8.25rem] rounded-lg border-[0.5px] py-[0.5rem] border-neutral-100 bg-neutral-100"
+          className="w-[20rem] lg:w-[8.25rem] rounded-lg border-[0.5px] py-[0.5rem] shadow-md border-neutral-100 bg-neutral-100"
           selected={selectedStart}
           onChange={(date) => {
             if (date) {
@@ -76,7 +76,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
           )}
         />
       </div>
-      <div className="w-full md:w-[8.25rem] flex flex-col justify-center items-start shadow-md">
+      <div className="w-full md:w-[8.25rem] flex flex-col justify-center items-start">
         <h1 className="mt-[-1.5rem] mb-[0.5rem] pl-[0.25rem]">End Date</h1>
         {/* {showEndDatePlaceholder && (
           <p className="w-full flex justify-start text-xs items-center gap-x-[2.5rem] pl-[0.85rem] py-0 relative z-20 top-[2rem]">
@@ -85,7 +85,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
           </p>
         )} */}
         <DatePicker
-          className="w-[8.25rem] rounded-lg border-[0.5px] py-[0.5rem] border-neutral-100 bg-neutral-100"
+          className="w-[20rem] lg:w-[8.25rem] rounded-lg border-[0.5px] py-[0.5rem] border-neutral-100 bg-neutral-100 shadow-md"
           selected={selectedEnd}
           onChange={(date) => {
             if (date) {

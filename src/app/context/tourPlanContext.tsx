@@ -6,12 +6,14 @@ const PlannedTourContext = createContext<{
   tourPlans: any[];
   plansLoading: boolean;
   fetchTourPlans: () => void;
-  createTourPlan: (tourPlanData: any) => Promise<void>; // Fixed type definition
+  createTourPlan: (tourPlanData: any) => Promise<void>;
+  fetchTourPlanById: (id: string) => Promise<void>;
 }>({
   tourPlans: [],
   plansLoading: true,
   fetchTourPlans: () => {},
-  createTourPlan: async () => {}, // Default implementation of createTourPlan
+  createTourPlan: async () => {},
+  fetchTourPlanById: async () => {},
 });
 
 export const PlannedTourProvider = ({
@@ -34,16 +36,33 @@ export const PlannedTourProvider = ({
     }
   };
 
-  const createTourPlan = async (tourPlanData: any) => {
+  const fetchTourPlanById = async (id: string) => {
+    try {
+      const { data } = await axiosInstance.get(`/api/plans/tourPlans/${id}`);
+      return data.tourPlan;
+    } catch (error) {
+      console.error("Error fetching tour plan:", error);
+    }
+  };
+
+  const createTourPlan = async (tourPlanData: any): Promise<any> => {
     try {
       const { data } = await axiosInstance.post(
         "/api/plans/tourPlans",
         tourPlanData
       );
-      setTourPlans([...tourPlans, data.tourPlan]);
+      return data.tourPlan.id; // Return the created tour plan
+      // setTourPlans([...tourPlans, data.tourPlan]);
     } catch (error) {
       console.error("Error creating tour plan:", error);
     }
+    // try {
+    //   const response = await axiosInstance.post("/api/tourPlans", tourPlanData);
+    //   // ... other logic ...
+    //   return response.data; // Return the created tour plan object
+    // } catch (error) {
+    //   // ... error handling ...
+    // }
   };
 
   useEffect(() => {
@@ -52,7 +71,13 @@ export const PlannedTourProvider = ({
 
   return (
     <PlannedTourContext.Provider
-      value={{ tourPlans, plansLoading, fetchTourPlans, createTourPlan }}
+      value={{
+        tourPlans,
+        plansLoading,
+        fetchTourPlans,
+        fetchTourPlanById,
+        createTourPlan,
+      }}
     >
       {children}
     </PlannedTourContext.Provider>

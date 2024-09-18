@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import React, { useContext, useState } from "react";
+import React, { CSSProperties, useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContex";
+import ClipLoader from "react-spinners/ClipLoader";
 
 interface ProfileData {
   fullName: string;
@@ -18,13 +19,18 @@ interface ProfileData {
   };
 }
 
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+};
+
 const Page = ({ params }: { params: { id: string } }) => {
   const { user, loading } = useContext(UserContext);
   const [profile, setProfile] = useState<ProfileData>({
     fullName: "",
     address: "",
     languages: [],
-    image: user?.image,
+    image: null,
     userType: "TOURIST",
     tourGuideData: {},
   });
@@ -79,6 +85,43 @@ const Page = ({ params }: { params: { id: string } }) => {
     console.log(profile);
   };
 
+  let [imageBlob, setImageBlob] = useState<string | null>(user.image);
+  const [imagePreview, setImagePreview] = useState<any>(user.image); // Store the data URL here
+
+  // useEffect(() => {
+  //   const loadImageBlob = async () => {
+  //     if (profile.image instanceof File) {
+  //       try {
+  //         const blob = await new Promise<Blob>((resolve, reject) => {
+  //           const reader = new FileReader();
+  //           reader.onload = () => resolve(reader.result as unknown as Blob);
+  //           reader.onerror = reject;
+  //           reader.readAsDataURL(profile.image as File);
+  //         });
+  //         setImageBlob(URL.createObjectURL(blob));
+  //       } catch (error) {
+  //         console.error("Error reading image:", error);
+  //         // Handle the error, e.g., show an error message
+  //       }
+  //     }
+  //   };
+
+  //   loadImageBlob();
+  // }, [profile.image]);
+
+  useEffect(() => {
+    if (profile.image instanceof File) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string); // Set the data URL to imagePreview
+      };
+      reader.readAsDataURL(profile.image);
+    } else {
+      // If profile.image is not a File (e.g., null), reset imagePreview
+      setImagePreview(user.image); // Or any default image URL
+    }
+  }, [profile.image, user.image]);
+
   return (
     <div className="w-full p-4 flex flex-col justify-start items-center">
       <h1 className="my-[2.5rem] text-[2rem] font-semibold">
@@ -89,13 +132,23 @@ const Page = ({ params }: { params: { id: string } }) => {
         className="bg-white w-full flex-col flex justify-start items-center rounded px-8 pt-6 pb-[4rem] mb-4"
       >
         <div className="mb-4 w-full md:w-[35%] h-full flex flex-col justify-start items-center">
-          <div className="w-full flex shadow-md justify-center items-center object-contain h-[14rem] rounded-xl border">
-            <img
-              src={profile.image ? URL.createObjectURL(profile.image) : ""}
-              // src="/tourGuides.png"
-              className="w-full h-full flex justify-center items-center"
-              alt=""
-            />
+          <div className="w-full md:w-[70%] flex shadow-md justify-center items-center object-contain h-[14rem] rounded-xl border">
+            {loading ? (
+              <ClipLoader
+                cssOverride={override}
+                color="green"
+                loading={loading}
+                size={25}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
+            ) : (
+              <img
+                src={imagePreview}
+                className="w-full h-full flex justify-center items-center"
+                alt=""
+              />
+            )}
           </div>
           {/* <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -104,15 +157,15 @@ const Page = ({ params }: { params: { id: string } }) => {
             Profile Image
           </label> */}
           <input
-            className="shadow rounded-lg appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow md:w-[70%] rounded-lg appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="image"
             type="file"
             accept="image/*"
             onChange={handleImageChange}
           />
         </div>
-        <div className="w-[50%] h-full flex flex-col justify-start items-center">
-          <div className="mb-4 w-full gap-x-[1.35rem] h-full flex justify-start items-center">
+        <div className="w-full md:w-[50%] h-full flex flex-col justify-start items-center mt-[1.25rem] lg:mt-0">
+          <div className="mb-4 w-full gap-x-[1.35rem] h-full flex flex-col md:flex-row gap-y-[1.35rem] md:gap-y-0 justify-start items-center">
             <div className="w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
@@ -163,7 +216,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           </div>
         </div>
         <div className="w-full lg:w-[50%] h-full justify-start items-center flex flex-col">
-          <div className="mb-4 w-full flex justify-start gap-x-[1.35rem] items-center h-full">
+          <div className="mb-4 w-full flex flex-col md:flex-row justify-start gap-x-[1.35rem] items-center h-full">
             <div className="w-full h-full flex-col justify-start items-start gap-x-[1.35rem] flex">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
