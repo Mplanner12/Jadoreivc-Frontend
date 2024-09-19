@@ -53,7 +53,8 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [peopleOpen, setPeopleOpen] = useState(false);
   const [selectedPersons, setSelectedPersons] = useState<number>(1);
-  const [selectedLocals, setSelectedLocals] = useState<string[]>([]);
+  // const [selectedLocals, setSelectedLocals] = useState<string[]>([]);
+  const [selectedLocal, setSelectedLocal] = useState<string | null>(null);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -110,17 +111,30 @@ const Page = ({ params }: { params: { id: string } }) => {
     setPeopleOpen(false);
   };
 
-  const handleLocalsSelect = (local: string) => {
-    setSelectedLocals((prevLocals) => {
-      const updatedLocals = prevLocals.includes(local)
-        ? prevLocals.filter((l) => l !== local)
-        : [...prevLocals, local];
+  // const handleLocalsSelect = (guideId?: any) => {
+  //   setSelectedLocals((prevLocals) => {
+  //     const updatedLocals = prevLocals.includes(guideId)
+  //       ? prevLocals.filter((l) => l !== guideId)
+  //       : [...prevLocals, guideId];
 
-      console.log("Selected Locals:", updatedLocals);
+  //     console.log("Selected Locals:", updatedLocals);
 
-      return updatedLocals;
+  //     return updatedLocals;
+  //   });
+  // };
+
+  const handleLocalsSelect = (guideId: string) => {
+    setSelectedLocal((prevLocal) => {
+      const updatedLocal = prevLocal === guideId ? null : guideId;
+      // You need to return the updatedLocal from the state updater function
+      return updatedLocal;
     });
+    // console.log("Selected Locals:", selectedLocal);
   };
+
+  useEffect(() => {
+    console.log("Selected Locals:", selectedLocal);
+  }, [selectedLocal]); // Run this effect whenever selectedLocal change
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -205,12 +219,12 @@ const Page = ({ params }: { params: { id: string } }) => {
     console.log("endDate:", endDate);
     // console.log("selectedTime:", selectedTime);
     console.log("selectedPersons:", selectedPersons);
-    console.log("selectedLocals:", selectedLocals);
+    console.log("selected Guide IDs:", selectedLocal);
     if (
       !selectedLocation ||
       !startDate ||
       !endDate ||
-      !selectedLocals ||
+      !selectedLocal ||
       // !selectedTime ||
       !guests
     ) {
@@ -228,7 +242,7 @@ const Page = ({ params }: { params: { id: string } }) => {
       children: guests.children,
       infants: guests.infants,
       pets: guests.pets,
-      guidePreference: selectedLocals,
+      guidePreference: selectedLocal,
     };
 
     try {
@@ -236,11 +250,15 @@ const Page = ({ params }: { params: { id: string } }) => {
       if (user && role === "TOURIST") {
         const response = await createTourPlan(tourPlanData);
         console.log("Tour plan created:", response);
-        // Assuming createTourPlan returns the created tour plan object
-        const tourPlanId = response; // Adjust if needed based on your API response
+        const tourPlanId = response;
+        // await axiosInstance.post("/api/notifications", {
+        //   userId: user.id,
+        //   tourPlanId: tourPlanId,
+        //   message: `Your tour plan payment is pending.`,
+        //   type: "tour plan status",
+        // });
 
-        router.push(`/checkout/${tourPlanId}`); // Pass tourPlanId to checkout
-        alert("Tour planned successfully!");
+        router.push(`/checkout/${tourPlanId}`);
       } else {
         router.push("/logIn");
       }
@@ -462,39 +480,50 @@ const Page = ({ params }: { params: { id: string } }) => {
               </ul> */}
               <select
                 className="w-full mt-1 text-teal-900 py-[0.75rem] outline-none text-[1rem] cursor-pointer border-[0.25px] border-neutral-200 bg-neutral-100 rounded px-2"
-                value={selectedLocals[selectedLocals.length - 1] || ""}
+                value={selectedLocal || ""} // Use selectedLocal directly
                 onChange={(e) => handleLocalsSelect(e.target.value)}
               >
                 <option value="">Select a guide</option>
                 {guides.length !== 0 &&
                   guides.slice(0, 7).map((guide) => (
-                    <option
-                      key={guide.id}
-                      value={guide.user.fullName.split(" ")[0]}
-                    >
+                    <option key={guide.id} value={guide.offerRange}>
                       {guide.user.fullName} ${guide.offerRange}/hr
                     </option>
                   ))}
               </select>
             </div>
             {/* {} */}
-            <div className="w-fit px md:w-fit h-full mt-[2rem] pb-[4rem] flex justify-center items-center">
+            <div className="w-full px md:w-fit h-full mt-[2rem] pb-[4rem] flex justify-center items-center">
               <button
                 disabled={loading || submitting}
                 onClick={handlePlanTour}
-                className="uppercase md:w-[24.5rem] h-full flex justify-center items-center p-[0.75rem] px-[2.85rem] md:px-[3rem] font-[500] text-[1.3rem] text-center bg-orange-400 rounded-full text-white"
+                className="uppercase w-full md:w-[24.5rem] h-[3rem] flex justify-center items-center p-[0.75rem] px-[2.85rem] md:px-[3rem] font-[500] text-[1.3rem] text-center bg-orange-400 rounded-full text-white"
               >
                 {loading ? (
                   <ClipLoader
+                    className="w-full h-full flex justify-center items-center"
                     cssOverride={override}
-                    color="green"
+                    color="white"
                     loading={loading}
                     size={25}
                     aria-label="Loading Spinner"
                     data-testid="loader"
                   />
                 ) : user && role === "TOURIST" ? (
-                  <>GO TO PAYMENT</>
+                  <>
+                    GO TO PAYMENT
+                    <ClipLoader
+                      className={`w-full h-full ${
+                        submitting ? "flex" : "hidden"
+                      } flex justify-center items-center`}
+                      cssOverride={override}
+                      color="green"
+                      loading={submitting}
+                      size={25}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  </>
                 ) : (
                   <>plan new Journey</>
                 )}

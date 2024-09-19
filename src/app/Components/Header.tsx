@@ -131,14 +131,25 @@ const Header = () => {
           </div>
           <div className="w-full h-full flex justify-start items-center gap-x-[2.75rem]">
             <div className="w-full h-full flex flex-col justify-center items-center cursor-pointer">
-              <BiSolidUser
-                onClick={() => {
-                  setShowPopUp(!showPopUp);
-                  setShowNotification(false);
-                }}
-                size={14}
-                className="w-full h-full text-black"
-              />
+              {loading ? (
+                <ClipLoader
+                  cssOverride={override}
+                  color="green"
+                  loading={loading}
+                  size={25}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              ) : (
+                <BiSolidUser
+                  onClick={() => {
+                    setShowPopUp(!showPopUp);
+                    setShowNotification(false);
+                  }}
+                  size={14}
+                  className="w-full h-full text-black"
+                />
+              )}
               {showPopUp && (
                 <UserPopUp
                   user={user}
@@ -153,14 +164,25 @@ const Header = () => {
               )}
             </div>
             <div className="w-full h-full flex flex-col justify-center items-center cursor-pointer">
-              <IoNotifications
-                size={48}
-                onClick={() => {
-                  setShowNotification(!showNotification);
-                  setShowPopUp(false);
-                }}
-                className="w-full h-full text-black"
-              />
+              {loading ? (
+                <ClipLoader
+                  cssOverride={override}
+                  color="green"
+                  loading={loading}
+                  size={25}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              ) : (
+                <IoNotifications
+                  size={48}
+                  onClick={() => {
+                    setShowNotification(!showNotification);
+                    setShowPopUp(false);
+                  }}
+                  className="w-full h-full text-black"
+                />
+              )}
               {showNotification && <NotificationBar />}
             </div>
           </div>
@@ -184,6 +206,7 @@ const Header = () => {
           <div className="w-full h-full hidden md:block">
             {loading ? (
               <DotLoader
+                className="relative top-[0.9rem]"
                 cssOverride={override}
                 color="green"
                 loading={loading}

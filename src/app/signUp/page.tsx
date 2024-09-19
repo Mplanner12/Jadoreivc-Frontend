@@ -1,18 +1,24 @@
 "use client";
 import Link from "next/link";
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect, CSSProperties } from "react";
 import { LuEyeOff, LuEye } from "react-icons/lu";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/src/lib/utils";
+import ClipLoader from "react-spinners/ClipLoader";
+
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+};
 
 const Page = () => {
   const router = useRouter();
   const [user, setUser] = useState(null);
-  const [selectedRole, setSelectedRole] = useState<string | null>("TOURIST"); // For conditional rendering
-  const [userType, setUserType] = useState<string | null>("TOURIST"); // For react-hook-form
+  const [selectedRole, setSelectedRole] = useState<string | null>("TOURIST");
+  const [userType, setUserType] = useState<string | null>("TOURIST");
   const [showPassword, setShowPassword] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(""); // State for error message
+  const [errorMessage, setErrorMessage] = useState("");
 
   // Register Function
   const registerUser = async (userDetails: any) => {
@@ -228,14 +234,27 @@ const Page = () => {
                 <p className="text-red-500 text-sm mt-1">{errorMessage}</p>
               )}
               <div className="w-full h-full mt-[1.5rem]">
-                <input
+                <button
                   disabled={isSubmitting}
                   type="submit"
-                  value="CREATE ACCOUNT"
+                  // value="CREATE ACCOUNT"
                   className={`w-full h-full p-[0.75rem] font-[500] text-[1.1rem] text-center bg-orange-400 rounded-full text-white ${
                     isSubmitting && "opacity-50 cursor-not-allowed bg-gray-500"
                   }`}
-                />
+                >
+                  {isSubmitting ? (
+                    <ClipLoader
+                      cssOverride={override}
+                      color="green"
+                      loading={isSubmitting}
+                      size={25}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  ) : (
+                    "CREATE ACCOUNT"
+                  )}
+                </button>
                 <div className="mt-[1.75rem] flex justify-center items-center">
                   <Link href={"/logIn"}>
                     <p className="text-[0.75rem]">

@@ -1,7 +1,7 @@
 // RootLayout.tsx
 import ServerLayout from "./serverLayout";
 import ClientLayout from "./clientLayout";
-import { Suspense } from "react";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 export default function RootLayout({
   children,
@@ -9,10 +9,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // <Suspense fallback={<div>Loading...</div>}>
+    // <PayPalScriptProvider options={initialOptions}>
     <ServerLayout>
       <ClientLayout>{children}</ClientLayout>
     </ServerLayout>
-    // </Suspense>
+    // </PayPalScriptProvider>
   );
 }

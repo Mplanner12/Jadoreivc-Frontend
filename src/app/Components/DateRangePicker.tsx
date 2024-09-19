@@ -34,7 +34,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
           </p>
         )} */}
         <DatePicker
-          className="w-[20rem] lg:w-[8.25rem] rounded-lg border-[0.5px] py-[0.5rem] shadow-md border-neutral-100 bg-neutral-100"
+          className="w-[20rem] px-[0.5rem] lg:w-[8.25rem] rounded-lg border-[0.5px] py-[0.5rem] shadow-md border-neutral-100 bg-neutral-100"
           selected={selectedStart}
           onChange={(date) => {
             if (date) {
@@ -85,7 +85,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
           </p>
         )} */}
         <DatePicker
-          className="w-[20rem] lg:w-[8.25rem] rounded-lg border-[0.5px] py-[0.5rem] border-neutral-100 bg-neutral-100 shadow-md"
+          className="w-[20rem] lg:w-[8.25rem] px-[0.5rem] rounded-lg border-[0.5px] py-[0.5rem] border-neutral-100 bg-neutral-100 shadow-md"
           selected={selectedEnd}
           onChange={(date) => {
             if (date) {

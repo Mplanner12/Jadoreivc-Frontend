@@ -1,15 +1,21 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { CSSProperties, useState } from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/src/lib/utils";
+import ClipLoader from "react-spinners/ClipLoader";
+
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+};
 
 const Page = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [selectedRole, setSelectedRole] = useState<any>("TOURIST"); // For conditional rendering
+  const [selectedRole, setSelectedRole] = useState<any>("TOURIST");
 
   const router = useRouter();
 
@@ -207,12 +213,25 @@ const Page = () => {
                 <p className="text-red-500 text-sm mt-1">{errorMessage}</p>
               )}
               <div className={`w-full h-full mt-[1.2rem]`}>
-                <input
+                <button
                   disabled={isSubmitting}
                   type="submit"
-                  value="LOGIN"
+                  // value="LOGIN"
                   className="w-full h-full p-[0.75rem] font-[500] text-[1.1rem] text-center bg-orange-400 rounded-full text-white"
-                />
+                >
+                  {isSubmitting ? (
+                    <ClipLoader
+                      cssOverride={override}
+                      color="green"
+                      loading={isSubmitting}
+                      size={25}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  ) : (
+                    "LOGIN"
+                  )}
+                </button>
                 <div className="mt-[1.9rem] flex justify-center items-center">
                   <Link href={"/signUp"}>
                     <p className="text-[0.75rem]">

@@ -1,53 +1,72 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { FaInfoCircle } from "react-icons/fa";
 import axiosInstance from "@/src/lib/utils";
+import LoadingScreen from "../../Components/Loader";
+import ClipLoader from "react-spinners/ClipLoader";
 
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+};
 declare global {
   interface Window {
     paypal: any; // Or a more specific type if available
   }
 }
-// type CheckoutSummaryProps = {
-//   summary: {
-//     location: string;
-//     startDate: string;
-//     endDate: string;
-//     adults: number;
-//     children: number;
-//     infants: number;
-//     pets: number;
-//     tourGuide: string;
-//     tripCost: number;
-//     tax: number;
-//     duration: string;
-//     totalCost: number;
-//   };
-// };
+
+interface planTour {
+  id: string;
+  startDate: string;
+  endDate: string;
+  location: string;
+  selectedLocal: string;
+  adults: number;
+  children: number;
+  infants: number;
+  pets: number;
+  guidePreference: number;
+  paymentStatus: string;
+}
+
+const postMessage = (message: string) => {
+  if (typeof window !== "undefined") {
+    window.parent.postMessage(message, serverUrl);
+  }
+};
+
+// const serverUrl = "http://localhost:5000";
+const serverUrl = "https://jadoreivc-backend.vercel.app";
+
+const initialOptions = {
+  clientId:
+    "AVwQU-8TNph39dbHeSzGGM1lCJo7rqHu4kL1leL30Mc_8dlluT6zxeTkAx5Lt3f6alAtcch2rAoa2T6d",
+  currency: "USD",
+  intent: "capture",
+};
 
 const Page = ({ params }: { params: { id: string } }) => {
   const tourPlanId = params.id;
   const [tourPlan, setTourPlan] = useState<any>();
   const [loading, setLoading] = useState(false);
 
+  const fetchTourPlan = async () => {
+    // console.log(tourPlanId);
+    setLoading(true);
+    try {
+      const response = await axiosInstance.get(
+        `/api/plans/tourPlanById/${tourPlanId}`
+      );
+      setTourPlan(response.data.tourPlan);
+      // console.log(response.data.tourPlan);
+    } catch (error) {
+      console.error("Error fetching tour plan:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchTourPlan = async () => {
-      console.log(tourPlanId);
-      setLoading(true);
-      try {
-        const response = await axiosInstance.get(
-          `/api/plans/tourPlanById/${tourPlanId}`
-        );
-        setTourPlan(response.data.tourPlan);
-        console.log(response.data.tourPlan);
-      } catch (error) {
-        console.error("Error fetching tour plan:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchTourPlan();
   }, [params]);
 
@@ -64,15 +83,54 @@ const Page = ({ params }: { params: { id: string } }) => {
     addPayPalScript();
   }, []);
 
-  //   useEffect(() => {
-  //     setLoading(true);
-  //     const planData = localStorage.getItem("currentTourPlan");
-  //     console.log(planData);
-  //     if (planData) {
-  //       setTourPlan(JSON.parse(planData));
-  //     }
-  //     setLoading(false);
-  //   }, []);
+  const startTimestamp = tourPlan?.startDate
+    ? new Date(tourPlan.startDate).getTime()
+    : 0;
+  const endTimestamp = tourPlan?.endDate
+    ? new Date(tourPlan.endDate).getTime()
+    : 0;
+  const durationInMilliseconds = endTimestamp - startTimestamp;
+  const durationInDays = Math.round(
+    durationInMilliseconds / (1000 * 60 * 60 * 24)
+  );
+  const noOfHours = durationInDays * 8;
+  const adultCost = tourPlan?.guidePreference * noOfHours;
+  const childCost = tourPlan?.guidePreference * noOfHours * 0.6;
+  const InfantCost = tourPlan?.guidePreference * noOfHours * 0.2;
+  const PetCost = tourPlan?.guidePreference * noOfHours * 0.15;
+  const totalCost = adultCost + childCost + InfantCost + PetCost;
+
+  // console.log(tourPlan.paymentStatus);
+  let [paymentStatus, setPaymentStatus] = useState<any>(
+    `${tourPlan?.paymentStatus}`
+  );
+  const [transactionDetails, setTransactionDetails] = useState<any>(null);
+
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.origin === serverUrl) {
+        // Replace with your actual server URL
+        try {
+          const message = JSON.parse(event.data); // Assuming you send JSON
+          console.log("Message received:", message);
+
+          if (message.status === "success" && message.transaction) {
+            setPaymentStatus("success");
+            setTransactionDetails(message.transaction);
+          } else if (message.status === "error") {
+            setPaymentStatus("error");
+            console.error("Payment error:", message.error);
+          }
+        } catch (error) {
+          console.error("Error parsing message:", error);
+        }
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, []);
+
   return (
     <div className="bg-white w-full h-full md:w-fit flex flex-col justify-start mx-auto items-center p-4">
       <h2 className="text-[2.35rem] text-center font-bold text-gray-800 mb--2">
@@ -80,9 +138,7 @@ const Page = ({ params }: { params: { id: string } }) => {
       </h2>
       {loading ? (
         <div className="flex justify-center items-center h-screen">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
+          <LoadingScreen />
         </div>
       ) : (
         tourPlan && ( // Removed extra curly braces and parentheses
@@ -91,10 +147,14 @@ const Page = ({ params }: { params: { id: string } }) => {
               <div className="flex items-center gap-2 mb-3">
                 <FaInfoCircle className="w-5 h-5 text-yellow-400" />
                 <p className="text-lg font-semibold text-yellow-800">
-                  Fee Breakdown
+                  Fees & Time allocation Breakdown
                 </p>
               </div>
               <ul className="list-disc list-inside space-y-2">
+                <li className="text-base text-gray-700 font-semibold">
+                  {/* <span className="font-semibold">Child:</span> 60% of Adult Fee */}
+                  8 hous per Day
+                </li>
                 <li className="text-base text-gray-700">
                   <span className="font-semibold">Child:</span> 60% of Adult Fee
                   per hour
@@ -110,13 +170,24 @@ const Page = ({ params }: { params: { id: string } }) => {
               </ul>
             </div>
 
-            <div className="w-full bg-white shadow-md rounded-2xl p-[2rem] mt-[1.25rem] mb-[2.35rem] border-[0.5px] border-gray-400">
+            <div className="w-full bg-white shadow-lg rounded-2xl p-[2rem] mt-[1.25rem] mb-[2.35rem] border-[0.5px] border-gray-400">
+              <p className="w-full text-center text-[1.35rem] mb-4 text-teal-900 font-semibold">
+                <span className="font-normal">Payment Status:</span>{" "}
+                {tourPlan?.paymentStatus}
+              </p>
+
               <div className="w-full grid gap-1 mb-4">
                 <h1 className="w-full font-bold text-gray-800 mb-1">Summary</h1>
                 <div className="w-full flex justify-between items-center mb-2">
                   <p className="font-light text-teal-800">Location</p>
                   <p className="font-semibold text-teal-900">
                     {tourPlan?.location}
+                  </p>
+                </div>
+                <div className="w-full flex justify-between items-center mb-2">
+                  <p className="font-light text-teal-800">Selected Guide</p>
+                  <p className="font-semibold text-teal-900">
+                    {tourPlan?.selectedLocal}
                   </p>
                 </div>
                 <div className="w-full flex justify-between items-center mb-2">
@@ -134,8 +205,8 @@ const Page = ({ params }: { params: { id: string } }) => {
                 <div className="w-full flex justify-between items-center mb-2">
                   <p className="font-light text-teal-800">End Date</p>
                   <p className="font-semibold text-teal-900">
-                    {tourPlan.startDate &&
-                      new Date(tourPlan.startDate).toLocaleDateString("en-US", {
+                    {tourPlan.endDate &&
+                      new Date(tourPlan.endDate).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
@@ -160,6 +231,12 @@ const Page = ({ params }: { params: { id: string } }) => {
                     {tourPlan?.infants}
                   </p>
                 </div>
+                <div className="w-full flex justify-between items-center mb-2">
+                  <p className="font-light text-teal-800">Pets</p>
+                  <p className="font-semibold text-teal-900">
+                    {tourPlan?.pets}
+                  </p>
+                </div>
               </div>
               <div className="font-semibold text-gray-800 mb-[2rem]">
                 <h1 className="w-full font-bold text-gray-800 mb-1">
@@ -167,73 +244,180 @@ const Page = ({ params }: { params: { id: string } }) => {
                 </h1>
                 {/* <p>Trip: ${tourPlan.tripCost} USD</p> */}
                 {/* <p>Tax: ${tourPlan.tax} USD</p> */}
-                {/* <p>Duration: {tourPlan.duration}</p> */}
+                <div className="w-full flex justify-between items-center mb-2">
+                  <p className="font-light text-teal-800">Duration</p>
+                  <p className="font-semibold text-teal-900">
+                    {durationInDays} Days
+                  </p>
+                </div>
+                <div className="w-full flex justify-between items-center mb-2">
+                  <p className="font-light text-teal-800">Total Cost</p>
+                  <p className="font-semibold text-teal-900">${totalCost}</p>
+                </div>
                 {/* <p className="text-xl">Total: ${tourPlan.totalCost} USD</p> */}
               </div>
-              <PayPalScriptProvider
-                options={{
-                  clientId:
-                    "AVwQU-8TNph39dbHeSzGGM1lCJo7rqHu4kL1leL30Mc_8dlluT6zxeTkAx5Lt3f6alAtcch2rAoa2T6d",
-                }}
-              >
-                <PayPalButtons
-                  createOrder={(data, actions) => {
-                    return actions.order.create({
-                      intent: "CAPTURE", // or "AUTHORIZE" depending on your needs
-                      purchase_units: [
-                        {
-                          amount: {
-                            // Add currency_code here
-                            currency_code: "USD", // Specify the currency
-                            value: tourPlan.totalCost.toString(), // Convert to string
-                          },
-                        },
-                      ],
-                    });
-                  }}
-                  onApprove={(data, actions) => {
-                    // Check if actions.order is defined
-                    if (actions.order) {
-                      return actions.order.capture().then((details) => {
-                        // Handle the capture response
-                        console.log(details);
-                        // Redirect to a success page or display a success message
-                      });
-                    } else {
-                      // Handle the case where actions.order is undefined
-                      console.error("Error: actions.order is undefined");
-                      // Return a rejected promise to maintain consistent return type
-                      return Promise.reject(
-                        new Error("actions.order is undefined")
-                      );
-                    }
-                  }}
-                />
+              <PayPalScriptProvider options={initialOptions}>
+                {loading ? (
+                  <div className="w-full h-full flex justify-center gap-x-[0.5rem] items-center">
+                    Loading
+                    <ClipLoader
+                      cssOverride={override}
+                      color="green"
+                      loading={loading}
+                      size={25}
+                      aria-label="Loading Spinner"
+                      data-testid="loader"
+                    />
+                  </div>
+                ) : !loading && tourPlan?.paymentStatus === "PENDING" ? (
+                  <div>
+                    <PayPalButtons
+                      createOrder={async () => {
+                        try {
+                          const response = await fetch(
+                            `${serverUrl}/api/orders`,
+                            {
+                              method: "POST",
+                              headers: {
+                                "Content-Type": "application/json",
+                              },
+                              // use the "body" param to optionally pass additional order information
+                              // like product ids and quantities
+                              body: JSON.stringify({
+                                tourism: [
+                                  {
+                                    description: "Your Tour Guide cost",
+                                    cost: totalCost,
+                                    id: tourPlanId,
+                                  },
+                                ],
+                              }),
+                            }
+                          );
+
+                          const orderData = await response.json();
+
+                          if (orderData.id) {
+                            return orderData.id;
+                          } else {
+                            const errorDetail = orderData?.details?.[0];
+                            const errorMessage = errorDetail
+                              ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
+                              : JSON.stringify(orderData);
+
+                            throw new Error(errorMessage);
+                          }
+                        } catch (error) {
+                          console.error(error);
+                          postMessage(
+                            `Could not initiate PayPal Checkout...${error}`
+                          );
+                        }
+                      }}
+                      onApprove={async (data, actions) => {
+                        let intervalId: number | undefined;
+
+                        try {
+                          intervalId = window.setInterval(fetchTourPlan, 5000);
+                          const response = await fetch(
+                            `${serverUrl}/api/orders/${data.orderID}/capture`,
+                            {
+                              method: "POST",
+                              headers: {
+                                "Content-Type": "application/json",
+                              },
+                              body: JSON.stringify({
+                                tourPlanId: tourPlanId,
+                              }),
+                            }
+                          );
+
+                          const orderData = await response.json();
+                          const errorDetail = orderData?.details?.[0];
+
+                          if (errorDetail?.issue === "INSTRUMENT_DECLINED") {
+                            // (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+                            return actions.restart();
+                          } else if (errorDetail) {
+                            // (2) Other non-recoverable errors -> Show a failure message
+                            throw new Error(
+                              `${errorDetail.description} (${orderData.debug_id})`
+                            );
+                          } else {
+                            // (3) Successful transaction -> Show confirmation or thank you message
+
+                            const transactionId = orderData.transaction?.id;
+
+                            if (transactionId) {
+                              postMessage(
+                                `Transaction successful: ${transactionId}. Thank you! Your tour Guide has been booked!`
+                              );
+                              paymentStatus = "success";
+                              setPaymentStatus("success");
+                              setTransactionDetails({ id: transactionId });
+                              console.log("Capture result", orderData);
+                            } else {
+                              console.error(
+                                "Unexpected orderData structure:",
+                                orderData
+                              );
+                              // Handle the unexpected data structure, maybe show a user-friendly error
+                            }
+                          }
+                          if (intervalId !== undefined) {
+                            clearInterval(intervalId);
+                          }
+                        } catch (error) {
+                          if (intervalId !== undefined) {
+                            clearInterval(intervalId);
+                          }
+                          console.error(error);
+                          paymentStatus = "error";
+                          setPaymentStatus("error");
+                          setTransactionDetails(`Sorry, `);
+                          postMessage(
+                            `Sorry, your transaction could not be processed...${error}`
+                          );
+                        }
+                      }}
+                    />
+                  </div>
+                ) : !loading && tourPlan?.paymentStatus === "COMPLETED" ? (
+                  <div
+                    className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+                    role="alert"
+                  >
+                    <strong className="font-bold">Success!</strong>
+                    <span className="block sm:inline">
+                      {" "}
+                      Your payment was successful, Your tour Guide has been
+                      booked!
+                    </span>
+                    {transactionDetails && (
+                      <ul>
+                        <li>Transaction ID: {transactionDetails.id}</li>
+                        {/* ... display other transaction details ... */}
+                      </ul>
+                    )}
+                  </div>
+                ) : !loading && tourPlan?.paymentStatus === "FAILED" ? (
+                  <div
+                    className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                    role="alert"
+                  >
+                    <strong className="font-bold">Error!</strong>
+                    <span className="block sm:inline">
+                      {" "}
+                      There was an error processing your payment. Please try
+                      again.{" "}
+                    </span>
+                  </div>
+                ) : null}
               </PayPalScriptProvider>
             </div>
           </div>
         )
       )}
-      {/* <div className="grid gap-1 mb-4">
-        <p>Location: {tourPlan.location}</p>
-        <p>Start Date: {tourPlan.startDate}</p>
-        <p>End Date: {tourPlan.endDate}</p>
-        <p>Adults: {tourPlan.adults}</p>
-        <p>Children: {tourPlan.children}</p>
-        <p>Infants: {tourPlan.infants}</p>
-        <p>Pets: {tourPlan.pets}</p>
-        <p>Tour Guide: {tourPlan.tourGuide}</p>
-      </div>
-      <div className="font-semibold text-gray-800">
-        <p>Price Details</p>
-        <p>Trip: ${tourPlan.tripCost} USD</p>
-        <p>Tax: ${tourPlan.tax} USD</p>
-        <p>Duration: {tourPlan.duration}</p>
-        <p className="text-xl">Total: ${tourPlan.totalCost} USD</p>
-      </div>
-      <button className="w-full bg-orange-500 text-white rounded-lg py-2 mt-4 hover:bg-orange-600">
-        PAY WITH PAYPAL
-      </button> */}
     </div>
   );
 };
