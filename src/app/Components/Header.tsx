@@ -66,7 +66,7 @@ const Header = () => {
   return (
     <div className="w-full h-full flex flex-col md:flex-row justify-center items-center pb-[0.75rem] pt-[1rem] lg:pb-0 lg:pt-0 border-b-[2px] md:border-0">
       <div className="w-full flex justify-between md:py-[1.5rem] md:px-[3.85rem] md:pr-[4.5rem] md:border-b-[2px]">
-        <div className="w-fit gap-x-[1.75rem] flex items-center md:pl-[0rem] relative left-[-1.3rem] lg:left-[-0.8rem] lg:pl-[0.25rem]">
+        <div className="w-fit gap-x-[1.75rem] flex items-center md:pl-[0rem] relative left-[-0.65rem] lg:left-[-0.8rem] lg:pl-[0.25rem]">
           <div className="w-fit h-full flex justify-start items-center">
             <Link
               id="logo"
@@ -125,11 +125,11 @@ const Header = () => {
           </div>
           <div
             id="language"
-            className="flex mr-[1rem] lg:mr-0 justify-center items-center"
+            className="flex ml-[0.75rem] lg:mr-0 justify-center items-center"
           >
             <Dropdown />
           </div>
-          <div className="w-full h-full flex justify-start items-center gap-x-[2.75rem]">
+          <div className="w-full h-full flex justify-start items-center gap-x-[1.5rem] px-[0.75rem] lg:px-0 lg:gap-x-[2.75rem]">
             <div className="w-full h-full flex flex-col justify-center items-center cursor-pointer">
               {loading ? (
                 <ClipLoader
