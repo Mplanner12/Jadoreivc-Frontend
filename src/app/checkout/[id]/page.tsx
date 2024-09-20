@@ -36,8 +36,8 @@ const postMessage = (message: string) => {
   }
 };
 
-// const serverUrl = "http://localhost:5000";
-const serverUrl = "https://jadoreivc-backend.vercel.app";
+const serverUrl = "http://localhost:5000";
+// const serverUrl = "https://jadoreivc-backend.vercel.app";
 
 const initialOptions = {
   clientId:
