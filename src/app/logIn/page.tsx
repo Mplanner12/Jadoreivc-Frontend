@@ -43,9 +43,9 @@ const Page = () => {
       let userRole = localStorage.getItem("userRole"); // Getting the value from local storage
       console.log(userRole);
 
-      if (data.success === true) {
-        window.location.href = "/";
-      }
+      // if (data.success === true) {
+      //   window.location.href = "/";
+      // }
     } catch (error: any) {
       if (error?.response && error?.response.data) {
         setErrorMessage(error.response.data.message);
