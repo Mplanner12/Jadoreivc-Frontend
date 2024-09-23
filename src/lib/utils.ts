@@ -8,8 +8,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5000",
-  // baseURL: "https://jadoreivc-backend.vercel.app",
+  // baseURL: "http://localhost:5000",
+  baseURL: "https://jadoreivc-backend.vercel.app",
   withCredentials: true,
 });
 // const axiosInstance = axios.create({
@@ -25,22 +25,24 @@ export const getUser = () => {
 };
 // Function to get the initial value from localStorage
 export const getInitialSelectedGuide = () => {
-  if (typeof window !== 'undefined') {
-    return localStorage.getItem('GuideId');
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("GuideId");
   }
   return null;
 };
 
 // Custom hook to manage the selected guide and localStorage synchronization
 export const useSelectedGuide = () => {
-  const [selectedGuide, setSelectedGuide] = useState<string | null>(getInitialSelectedGuide());
+  const [selectedGuide, setSelectedGuide] = useState<string | null>(
+    getInitialSelectedGuide()
+  );
 
   // Update localStorage whenever selectedGuide changes
   useEffect(() => {
     if (selectedGuide !== null) {
-      localStorage.setItem('GuideId', selectedGuide);
+      localStorage.setItem("GuideId", selectedGuide);
     } else {
-      localStorage.removeItem('GuideId');
+      localStorage.removeItem("GuideId");
     }
   }, [selectedGuide]);
 
