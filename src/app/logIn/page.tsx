@@ -40,12 +40,12 @@ const Page = () => {
         userType,
       });
       localStorage.setItem("userRole", selectedRole);
-      let userRole = localStorage.getItem("userRole"); // Getting the value from local storage
+      localStorage.setItem("user", data.user);
+      let userRole = localStorage.getItem("userRole");
       console.log(userRole);
-
-      // if (data.success === true) {
-      //   window.location.href = "/";
-      // }
+      if (data.success === true) {
+        window.location.href = "/";
+      }
     } catch (error: any) {
       if (error?.response && error?.response.data) {
         setErrorMessage(error.response.data.message);

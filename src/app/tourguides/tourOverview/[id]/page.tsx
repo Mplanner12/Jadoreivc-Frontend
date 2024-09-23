@@ -16,6 +16,7 @@ import LoadingScreen from "@/src/app/Components/Loader";
 import { UserContext } from "@/src/app/context/UserContex";
 import { AiFillSchedule } from "react-icons/ai";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { useSelectedGuide } from "@/src/lib/utils";
 
 const override: CSSProperties = {
   display: "block",
@@ -23,6 +24,10 @@ const override: CSSProperties = {
 };
 
 const Page = ({ params }: { params: { id: string } }) => {
+  // useEffect(() => {
+
+  // }, []);
+  const [selectedGuide, setSelectedGuide] = useSelectedGuide();
   const { user, setUser, role } = useContext(UserContext);
   const tourGuideId = params.id; // Access the ID from the URL
   const { fetchTourGuideById, tourGuide, loading, setTourGuide } =
@@ -45,6 +50,8 @@ const Page = ({ params }: { params: { id: string } }) => {
     // Clear the timeout if tourGuide is fetched successfully
     return () => clearTimeout(timeout);
   }, [tourGuideId]); // Only re-run the effect when tourGuideId changes
+
+  let tourGuideID = tourGuide?.id;
 
   if (tourGuide) {
     return (
@@ -187,7 +194,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                         </div>
                       </div>
                     </div>
-                    <div className="border-[1px] bg-slate-100 border-emerald-600 rounded-3xl box-border w-full md:w-fit flex flex-col justify-center items-center md:mt-[1.75rem] pb-[5.5rem] md:px-[2rem]">
+                    <div className="border-[1px]  shadow-lg bg-slate-100 border-emerald-600 rounded-3xl box-border w-full md:w-fit flex flex-col justify-center items-center md:mt-[1.75rem] pb-[5.5rem] md:px-[2rem]">
                       <div className="w-full flex justify-center items-center p-[2rem] md:px-[0.5rem]">
                         <div className="w-full flex justify-center items-center border-b-[2px] pb-[2rem]">
                           <div className="box-border w-full flex justify-start items-center text-[1.15rem] font-semibold">
@@ -224,20 +231,44 @@ const Page = ({ params }: { params: { id: string } }) => {
                             speedMultiplier={1}
                           />
                         ) : (
-                          <div className="w-full h-full flex justify-center items-center">
+                          <div className="w-full h-full flex flex-col justify-start gap-y-[1.2rem] items-center">
                             {user ? (
-                              <Link
-                                href={`/planTour/${user.id}`}
-                                className="w-full flex justify-center items-center rounded-xl border border-emerald-600 shadow-sm"
+                              <button
+                                onClick={() => {
+                                  // Update selectedGuide state along with localStorage
+                                  if (selectedGuide === tourGuide.id) {
+                                    setSelectedGuide(null); // Clear selection
+                                    localStorage.removeItem("GuideId");
+                                    console.log(
+                                      "Guide removed from localStorage"
+                                    );
+                                  } else {
+                                    setSelectedGuide(tourGuide.id); // Set selection
+                                    localStorage.setItem(
+                                      "GuideId",
+                                      tourGuide.id
+                                    );
+                                    console.log(
+                                      `Guide added to localStorage: ${tourGuide.id}`
+                                    );
+                                  }
+                                }}
+                                className="bg-slate-50 w-[16rem] flex justify-center shadow-md p-[0.65rem] font-semibold text-emerald-500 items-center rounded-3xl border border-emerald-400"
                               >
-                                <p className="w-[8rem]">Book now</p>
-                                <AiFillSchedule
-                                  size={40}
-                                  className="text-emerald-600"
-                                />
-                              </Link>
+                                {selectedGuide === tourGuide.id
+                                  ? "Booked"
+                                  : "Book Me"}
+                              </button>
                             ) : (
                               <span>&nbsp;</span>
+                            )}
+                            {user && selectedGuide === tourGuideID && (
+                              <Link
+                                href={`/planTour/${user.id}`}
+                                className="w-[16rem] h-[3rem] flex justify-center items-center shadow-lg p-[0.75rem] px-[2.85rem] md:px-[3rem] font-[500] text-[1.3rem] text-center bg-orange-400 rounded-full text-white"
+                              >
+                                Plan Tour
+                              </Link>
                             )}
                           </div>
                         )}

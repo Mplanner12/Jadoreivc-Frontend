@@ -130,7 +130,7 @@ const Page = () => {
             <div className="flex justify-center items-center">
               <button
                 onClick={() => setSelectedFilter("")}
-                className="w-fit md:w-fit h-fit md:h-[4rem] py-[1.3rem] p-[1.85rem] uppercase font-[500] text-emerald-600 bg-slate-50 rounded-full active:bg-emerald-600 outline-none active:text-white text-[0.85rem] border-[1px] border-emerald-600 hover:bg-emerald-600 hover:text-white mb-4"
+                className="w-fit md:w-fit h-fit md:h-[4rem] py-[1.3rem] shadow-lg p-[1.85rem] uppercase font-[500] text-emerald-600 bg-slate-50 rounded-full active:bg-emerald-600 outline-none active:text-white text-[0.85rem] border-[1px] border-emerald-600 hover:bg-emerald-600 hover:text-white mb-4"
               >
                 Clear Filters
               </button>
@@ -141,7 +141,7 @@ const Page = () => {
                   <CarouselItem
                     key={button}
                     id="carouselBtn"
-                    className="w-full h-fit basis-[23%] md:basis-[15%]"
+                    className="w-full  h-fit basis-[23%] md:basis-[15%]"
                   >
                     <div className="">
                       <Card className="w-full h-fit flex justify-center items-center">
@@ -149,7 +149,7 @@ const Page = () => {
                           <div className="w-fit md:w-full h-[5rem] mb-[0.25rem] flex flex-col justify-center items-center rounded-md gap-y-.25">
                             <button
                               onClick={() => setSelectedFilter(button)}
-                              className="w-fit md:w-full h-fit md:h-[4rem] py-[0.65rem] p-[1.85rem] uppercase font-[500] text-emerald-600 bg-slate-50 rounded-full active:bg-emerald-600 outline-none active:text-white text-[0.85rem] border-[1px] border-emerald-600 hover:bg-emerald-600 hover:text-white"
+                              className="w-fit md:w-full h-fit md:h-[4rem] shadow-lg py-[0.65rem] p-[1.85rem] uppercase font-[500] text-emerald-600 bg-slate-50 rounded-full active:bg-emerald-600 outline-none active:text-white text-[0.85rem] border-[1px] border-emerald-600 hover:bg-emerald-600 hover:text-white"
                             >
                               {button}
                             </button>

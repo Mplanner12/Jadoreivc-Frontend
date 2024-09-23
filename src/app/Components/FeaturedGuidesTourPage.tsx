@@ -11,6 +11,7 @@ import { TourGuideContext } from "../context/tourGuideContext";
 import { useContext } from "react";
 import GridSkeletonLoader from "./GridSkeleton";
 import PacmanLoader from "react-spinners/PacmanLoader";
+import { useSelectedGuide } from "@/src/lib/utils";
 
 // TourGuide.ts
 interface TourGuide {
@@ -63,6 +64,7 @@ const FeaturedGuidesTourPage: React.FC<FeaturedGuidesProps> = ({
 }: // location, // Remove location prop
 // tourGuideName, // Remove tourGuideName prop
 FeaturedGuidesProps) => {
+  const [selectedGuide, setSelectedGuide] = useSelectedGuide();
   const { tourGuides, loading } = useContext(TourGuideContext);
 
   // Prioritize the 'guides' prop if it's provided
@@ -97,7 +99,7 @@ FeaturedGuidesProps) => {
           <div className="md:gap-x-6 md:h-fit w-full h-fit flex flex-col justify-center md:grid md:grid-cols-4 items-center ">
             {guidesToDisplay?.slice(0, guideCount).map((guide) => (
               <Link
-                className="w-full h-full px-[1.25rem] mb-[1.85rem]"
+                className="w-full h-full px-[1.25rem] mb-[1.85rem] shadow-lg rounded-lg"
                 key={guide.user.id}
                 // key={index}
                 href={`/tourguides/tourOverview/${guide.id}`}
@@ -105,14 +107,14 @@ FeaturedGuidesProps) => {
                 <div
                   style={{ backgroundImage: `url(${guide.user.image})` }}
                   id="offerRange"
-                  className="w-full bg-cover h-[15rem] p-[0.65rem] px-[1.15rem] bg-white rounded-2xl text-emerald-600 flex justify-end pr-[1.2rem] pt-[0.75rem]"
+                  className="w-full bg-cover h-[15rem] p-[0.65rem] px-[1.15rem] bg-white shadow-lg rounded-2xl text-emerald-600 flex justify-end pr-[1.2rem] pt-[0.75rem]"
                 >
-                  <p className="h-fit py-[0.6rem] px-[0.75rem] rounded-full bg-white mt-1">
+                  <p className="h-fit py-[0.6rem] px-[0.75rem] rounded-full shadow-lg bg-white mt-1">
                     ${guide.offerRange}/hr
                   </p>
                 </div>
-                <div className="w-full mt-[0.35rem] mb-[0.25rem] flex flex-col justify-center h-full">
-                  <div className="w-full h-full flex flex-col md:justify-start md:gap-y-[0.85rem] justify-between items-start">
+                <div className="w-full mt-[0.35rem] mb-[0.25rem] flex flex-col justify-start h-full">
+                  <div className="w-full h-full flex flex-col md:justify-start md:gap-y-[0.85rem] justify-start items-start">
                     <div className="w-full flex justify-between items-center h-fit pb-[0.5rem] gap-y-[0.25rem] text-teal-950 tracking-wide">
                       <div className="flex flex-col justify-start items-center">
                         <div className="w-full pl-[0.25rem] text-[1rem] text-start text-blue-950 font-semibold">
@@ -160,6 +162,27 @@ FeaturedGuidesProps) => {
                         {/* {guide.noofreviews} */}
                       </div>
                     </div>
+                    <button
+                      onClick={() => {
+                        if (
+                          selectedGuide === guide.user.fullName.split(" ")[0]
+                        ) {
+                          localStorage.removeItem("GuideId");
+                          console.log("Guide removed from localStorage");
+                        } else {
+                          localStorage.setItem(
+                            "GuideId",
+                            guide.user.fullName.split(" ")[0]
+                          );
+                          console.log("Guide added to localStorage");
+                        }
+                      }}
+                      className="bg-slate-50 w-full flex justify-center shadow-md p-[0.65rem] font-semibold text-emerald-500 items-center rounded-3xl border border-emerald-400"
+                    >
+                      {selectedGuide === guide.user.fullName.split(" ")[0]
+                        ? "Booked"
+                        : "Book Me"}
+                    </button>
                   </div>
                   {/* <div className="w-fit flex justify-start text-[0.75rem] italic font-[500] text-slate-900">
                     {guide.aboutMe}

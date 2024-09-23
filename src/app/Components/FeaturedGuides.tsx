@@ -96,11 +96,11 @@ const FeaturedGuides = ({
         <div className="block">
           <div className="md:gap-x-6 md:h-fit w-full h-fit flex flex-col justify-center md:grid md:grid-cols-4 items-center ">
             {tourGuides?.slice(0, guideCount).map((guide) => (
-              <Link
-                className="w-full h-full px-[1.25rem] mb-[1.85rem]"
+              <div
+                className="w-full h-full shadow-lg rounded-xl px-[1.25rem] mb-[1.85rem]"
                 key={guide.user.id}
                 // key={index}
-                href={`/tourguides/tourOverview/${guide.id}`}
+                // href={`/tourguides/tourOverview/${guide.id}`}
               >
                 <div
                   style={{ backgroundImage: `url(${guide.user.image})` }}
@@ -165,7 +165,7 @@ const FeaturedGuides = ({
                     {guide.aboutMe}
                   </div> */}
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </div>

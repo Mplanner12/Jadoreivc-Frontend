@@ -20,7 +20,8 @@ interface UserPopUpProps {
   // onSwitchToTourGuide: () => void;
   // onSwitchToTourist: () => void;
   onLogout: () => void;
-  user: User;
+  user: any;
+  // user: User;
 }
 
 const UserPopUp: React.FC<UserPopUpProps> = ({
@@ -108,8 +109,6 @@ const UserPopUp: React.FC<UserPopUpProps> = ({
 };
 
 export default UserPopUp;
-
-
 
 {
   /* <p className="font-semibold mb-2">{fullName}</p> */

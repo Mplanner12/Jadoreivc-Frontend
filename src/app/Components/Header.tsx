@@ -10,7 +10,7 @@ import { UserContext } from "../context/UserContex";
 import DotLoader from "react-spinners/DotLoader";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import axiosInstance, { getUserRole } from "@/src/lib/utils";
+import axiosInstance, { getUserRole, getUser } from "@/src/lib/utils";
 import { motion } from "framer-motion"; // Import motion
 import { IoNotifications } from "react-icons/io5";
 import { BiSolidUser } from "react-icons/bi";
@@ -222,7 +222,7 @@ const Header = () => {
                     <Link href={`/planTour/${user.id}`}>
                       <button
                         type="submit"
-                        className="w-full flex justify-start items-center gap-x-[0.5rem] uppercase py-[1.3rem] px-[0.85rem] text-center font-light text-[1.rem] text-white rounded-full bg-orange-400 hover:bg-emerald-600 hover:text-white"
+                        className="w-full shadow-lg flex justify-start items-center gap-x-[0.5rem] uppercase py-[1.3rem] px-[0.85rem] text-center font-light text-[1.rem] text-white rounded-full bg-orange-400 hover:bg-emerald-600 hover:text-white"
                       >
                         <PiPencilLineLight
                           size={30}
@@ -242,7 +242,7 @@ const Header = () => {
                 <Link href={`/planTour/${null}`}>
                   <button
                     type="submit"
-                    className="w-full flex justify-start items-center gap-x-[0.5rem] uppercase py-[1.3rem] px-[0.85rem] text-center font-light text-[1.rem] text-white rounded-full bg-orange-400 hover:bg-emerald-600 hover:text-white"
+                    className="w-full flex shadow-lg justify-start items-center gap-x-[0.5rem] uppercase py-[1.3rem] px-[0.85rem] text-center font-light text-[1.rem] text-white rounded-full bg-orange-400 hover:bg-emerald-600 hover:text-white"
                   >
                     <PiPencilLineLight size={30} color="white" className="" />
                     <p className="uppercase md:w-[8rem] md:text-sm">

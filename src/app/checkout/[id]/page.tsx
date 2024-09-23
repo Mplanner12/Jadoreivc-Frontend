@@ -52,7 +52,6 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [loading, setLoading] = useState(false);
 
   const fetchTourPlan = async () => {
-    // console.log(tourPlanId);
     setLoading(true);
     try {
       const response = await axiosInstance.get(
@@ -68,7 +67,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   };
   useEffect(() => {
     fetchTourPlan();
-  }, [params]);
+  }, []);
 
   const addPayPalScript = () => {
     if (typeof window !== "undefined" && !window.paypal) {
@@ -185,9 +184,11 @@ const Page = ({ params }: { params: { id: string } }) => {
                   </p>
                 </div>
                 <div className="w-full flex justify-between items-center mb-2">
-                  <p className="font-light text-teal-800">Selected Guide</p>
+                  <p className="font-light text-teal-800">
+                    Selected Guide rate
+                  </p>
                   <p className="font-semibold text-teal-900">
-                    {tourPlan?.selectedLocal}
+                    ${tourPlan?.guidePreference}/hr
                   </p>
                 </div>
                 <div className="w-full flex justify-between items-center mb-2">

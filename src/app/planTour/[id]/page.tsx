@@ -11,10 +11,11 @@ import React, {
 import DateRangePicker from "../../Components/DateRangePicker";
 import { usePlannedTours } from "../../context/tourPlanContext";
 import { useRouter } from "next/navigation";
-import axiosInstance, { getUserRole } from "@/src/lib/utils";
+import axiosInstance, { getUserRole, useSelectedGuide } from "@/src/lib/utils";
 import LoadingScreen from "../../Components/Loader";
 import { UserContext } from "../../context/UserContex";
 import ClipLoader from "react-spinners/ClipLoader";
+import Link from "next/link";
 
 const override: CSSProperties = {
   display: "block",
@@ -49,17 +50,19 @@ interface TourGuide {
 }
 
 const Page = ({ params }: { params: { id: string } }) => {
-  const touristID = params.id; // Access params.id correctly
+  const [selectedGuide, setSelectedGuide] = useSelectedGuide();
+  const touristID = params.id;
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [peopleOpen, setPeopleOpen] = useState(false);
   const [selectedPersons, setSelectedPersons] = useState<number>(1);
-  // const [selectedLocals, setSelectedLocals] = useState<string[]>([]);
-  const [selectedLocal, setSelectedLocal] = useState<string | null>(null);
+  const [selectedLocal, setSelectedLocal] = useState<string | null>(
+    selectedGuide
+  );
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
-  const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  // const [tourPlans, setTourPlans] = useState<any[]>([]);
-  const [guides, setGuides] = useState<TourGuide[]>([]);
+  // const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [guideName, setGuideName] = useState<any>([]);
+  const [guidesOffer, setGuidesOffer] = useState<any>([]);
   const [submitting, setSubmitting] = useState(false);
 
   const peopleDropdownRef = useRef<HTMLUListElement>(null);
@@ -90,13 +93,20 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await axiosInstance.get("/api/tourGuides/tourGuides");
-        const data: any = response.data;
-        setGuides(data.tourGuides);
-      } catch (error) {
-        console.error("Error fetching tour guides:", error);
-        setGuides([]);
+      if (selectedGuide !== null) {
+        try {
+          const response = await axiosInstance.get(
+            `/api/tourGuides/tourGuides/${selectedGuide}`
+          );
+          const data: any = await response.data;
+          setGuidesOffer(data.tourGuide.offerRange.toString());
+          setGuideName(data.tourGuide.user.fullName.split(" ")[0]);
+          // console.log(data.tourGuide.user.fullName.split(" ")[0]);
+          // console.log(guidesOffer, guides);
+        } catch (error) {
+          console.error("Error fetching tour guides:", error);
+          // setGuides([]);
+        }
       }
     };
 
@@ -123,18 +133,9 @@ const Page = ({ params }: { params: { id: string } }) => {
   //   });
   // };
 
-  const handleLocalsSelect = (guideId: string) => {
-    setSelectedLocal((prevLocal) => {
-      const updatedLocal = prevLocal === guideId ? null : guideId;
-      // You need to return the updatedLocal from the state updater function
-      return updatedLocal;
-    });
-    // console.log("Selected Locals:", selectedLocal);
-  };
-
   useEffect(() => {
     console.log("Selected Locals:", selectedLocal);
-  }, [selectedLocal]); // Run this effect whenever selectedLocal change
+  }, []);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -242,7 +243,7 @@ const Page = ({ params }: { params: { id: string } }) => {
       children: guests.children,
       infants: guests.infants,
       pets: guests.pets,
-      guidePreference: selectedLocal,
+      guidePreference: guidesOffer,
     };
 
     try {
@@ -272,7 +273,6 @@ const Page = ({ params }: { params: { id: string } }) => {
   return (
     <Suspense fallback={<LoadingScreen />}>
       <div className="m-0 p-0 flex flex-col justify-center items-center">
-        {/* <Header /> */}
         <div className="h-full w-full">
           <img
             className="h-[20rem] md:h-[25rem] w-full"
@@ -319,7 +319,6 @@ const Page = ({ params }: { params: { id: string } }) => {
             id="datetimecont"
             className="w-full lg:w-fit h-full flex flex-col justify-start items-center px-[2rem] lg:px-[1rem] md:pr-[1rem] mb-[2rem] md:mb-[0.25rem] md:pt-[0]"
           >
-            {/* <div className="w-full pb-[1rem] flex text-start md:text-center px-[0.16rem] text-teal-900 text-[1.1rem] font-[500] justify-start md:justify-center md:ml-[-15.5rem] items-center"></div> */}
             <div className="w-full md:fit h-full flex flex-col md:flex-row justify-center items-center md:py-[0.5rem] rounded-[0.5rem] pt-[0.3rem] md:pt-[0.1rem] md:pb-0 pr-[0.5rem] mt-[1rem] md:pr-[0.5rem] pb-[0.1rem] px-[.5rem] md:px-[0.5rem]">
               <DateRangePicker
                 onStartDateChange={(date) => setStartDate((startDate) => date)} // Passing the current state is unnecessary
@@ -446,39 +445,8 @@ const Page = ({ params }: { params: { id: string } }) => {
               >
                 choose a local Guide
               </label>
-              {/* <ul
-                ref={localsDropdownRef} // Attach the reference to the dropdown
-                className="w-full mt-1 flex flex-col justify-start items-start"
-              >
-                {guides.length !== 0 &&
-                  guides.slice(0, 7).map((guide) => (
-                    <li
-                      key={guide.id}
-                      className="p-1 hover:bg-gray-200 text-teal-900 text-[1rem] cursor-pointer flex justify-start gap-x-[0.7rem] items-center"
-                      onClick={() =>
-                        handleLocalsSelect(guide.user.fullName.split(" ")[0])
-                      }
-                    >
-                      {selectedLocals.includes(
-                        guide.user.fullName.split(" ")[0]
-                      ) ? (
-                        <MdCheckBox
-                          size={31}
-                          className="text-teal-900 mr-2 border-none"
-                        />
-                      ) : (
-                        <RiCheckboxBlankLine
-                          className="text-teal-950 font-extralight rounded-[3rem] border-[0px]"
-                          size={27}
-                        />
-                      )}
-                      <p className="text-[1.1rem] text-teal-900 font-[500]">
-                        {guide.user.fullName} ${guide.offerRange}/hr
-                      </p>
-                    </li>
-                  ))}
-              </ul> */}
-              <select
+              <div className="w-full h-full flex justify-center items-center"></div>
+              {/* <select
                 className="w-full mt-1 text-teal-900 py-[0.75rem] outline-none text-[1rem] cursor-pointer border-[0.25px] border-neutral-200 bg-neutral-100 rounded px-2"
                 value={selectedLocal || ""} // Use selectedLocal directly
                 onChange={(e) => handleLocalsSelect(e.target.value)}
@@ -490,45 +458,63 @@ const Page = ({ params }: { params: { id: string } }) => {
                       {guide.user.fullName} ${guide.offerRange}/hr
                     </option>
                   ))}
-              </select>
+              </select> */}
             </div>
             {/* {} */}
-            <div className="w-full px md:w-fit h-full mt-[2rem] pb-[4rem] flex justify-center items-center">
-              <button
-                disabled={loading || submitting}
-                onClick={handlePlanTour}
-                className="uppercase w-full md:w-[24.5rem] h-[3rem] flex justify-center items-center p-[0.75rem] px-[2.85rem] md:px-[3rem] font-[500] text-[1.3rem] text-center bg-orange-400 rounded-full text-white"
+            {selectedGuide !== null ? (
+              <div className="w-full h-full flex flex-col justify-start items-center gap-y-[1.5rem">
+                <div className="w-full h-full flex flex-col items-center justify-center text-emerald-950 rounded-md p-4">
+                  <p className="font-semibold text-lg mb-2">Selected Guide</p>
+                  <p className="text-lg">
+                    {guideName} ${guidesOffer}/hr
+                  </p>
+                </div>
+
+                <div className="w-full px md:w-fit h-full mt-[2rem] pb-[4rem] flex justify-center items-center">
+                  <button
+                    disabled={loading || submitting}
+                    onClick={handlePlanTour}
+                    className="uppercase w-full md:w-[24.5rem] h-[3rem] flex justify-center items-center p-[0.75rem] px-[2.85rem] md:px-[3rem] font-[500] text-[1.3rem] text-center bg-orange-400 rounded-full text-white"
+                  >
+                    {loading ? (
+                      <ClipLoader
+                        className="w-full h-full flex justify-center items-center"
+                        cssOverride={override}
+                        color="white"
+                        loading={loading}
+                        size={25}
+                        aria-label="Loading Spinner"
+                        data-testid="loader"
+                      />
+                    ) : user && role === "TOURIST" ? (
+                      <>
+                        GO TO PAYMENT
+                        <ClipLoader
+                          className={`w-full h-full ${
+                            submitting ? "flex" : "hidden"
+                          } flex justify-center items-center`}
+                          cssOverride={override}
+                          color="green"
+                          loading={submitting}
+                          size={25}
+                          aria-label="Loading Spinner"
+                          data-testid="loader"
+                        />
+                      </>
+                    ) : (
+                      <>plan new Journey</>
+                    )}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <Link
+                href={"/tourguides"}
+                className="w-full md:w-[24.5rem] h-[3rem] flex justify-center items-center p-[0.75rem] px-[2.85rem] md:px-[3rem] font-[500] text-[1.3rem] text-center bg-orange-400 rounded-full text-white"
               >
-                {loading ? (
-                  <ClipLoader
-                    className="w-full h-full flex justify-center items-center"
-                    cssOverride={override}
-                    color="white"
-                    loading={loading}
-                    size={25}
-                    aria-label="Loading Spinner"
-                    data-testid="loader"
-                  />
-                ) : user && role === "TOURIST" ? (
-                  <>
-                    GO TO PAYMENT
-                    <ClipLoader
-                      className={`w-full h-full ${
-                        submitting ? "flex" : "hidden"
-                      } flex justify-center items-center`}
-                      cssOverride={override}
-                      color="green"
-                      loading={submitting}
-                      size={25}
-                      aria-label="Loading Spinner"
-                      data-testid="loader"
-                    />
-                  </>
-                ) : (
-                  <>plan new Journey</>
-                )}
-              </button>
-            </div>
+                Select Tour Guide
+              </Link>
+            )}
           </div>
         </div>
         {/* <Footer /> */}
