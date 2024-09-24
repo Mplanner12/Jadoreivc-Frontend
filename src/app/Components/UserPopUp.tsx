@@ -36,8 +36,10 @@ const UserPopUp: React.FC<UserPopUpProps> = ({
 }) => {
   return (
     <div
-      className={`absolute z-20 ml-[-1rem] mt-[18.75rem] gap-y-[1rem] md:ml-[1rem] ${
-        user ? "md:mt-[22.5rem]" : "md:mt-[10.75rem]"
+      className={`absolute z-20 ml-[-1rem] gap-y-[1rem] md:ml-[1rem] ${
+        user
+          ? "mt-[18.75rem] md:mt-[22.5rem]"
+          : "mt-[11.85rem] md:mt-[10.75rem]"
       } flex flex-col items-center p-[2rem] py-[0.75rem] md:py-[2rem] bg-white shadow-lg rounded-lg`}
     >
       <div className="justify-center items-center mr-1 w-full flex flex-col gap-y-2 md:gap-y-[1rem] h-full">
@@ -82,11 +84,11 @@ const UserPopUp: React.FC<UserPopUpProps> = ({
             </button>
           </>
         ) : (
-          <div id="authContainer">
+          <div className="w-[16rem]" id="authContainer">
             <Link href={"/signUp"}>
               <h1
                 // id="auth"
-                className="font-semibold text-[1.25rem]"
+                className="font-semibold w-[5rem] text-[1.25rem]"
               >
                 Sign up
               </h1>
