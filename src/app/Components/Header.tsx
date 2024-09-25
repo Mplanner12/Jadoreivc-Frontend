@@ -66,7 +66,7 @@ const Header = () => {
   return (
     <div className="w-full h-full flex flex-col md:flex-row justify-center items-center pb-[0.75rem] pt-[1rem] lg:pb-0 lg:pt-0 border-b-[2px] md:border-0">
       <div className="w-full flex justify-between md:py-[1.5rem] md:px-[3.85rem] md:pr-[4.5rem] md:border-b-[2px]">
-        <div className="w-fit gap-x-[1.75rem] flex items-center md:pl-[0rem] relative left-[-0.5rem] lg:left-[-0.8rem] lg:pl-[0.25rem]">
+        <div className="w-fit gap-x-[1.75rem] flex items-center md:pl-[0rem] relative left-[-0.45rem] lg:left-[-0.8rem] lg:pl-[0.25rem]">
           <div className="w-fit h-full flex justify-start items-center">
             <Link
               id="logo"
@@ -257,7 +257,7 @@ const Header = () => {
       </div>
       <div className="w-full h-full md:hidden mt-[0.25rem] mb-[-0.35rem] justify-start items-center">
         <motion.p
-          className="text-orange-400 font-semibold text-sm text-start pl-[0.35rem]"
+          className="text-orange-400 font-semibold text-sm text-start pl-[0.225rem]"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeInOut" }}

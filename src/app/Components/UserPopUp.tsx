@@ -84,8 +84,8 @@ const UserPopUp: React.FC<UserPopUpProps> = ({
             </button>
           </>
         ) : (
-          <div className="w-[16rem]" id="authContainer">
-            <Link href={"/signUp"}>
+          <div className="w-[16rem] md:w-fit" id="authContainer">
+            <Link className="w-fit h-full" href={"/signUp"}>
               <h1
                 // id="auth"
                 className="font-semibold w-[5rem] text-[1.25rem]"
