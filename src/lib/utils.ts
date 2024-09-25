@@ -12,10 +12,6 @@ const axiosInstance = axios.create({
   baseURL: "https://jadoreivc-backend.vercel.app",
   withCredentials: true,
 });
-// const axiosInstance = axios.create({
-//   baseURL: "/api",
-//   withCredentials: true,
-// });
 
 export const getUser = () => {
   if (typeof window !== "undefined") {
