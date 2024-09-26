@@ -66,19 +66,19 @@ const Header = () => {
   return (
     <div className="w-full h-full flex flex-col md:flex-row justify-center items-center pb-[0.75rem] pt-[1rem] lg:pb-0 lg:pt-0 border-b-[2px] md:border-0">
       <div className="w-full flex justify-between md:py-[1.5rem] md:px-[3.85rem] md:pr-[4.5rem] md:border-b-[2px]">
-        <div className="w-fit gap-x-[1.75rem] flex items-center md:pl-[0rem] relative left-[-0.45rem] lg:left-[-0.8rem] lg:pl-[0.25rem]">
+        <div className="w-fit gap-x-[1.75rem] flex items-center md:pl-[0rem] relative left-[-0.45rem] lg:left-[-3rem] xl:left-[-2.5rem] lg:pl-[0.25rem]">
           <div className="w-fit h-full flex justify-start items-center">
             <Link
               id="logo"
               href={"/"}
-              className="text-emerald-600 font-semibold text-3xl"
+              className="text-emerald-600 font-semibold text-3xl lg:text-[1.5rem] xl:text-3xl"
             >
               J’ADOREIVC
             </Link>
           </div>
           <div className="hidden w-full h-full md:flex justify-start items-center">
             <motion.p
-              className="text-orange-400 font-semibold md:text-lg"
+              className="text-orange-400 font-semibold md:text-lg lg:text-[1rem] xl:text-lg"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: "easeInOut" }}
@@ -89,7 +89,7 @@ const Header = () => {
         </div>
         <div
           id="headerParent"
-          className="w-fit flex justify-start items-center gap-x-[0.25rem] ml-[0.2rem] md:ml-0 md:gap-x-[2rem] text-slate-900"
+          className="w-fit flex justify-start items-center gap-x-[0.25rem] ml-[0.2rem] md:ml-0 relative lg:left-[3.5rem] md:gap-x-[2rem] text-slate-900"
         >
           <div className="justify-start items-center hidden md:flex">
             <Link href="/">
