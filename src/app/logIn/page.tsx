@@ -43,7 +43,7 @@ const Page = () => {
       localStorage.setItem("user", data.user);
       let userRole = localStorage.getItem("userRole");
       console.log(userRole);
-      if (data.success === true) {
+      if (data.message === "Login successful") {
         window.location.href = "/";
       }
     } catch (error: any) {
