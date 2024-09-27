@@ -29,8 +29,8 @@ const Page = () => {
         "/api/users/auth/register",
         userDetails
       );
-      if (data.success === true) {
-        toast.success("Login successful!", {
+      if (data.message === "Login successful!") {
+        toast.success("success!", {
           position: "top-center", // Adjust position as needed
           autoClose: 5000, // Duration in milliseconds
           hideProgressBar: false,
