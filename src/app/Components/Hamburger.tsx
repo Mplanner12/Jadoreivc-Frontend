@@ -36,8 +36,8 @@ export default function HamburgerMenu({ user, userRole }: HeaderProps) {
         </div>
       </MenuButton>
 
-      <MenuItems className="absolute right-0 z-10 mt-[1.5rem] ml-[-6.5rem] py-[0.25rem] px-[0.15rem] border-[1px] w-[15rem] flex justify-center items-center origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in">
-        <div className="py-1">
+      <MenuItems className="absolute right-0 z-10 mt-[2rem] ml-[-6.5rem] py-[0.25rem] px-[0.1rem] border-[1px] w-[14rem] flex justify-center items-center origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in">
+        <div className="py-1 w-full flex flex-col justify-center items-center">
           <MenuItem as="div">
             <a
               href="/"
@@ -73,7 +73,7 @@ export default function HamburgerMenu({ user, userRole }: HeaderProps) {
               <>
                 {/* "Tours" link is rendered only if the user is a TOURIST */}
                 {userRole === "TOURIST" && (
-                  <div className="w-fit flex justify-end items-center px-[1.5rem] ">
+                  <div className="w-fit flex justify-end items-center px-[0.15rem] ">
                     <Link href={`/planTour/${user?.id}`}>
                       <button
                         type="submit"

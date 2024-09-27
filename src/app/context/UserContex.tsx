@@ -69,7 +69,7 @@ const UserProvider: React.FC<any> = ({
   const updateUser = async (updatedUserData: any) => {
     try {
       const { data } = await axiosInstance.put(
-        "/api/users/auth/profile",
+        "/api/users/profile",
         updatedUserData
       );
       setUser(data.user);

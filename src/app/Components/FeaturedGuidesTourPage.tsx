@@ -99,13 +99,15 @@ FeaturedGuidesProps) => {
           <div className="md:gap-x-6 md:h-fit w-full h-fit flex flex-col justify-center md:grid md:grid-cols-4 items-center ">
             {guidesToDisplay?.slice(0, guideCount).map((guide) => (
               <Link
-                className="w-full h-full px-[1.25rem] mb-[1.85rem] shadow-lg rounded-lg"
+                className="w-full h-full px-[1.25rem] mb-[3rem] lg:mb-[1.85rem] pb-[1.5rem] shadow-lg rounded-lg"
                 key={guide.user.id}
                 // key={index}
                 href={`/tourguides/tourOverview/${guide.id}`}
               >
                 <div
-                  style={{ backgroundImage: `url(${guide.user.image})` }}
+                  style={{
+                    backgroundImage: `url(/uploads/userImages/${guide.user.image})`,
+                  }}
                   id="offerRange"
                   className="w-full bg-cover h-[15rem] p-[0.65rem] px-[1.15rem] bg-white shadow-lg rounded-2xl text-emerald-600 flex justify-end pr-[1.2rem] pt-[0.75rem]"
                 >
@@ -164,24 +166,17 @@ FeaturedGuidesProps) => {
                     </div>
                     <button
                       onClick={() => {
-                        if (
-                          selectedGuide === guide.user.fullName.split(" ")[0]
-                        ) {
+                        if (selectedGuide === guide.id) {
                           localStorage.removeItem("GuideId");
                           console.log("Guide removed from localStorage");
                         } else {
-                          localStorage.setItem(
-                            "GuideId",
-                            guide.user.fullName.split(" ")[0]
-                          );
-                          console.log("Guide added to localStorage");
+                          localStorage.setItem("GuideId", guide.id);
+                          console.log(guide.id, "Guide added to localStorage");
                         }
                       }}
-                      className="bg-slate-50 w-full flex justify-center shadow-md p-[0.65rem] font-semibold text-emerald-500 items-center rounded-3xl border border-emerald-400"
+                      className="bg-slate-50 w-full flex justify-center mt-[1rem] lg:mt-0 shadow-md p-[0.65rem] font-semibold text-emerald-500 items-center rounded-3xl border border-emerald-400"
                     >
-                      {selectedGuide === guide.user.fullName.split(" ")[0]
-                        ? "Booked"
-                        : "Book Me"}
+                      {selectedGuide === guide.id ? "Booked" : "Book Me"}
                     </button>
                   </div>
                   {/* <div className="w-fit flex justify-start text-[0.75rem] italic font-[500] text-slate-900">

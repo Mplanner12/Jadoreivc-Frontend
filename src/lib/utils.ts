@@ -8,8 +8,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 const axiosInstance = axios.create({
-  // baseURL: "http://localhost:5000",
-  baseURL: "https://jadoreivc-backend.vercel.app",
+  baseURL: "http://localhost:5000",
+  // baseURL: "https://jadoreivc-backend.vercel.app",
   withCredentials: true,
 });
 

@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useState, CSSProperties } from "react";
+import React, { useState, CSSProperties, useEffect } from "react";
 import { PiPencilLineLight } from "react-icons/pi";
 import Dropdown from "./Dropdown";
 import HamburgerMenu from "./Hamburger";
@@ -15,6 +15,7 @@ import { motion } from "framer-motion"; // Import motion
 import { IoNotifications } from "react-icons/io5";
 import { BiSolidUser } from "react-icons/bi";
 import NotificationBar from "./Notification";
+import { FaBell } from "react-icons/fa";
 
 interface HeaderProps {
   fullName: string;
@@ -33,20 +34,30 @@ const Header = () => {
 
   const [showPopUp, setShowPopUp] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [nloading, setnLoading] = useState<boolean>(true);
+  const [showNotifications, setShowNotifications] = useState(false);
 
-  // const handleTogglePopUp = () => {
-  //   setShowPopUp((showPopUp) => !showPopUp);
-  // };
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      setnLoading(true);
+      try {
+        const response = await axiosInstance.get("/api/notifications");
+        const data = await response.data;
+        setNotifications(data);
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
+      } finally {
+        setnLoading(false);
+      }
+    };
 
-  // const handleSwitchToTourGuide = () => {
-  //   console.log("Switch to Tour Guide");
-  //   setShowPopUp(false);
-  // };
+    fetchNotifications();
 
-  // const handleSwitchToTourist = () => {
-  //   console.log("Switch to Tour Guide");
-  //   setShowPopUp(false);
-  // };
+    // Poll for new notifications
+    const intervalId = setInterval(fetchNotifications, 30000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   const role = getUserRole();
 
@@ -141,14 +152,16 @@ const Header = () => {
                   data-testid="loader"
                 />
               ) : (
-                <BiSolidUser
-                  onClick={() => {
-                    setShowPopUp(!showPopUp);
-                    setShowNotification(false);
-                  }}
-                  size={14}
-                  className="w-full h-full text-black"
-                />
+                <button className="p-2 focus:outline-none bg-gray-100 focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 rounded-full">
+                  <BiSolidUser
+                    onClick={() => {
+                      setShowPopUp(!showPopUp);
+                      setShowNotification(false);
+                    }}
+                    size={26}
+                    className="w-full h-full text-black "
+                  />
+                </button>
               )}
               {showPopUp && (
                 <UserPopUp
@@ -174,20 +187,39 @@ const Header = () => {
                   data-testid="loader"
                 />
               ) : (
-                <IoNotifications
-                  size={48}
+                <button
                   onClick={() => {
                     setShowNotification(!showNotification);
                     setShowPopUp(false);
                   }}
-                  className="w-full h-full text-black"
+                  className="bg-gray-100 rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 relative" // Added "relative" for badge positioning
+                >
+                  <FaBell size={20} className="h-5 w-5 text-gray-600" />
+                  {notifications.length > 0 && !loading && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-2 py-1">
+                      {notifications.length}
+                    </span>
+                  )}
+                </button>
+              )}
+              {showNotification && (
+                <NotificationBar
+                  notifications={notifications}
+                  nloading={false}
+                  onNotificationsChange={function (
+                    newNotifications: any[]
+                  ): void {
+                    throw new Error("Function not implemented.");
+                  }}
+                  onLoadingChange={function (isLoading: boolean): void {
+                    throw new Error("Function not implemented.");
+                  }}
                 />
               )}
-              {showNotification && <NotificationBar />}
             </div>
           </div>
 
-          <div className="px-[0.5rem] md:hidden z-40 flex justify-center items-center relative left-[0.7rem]">
+          <div className="px-[0.5rem] md:hidden z-40 flex justify-center items-center relative left-[0.35rem]">
             {loading ? (
               <ClipLoader
                 cssOverride={override}

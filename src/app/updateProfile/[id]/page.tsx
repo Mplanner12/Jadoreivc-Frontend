@@ -25,7 +25,7 @@ const override: CSSProperties = {
 };
 
 const Page = ({ params }: { params: { id: string } }) => {
-  const { user, loading } = useContext(UserContext);
+  const { user, loading, updateUser } = useContext(UserContext);
   const [profile, setProfile] = useState<ProfileData>({
     fullName: "",
     address: "",
@@ -35,14 +35,19 @@ const Page = ({ params }: { params: { id: string } }) => {
     tourGuideData: {},
   });
 
-  //   const handleInputChange = (
-  //     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  //   ) => {
-  //     setProfile({
-  //       ...profile,
-  //       [e.target.name]: e.target.value,
-  //     });
-  //   };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("fullName", profile.fullName);
+    formData.append("address", profile.address);
+    formData.append("languages", profile.languages.join(","));
+    formData.append("userType", profile.userType);
+    if (profile.image) {
+      formData.append("image", profile.image);
+    }
+    updateUser(formData);
+    // console.log(profile);
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -79,14 +84,8 @@ const Page = ({ params }: { params: { id: string } }) => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    // You would have your API call here to update the profile
-    console.log(profile);
-  };
-
-  let [imageBlob, setImageBlob] = useState<string | null>(user.image);
-  const [imagePreview, setImagePreview] = useState<any>(user.image); // Store the data URL here
+  let [imageBlob, setImageBlob] = useState<string | null>(user?.image || null);
+  const [imagePreview, setImagePreview] = useState<any>(user?.image || null); // Store the data URL here
 
   // useEffect(() => {
   //   const loadImageBlob = async () => {
@@ -118,17 +117,18 @@ const Page = ({ params }: { params: { id: string } }) => {
       reader.readAsDataURL(profile.image);
     } else {
       // If profile.image is not a File (e.g., null), reset imagePreview
-      setImagePreview(user.image); // Or any default image URL
+      setImagePreview(user?.image); // Or any default image URL
     }
-  }, [profile.image, user.image]);
+  }, [profile.image, user?.image]);
 
   return (
     <div className="w-full p-4 flex flex-col justify-start items-center">
-      <h1 className="my-[2.5rem] text-[2rem] font-semibold">
+      <h1 className="my-[2.5rem] text-[2rem] font-semibold w-full text-center">
         Complete Your Profile
       </h1>
       <form
         onSubmit={handleSubmit}
+        encType="multipart/form-data"
         className="bg-white w-full flex-col flex justify-start items-center rounded px-8 pt-6 pb-[4rem] mb-4"
       >
         <div className="mb-4 w-full md:w-[35%] h-full flex flex-col justify-start items-center">
@@ -144,18 +144,12 @@ const Page = ({ params }: { params: { id: string } }) => {
               />
             ) : (
               <img
-                src={imagePreview}
+                src={`/uploads/userImages/${imagePreview}`}
                 className="w-full h-full flex justify-center items-center"
                 alt=""
               />
             )}
           </div>
-          {/* <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="image"
-          >
-            Profile Image
-          </label> */}
           <input
             className="shadow md:w-[70%] rounded-lg appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="image"
@@ -223,7 +217,6 @@ const Page = ({ params }: { params: { id: string } }) => {
                 htmlFor="languages"
               >
                 Languages
-                {/* (comma separated) */}
               </label>
               <input
                 className="shadow appearance-none border rounded w-full p-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -241,7 +234,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 }
               />
             </div>
-            <div className="w-full h-full flex justify-start items-center gap-x-[1rem] mt-8">
+            <div className="w-full h-full grid grid-cols-2 lg:flex justify-start items-center gap-[1.25rem] mt-8">
               <p className="w-fit px-[1.25rem] flex justify-center items-start py-2 rounded-full font-semibold shadow-md border">
                 English
               </p>

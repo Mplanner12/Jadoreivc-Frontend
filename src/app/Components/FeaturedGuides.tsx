@@ -103,7 +103,9 @@ const FeaturedGuides = ({
                 // href={`/tourguides/tourOverview/${guide.id}`}
               >
                 <div
-                  style={{ backgroundImage: `url(${guide.user.image})` }}
+                  style={{
+                    backgroundImage: `url(/uploads/userImages/${guide.user.image})`,
+                  }}
                   id="offerRange"
                   className="w-full bg-cover h-[15rem] p-[0.65rem] px-[1.15rem] bg-white rounded-2xl text-emerald-600 flex justify-end pr-[1.2rem] pt-[0.75rem]"
                 >

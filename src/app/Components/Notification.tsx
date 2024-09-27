@@ -1,5 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, CSSProperties } from "react";
 import axiosInstance from "@/src/lib/utils";
+import ClipLoader from "react-spinners/ClipLoader";
+import { FaBell } from "react-icons/fa";
+
+interface NotificationBarProps {
+  notifications: any[];
+  nloading: boolean;
+  onNotificationsChange: (newNotifications: any[]) => void;
+  onLoadingChange: (isLoading: boolean) => void;
+}
 
 interface Notification {
   id: number;
@@ -9,46 +18,65 @@ interface Notification {
   isRead: boolean;
 }
 
-const NotificationBar = () => {
-  // const [notifications, setNotifications] = useState<Notification[]>([]);
-  const notifications = [
-    { id: 1, message: "notification from @Ibuzu." },
-    { id: 2, message: "notification from @Ibuzu." },
-    { id: 3, message: "notification from @Ibuzu." },
-  ];
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+};
+
+const NotificationBar: React.FC<NotificationBarProps> = ({
+  notifications,
+  nloading,
+  onNotificationsChange,
+  onLoadingChange,
+}) => {
   // useEffect(() => {
   //   const fetchNotifications = async () => {
   //     try {
   //       const response = await axiosInstance.get("/api/notifications");
   //       const data = await response.data;
   //       setNotifications(data);
-  //       console.log(data);
   //     } catch (error) {
   //       console.error("Error fetching notifications:", error);
+  //     } finally {
+  //       setLoading(false);
   //     }
   //   };
 
   //   fetchNotifications();
 
-  //   // Optional: Poll for new notifications every 30 seconds
+  //   // Poll for new notifications
   //   const intervalId = setInterval(fetchNotifications, 30000);
-
-  //   // Clean up the interval on component unmount
   //   return () => clearInterval(intervalId);
   // }, []);
+
   return (
-    <div className="bg-white absolute top-[3.5rem] md:top-[5rem] shadow-lg z-20 right-[1rem] md:right-[2rem] lg:right-[15rem] p-4 py-8 rounded-xl">
-      <div className="text-lg mb-2 text-emerald-600 text-center w-full">
-        NOTIFICATIONS
-      </div>
-      {notifications.map((notification) => (
-        <div
-          key={notification.id}
-          className="text-gray-700 text-[0.95rem] py-[0.35rem] border-b border-emerald-600"
-        >
-          {notification.message}
+    <div className="relative inline-block text-left">
+      {notifications && (
+        <div className="origin-top-right z-20 absolute right-[-5.75rem] lg:right-[-6.5rem] mt-2 lg:mt-[2.5rem] w-72 lg:w-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100">
+          <div className="py-1">
+            {nloading ? (
+              <ClipLoader
+                cssOverride={override}
+                color="green"
+                loading={nloading}
+                size={25}
+                aria-label="Loading Spinner"
+              />
+            ) : notifications.length === 0 ? (
+              <p className="text-center text-gray-500 py-3">No notifications</p>
+            ) : (
+              notifications.map((notification) => (
+                <div
+                  key={notification.id}
+                  className="px-4 py-3 text-gray-700 hover:bg-gray-100 cursor-pointer"
+                >
+                  {notification.message}
+                </div>
+              ))
+            )}
+          </div>
         </div>
-      ))}
+      )}
     </div>
   );
 };

@@ -1,10 +1,12 @@
 "use client";
-import React, { CSSProperties, useEffect, useState } from "react";
+import React, { CSSProperties, useContext, useEffect, useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { FaInfoCircle } from "react-icons/fa";
 import axiosInstance from "@/src/lib/utils";
 import LoadingScreen from "../../Components/Loader";
 import ClipLoader from "react-spinners/ClipLoader";
+import { UserContext } from "../../context/UserContex";
+import { usePlannedTours } from "../../context/tourPlanContext";
 
 const override: CSSProperties = {
   display: "block",
@@ -47,12 +49,14 @@ const initialOptions = {
 };
 
 const Page = ({ params }: { params: { id: string } }) => {
+  const { user, loading } = useContext(UserContext);
+  const { sendMail } = usePlannedTours();
   const tourPlanId = params.id;
   const [tourPlan, setTourPlan] = useState<any>();
-  const [loading, setLoading] = useState(false);
+  const [cloading, setcLoading] = useState(false);
 
   const fetchTourPlan = async () => {
-    setLoading(true);
+    setcLoading(true);
     try {
       const response = await axiosInstance.get(
         `/api/plans/tourPlanById/${tourPlanId}`
@@ -62,7 +66,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     } catch (error) {
       console.error("Error fetching tour plan:", error);
     } finally {
-      setLoading(false);
+      setcLoading(false);
     }
   };
   useEffect(() => {
@@ -106,11 +110,10 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [transactionDetails, setTransactionDetails] = useState<any>(null);
 
   useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
+    const handleMessage = async (event: MessageEvent) => {
       if (event.origin === serverUrl) {
-        // Replace with your actual server URL
         try {
-          const message = JSON.parse(event.data); // Assuming you send JSON
+          const message = JSON.parse(event.data);
           console.log("Message received:", message);
 
           if (message.status === "success" && message.transaction) {
@@ -131,17 +134,17 @@ const Page = ({ params }: { params: { id: string } }) => {
   }, []);
 
   return (
-    <div className="bg-white w-full h-full md:w-fit flex flex-col justify-start mx-auto items-center p-4">
+    <div className="bg-white w-full h-full flex flex-col justify-start mx-auto items-center p-4">
       <h2 className="text-[2.35rem] text-center font-bold text-gray-800 mb--2">
         Checkout
       </h2>
-      {loading ? (
+      {cloading ? (
         <div className="flex justify-center items-center h-screen">
           <LoadingScreen />
         </div>
       ) : (
         tourPlan && ( // Removed extra curly braces and parentheses
-          <div className="w-full h-full flex flex-col items-start justify-start lg:px-[2.75rem]">
+          <div className="w-full lg:w-[45%] h-full flex flex-col items-start justify-start lg:px-[2.75rem]">
             <div className="w-full px-[2.85rem] lg:px-[3.75rem] h-full flex flex-col items-start justify-start rounded-md bg-yellow-50 p-4 mt-4">
               <div className="flex items-center gap-2 mb-3">
                 <FaInfoCircle className="w-5 h-5 text-yellow-400" />
@@ -258,19 +261,19 @@ const Page = ({ params }: { params: { id: string } }) => {
                 {/* <p className="text-xl">Total: ${tourPlan.totalCost} USD</p> */}
               </div>
               <PayPalScriptProvider options={initialOptions}>
-                {loading ? (
+                {cloading ? (
                   <div className="w-full h-full flex justify-center gap-x-[0.5rem] items-center">
                     Loading
                     <ClipLoader
                       cssOverride={override}
                       color="green"
-                      loading={loading}
+                      loading={cloading}
                       size={25}
                       aria-label="Loading Spinner"
                       data-testid="loader"
                     />
                   </div>
-                ) : !loading && tourPlan?.paymentStatus === "PENDING" ? (
+                ) : !cloading && tourPlan?.paymentStatus === "PENDING" ? (
                   <div>
                     <PayPalButtons
                       createOrder={async () => {
@@ -351,8 +354,42 @@ const Page = ({ params }: { params: { id: string } }) => {
 
                             if (transactionId) {
                               postMessage(
-                                `Transaction successful: ${transactionId}. Thank you! Your tour Guide has been booked!`
+                                `Transaction successful: ${transactionId}. Thank you! Your tour Guide has been booked!, check your mail`
                               );
+
+                              // Send email to the user
+                              const sendEmail = async () => {
+                                try {
+                                  const response = await sendMail(
+                                    user.email,
+                                    "Jadoreivc Tour plan",
+                                    `## Bonjour from J’ADOREIVC! 👋
+
+Congratulations, your tour has been planned! 🎉 We're thrilled you've chosen us to guide you through this incredible experience. 
+
+Your dedicated guide will be in touch shortly with a warm welcome, personalized itinerary, and answers to any questions you might have. 
+
+Get ready to explore and create unforgettable memories! ✨
+
+À bientôt,
+
+The J’ADOREIVC Team
+`
+                                  );
+                                } catch (err) {
+                                  console.log(err);
+                                }
+                              };
+                              sendEmail();
+
+                              if (transactionId) {
+                                postMessage(
+                                  `Transaction successful: ${transactionId}. Thank you! Your tour Guide has been booked!, check your mail`
+                                );
+                              }
+
+                              window.location.reload();
+
                               paymentStatus = "success";
                               setPaymentStatus("success");
                               setTransactionDetails({ id: transactionId });
@@ -383,16 +420,16 @@ const Page = ({ params }: { params: { id: string } }) => {
                       }}
                     />
                   </div>
-                ) : !loading && tourPlan?.paymentStatus === "COMPLETED" ? (
+                ) : !cloading && tourPlan?.paymentStatus === "COMPLETED" ? (
                   <div
-                    className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+                    className="bg-green-100 border flex flex-col justify-center items-center border-green-400 text-green-700 px-4 py-3 rounded relative"
                     role="alert"
                   >
                     <strong className="font-bold">Success!</strong>
-                    <span className="block sm:inline">
+                    <span className="block sm:inline w-full text-center w-full">
                       {" "}
                       Your payment was successful, Your tour Guide has been
-                      booked!
+                      booked!, check your mail
                     </span>
                     {transactionDetails && (
                       <ul>
@@ -401,7 +438,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                       </ul>
                     )}
                   </div>
-                ) : !loading && tourPlan?.paymentStatus === "FAILED" ? (
+                ) : !cloading && tourPlan?.paymentStatus === "FAILED" ? (
                   <div
                     className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
                     role="alert"

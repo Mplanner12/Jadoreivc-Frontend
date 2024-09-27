@@ -17,7 +17,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../../../components/ui/carousel";
-import { FaStar } from "react-icons/fa";
+import { FaPencilAlt, FaStar } from "react-icons/fa";
 import { PiPencilSimpleLineDuotone } from "react-icons/pi";
 import Link from "next/link";
 
@@ -88,17 +88,25 @@ const Page = ({ params }: { params: { id: string } }) => {
                 <div className="mb-[0.5rem] md:mb-[1.25rem] p-1 border border-neutral-300 shadow-xl bg-white rounded-full w-[12rem] h-[14.5rem] flex justify-center items-center">
                   <img
                     className="rounded-full h-full w-fit"
-                    src={user?.image || "/placeholder-image.png"}
+                    src={
+                      `/uploads/userImages/${user?.image}` ||
+                      "/placeholder-image.png"
+                    }
                     alt="image"
                   />
                 </div>
                 <div className="w-full h-fit flex flex-col justify-center items-start pb-[0.5rem] gap-y-[0.25rem] text-teal-950 tracking-wide">
                   <div className="text-[2.5rem] font-semibold flex justify-start items-center gap-x-[2.25rem]">
                     <h1>{user?.fullName || "Guest"} </h1>
-                    <Link href={`/updateProfile/${user.id}`}>
-                      <PiPencilSimpleLineDuotone className="pl-[3rem] text-emerald-900" />{" "}
-                      {/* Edit Profile */}
-                    </Link>
+                    <button className="p-2 focus:outline-none bg-gray-100 focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 rounded-full">
+                      <Link
+                        className="relative left-[-1rem] p-2"
+                        href={`/updateProfile/${user.id}`}
+                      >
+                        &#9998;
+                        {/* Edit Profile */}
+                      </Link>
+                    </button>
                   </div>
                   <p className="text-lg font-normal">
                     {user?.tourGuide?.aboutMe || ""}

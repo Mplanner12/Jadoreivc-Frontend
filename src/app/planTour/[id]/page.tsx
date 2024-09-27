@@ -16,6 +16,7 @@ import LoadingScreen from "../../Components/Loader";
 import { UserContext } from "../../context/UserContex";
 import ClipLoader from "react-spinners/ClipLoader";
 import Link from "next/link";
+import { FaInfoCircle } from "react-icons/fa";
 
 const override: CSSProperties = {
   display: "block",
@@ -121,18 +122,6 @@ const Page = ({ params }: { params: { id: string } }) => {
     setPeopleOpen(false);
   };
 
-  // const handleLocalsSelect = (guideId?: any) => {
-  //   setSelectedLocals((prevLocals) => {
-  //     const updatedLocals = prevLocals.includes(guideId)
-  //       ? prevLocals.filter((l) => l !== guideId)
-  //       : [...prevLocals, guideId];
-
-  //     console.log("Selected Locals:", updatedLocals);
-
-  //     return updatedLocals;
-  //   });
-  // };
-
   useEffect(() => {
     console.log("Selected Locals:", selectedLocal);
   }, []);
@@ -213,7 +202,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   //     alert("An error occurred while planning your tour.");
   //   }
   // };
-
+  let tourPlanId: void;
   const handlePlanTour = async () => {
     console.log("selectedLocation:", selectedLocation);
     console.log("startDate:", startDate);
@@ -249,23 +238,45 @@ const Page = ({ params }: { params: { id: string } }) => {
     try {
       setSubmitting(true);
       if (user && role === "TOURIST") {
-        const response = await createTourPlan(tourPlanData);
-        console.log("Tour plan created:", response);
-        const tourPlanId = response;
-        // await axiosInstance.post("/api/notifications", {
-        //   userId: user.id,
-        //   tourPlanId: tourPlanId,
-        //   message: `Your tour plan payment is pending.`,
-        //   type: "tour plan status",
-        // });
+        // 1. Create the notification object
+        const newNotification = {
+          message: `Tour planned! Ensure payment, then check your mail`,
+          type: "tour plan alert",
+          userId: user.id, // Associate the notification with the current user
+        };
 
+        // 2. Update the tourPlanData to include the notification
+        const tourPlanDataWithNotification = {
+          ...tourPlanData,
+          notifications: {
+            create: [newNotification],
+          },
+        };
+
+        // 3. Create the tour plan with the associated notification
+        const response = await createTourPlan(tourPlanDataWithNotification);
+        console.log("Tour plan created with notification:", response);
+        tourPlanId = response; // Assuming createTourPlan returns the created object
         router.push(`/checkout/${tourPlanId}`);
+        localStorage.removeItem("GuideId");
       } else {
         router.push("/logIn");
       }
     } catch (error) {
       console.error("Error planning tour:", error);
       alert("An error occurred while planning your tour.");
+    }
+    try {
+      await axiosInstance.post("/api/notifications", {
+        userId: user.id,
+        tourPlanId: tourPlanId,
+        message: `Tour planned! ensure payemnt, then check your mail`,
+        type: "tour plan alert",
+      });
+      console.log("notification sent");
+      window.location.reload();
+    } catch (err) {
+      console.log("Error sending notification:", err);
     }
     setSubmitting(false);
   };
@@ -295,6 +306,12 @@ const Page = ({ params }: { params: { id: string } }) => {
                 locals
               </p>
             </div>
+          </div>
+          <div className="mb-[0.5rem] gap-x-[0.2rem] text-[1.25rem] text-center flex items-center justify-center w-full h-full text-orange-400">
+            <FaInfoCircle className="w-5 h-5 text-yellow-400" />
+            <p className="text-lg font-semibold text-yellow-800">
+              Please search for a tour guide first
+            </p>
           </div>
           <div className="w-full h-full md:w-full flex px-[1.75rem] md:px-0 flex-col justify-center items-center py-[0.5rem] pb-[1rem]">
             <div className="w-full md:w-fit relative flex flex-col justify-center md:justify-start items-center -mt-[0.45rem]">
@@ -468,6 +485,12 @@ const Page = ({ params }: { params: { id: string } }) => {
                   <p className="text-lg">
                     {guideName} ${guidesOffer}/hr
                   </p>
+                  <Link
+                    href={"/tourguides"}
+                    className="w-fit uppercase bg-orange-400 px-[3rem] py-[0.5rem] mt-[1rem] text-white rounded-xl shadow-lg h-full flex justify-center items-center"
+                  >
+                    change Guide
+                  </Link>
                 </div>
 
                 <div className="w-full px md:w-fit h-full mt-[2rem] pb-[4rem] flex justify-center items-center">

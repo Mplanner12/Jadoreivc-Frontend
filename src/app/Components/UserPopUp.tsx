@@ -38,7 +38,7 @@ const UserPopUp: React.FC<UserPopUpProps> = ({
     <div
       className={`absolute z-20 ml-[-1rem] gap-y-[1rem] md:ml-[1rem] ${
         user
-          ? "mt-[18.75rem] md:mt-[22.5rem]"
+          ? "mt-[18.75rem] md:mt-[20.5rem]"
           : "mt-[11.85rem] md:mt-[10.75rem]"
       } flex flex-col items-center p-[2rem] py-[0.75rem] md:py-[2rem] bg-white shadow-lg rounded-lg`}
     >
@@ -64,12 +64,12 @@ const UserPopUp: React.FC<UserPopUpProps> = ({
             >
               ACCOUNT
             </Link>
-            <Link // Changed div to Link for consistency
+            {/* <Link // Changed div to Link for consistency
               href={"/messages"} // Added href for navigation
               className="w-fit p-2 md:p-3 flex justify-center items-center shadow-md rounded-xl border border-emerald-600 hover:bg-orange-400 hover:text-white after:bg-emerald-600 after:text-white"
             >
               MESSAGES
-            </Link>
+            </Link> */}
             <Link
               href={`/help`}
               className="w-full p-2 md:p-3 flex justify-center items-center shadow-md rounded-xl border border-emerald-600 hover:bg-orange-400 hover:text-white after:bg-emerald-600 after:text-white"

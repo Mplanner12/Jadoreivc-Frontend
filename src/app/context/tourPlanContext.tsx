@@ -55,12 +55,14 @@ const PlannedTourContext = createContext<{
   fetchTourPlans: () => void;
   createTourPlan: (tourPlanData: any) => Promise<void>;
   fetchTourPlanById: (id: string) => Promise<void>;
+  sendMail: (to: string, subject: string, message: string) => Promise<void>;
 }>({
   tourPlans: [],
   plansLoading: true,
   fetchTourPlans: () => {},
   createTourPlan: async () => {},
   fetchTourPlanById: async () => {},
+  sendMail: async () => {},
 });
 
 export const PlannedTourProvider = ({
@@ -98,18 +100,27 @@ export const PlannedTourProvider = ({
         "/api/plans/tourPlans",
         tourPlanData
       );
-      return data.tourPlan.id; // Return the created tour plan
-      // setTourPlans([...tourPlans, data.tourPlan]);
+      return data.tourPlan.id;
     } catch (error) {
       console.error("Error creating tour plan:", error);
     }
-    // try {
-    //   const response = await axiosInstance.post("/api/tourPlans", tourPlanData);
-    //   // ... other logic ...
-    //   return response.data; // Return the created tour plan object
-    // } catch (error) {
-    //   // ... error handling ...
-    // }
+  };
+
+  const sendMail = async (
+    to: string,
+    subject: string,
+    message: string
+  ): Promise<void> => {
+    try {
+      const response = await axiosInstance.post("/api/plans/sendEM", {
+        to,
+        subject,
+        message,
+      });
+      console.log("Email sent successfully:", response.data);
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
   };
 
   useEffect(() => {
@@ -124,6 +135,7 @@ export const PlannedTourProvider = ({
         fetchTourPlans,
         fetchTourPlanById,
         createTourPlan,
+        sendMail,
       }}
     >
       {children}
