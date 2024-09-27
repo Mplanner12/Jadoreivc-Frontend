@@ -67,7 +67,7 @@ const Header = () => {
       setUser(null);
       localStorage.removeItem("userRole");
       window.location.href = "/logIn";
-      // router.push("/logIn");
+      router.push("/logIn");
     } catch (error) {
       console.error("Logout failed", error);
     }

@@ -98,7 +98,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 <div className="w-full h-fit flex flex-col justify-center items-start pb-[0.5rem] gap-y-[0.25rem] text-teal-950 tracking-wide">
                   <div className="text-[2.5rem] font-semibold flex justify-start items-center gap-x-[2.25rem]">
                     <h1>{user?.fullName || "Guest"} </h1>
-                    <button className="p-2 focus:outline-none bg-gray-100 focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 rounded-full">
+                    <button className="p-2 focus:outline-none flex justify-center items-center rounded-full">
                       <Link
                         className="relative left-[-1rem] p-2"
                         href={`/updateProfile/${user.id}`}
@@ -171,7 +171,9 @@ const Page = ({ params }: { params: { id: string } }) => {
                           About me
                         </h1>
                         <p className="text-black w-full text-base font-normal text-start lg:w-[85%]">
-                          {user.tourGuide.summary}
+                          {user.tourGuide !== null
+                            ? user.tourGuide.summary
+                            : ""}
                         </p>
                       </div>
                       <div className="w-full h-full flex flex-col justify-start items-start gap-y-[0.25rem]">
@@ -179,7 +181,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                           Contact
                         </h1>
                         <p className="text-black text-base font-normal text-start">
-                          {user.email}
+                          {user.email !== null ? user.email : ""}
                         </p>
                       </div>
                     </div>

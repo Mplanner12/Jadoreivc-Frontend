@@ -29,7 +29,8 @@ const Page = () => {
         "/api/users/auth/register",
         userDetails
       );
-      if (data.message === "Login successful!") {
+      console.log(data);
+      if (data.message === "User registered successfully") {
         toast.success("success!", {
           position: "top-center", // Adjust position as needed
           autoClose: 5000, // Duration in milliseconds

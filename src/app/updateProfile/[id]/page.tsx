@@ -3,6 +3,7 @@
 import React, { CSSProperties, useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContex";
 import ClipLoader from "react-spinners/ClipLoader";
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 interface ProfileData {
   fullName: string;
@@ -32,7 +33,13 @@ const Page = ({ params }: { params: { id: string } }) => {
     languages: [],
     image: null,
     userType: "TOURIST",
-    tourGuideData: {},
+    tourGuideData: {
+      location: user?.tourGuide?.location || "",
+      offerRange: user?.tourGuide?.offerRange || 0,
+      aboutMe: user?.tourGuide?.aboutMe || "",
+      motto: user?.tourGuide?.motto || "",
+      thingsToDo: user?.tourGuide?.thingsToDo || [],
+    },
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -42,6 +49,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     formData.append("address", profile.address);
     formData.append("languages", profile.languages.join(","));
     formData.append("userType", profile.userType);
+    formData.append("tourGuideData", JSON.stringify(profile.tourGuideData));
     if (profile.image) {
       formData.append("image", profile.image);
     }
@@ -54,10 +62,17 @@ const Page = ({ params }: { params: { id: string } }) => {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    setProfile({
-      ...profile,
-      [e.target.name]: e.target.value,
-    });
+    if (e.target.name === "languages") {
+      setProfile({
+        ...profile,
+        languages: e.target.value.split(",").map((lang) => lang.trim()),
+      });
+    } else {
+      setProfile({
+        ...profile,
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
   const handleLanguageChange = (language: string) => {
@@ -165,18 +180,18 @@ const Page = ({ params }: { params: { id: string } }) => {
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="firstName"
               >
-                First Name
+                Full Name
               </label>
               <input
                 className="shadow appearance-none border rounded w-full p-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="FirstName"
+                id="fullName"
                 type="text"
                 placeholder="Full Name"
-                name="FirstName"
+                name="fullName"
                 onChange={handleInputChange}
               />
             </div>
-            <div className="w-full">
+            {/* <div className="w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="lastName"
@@ -191,6 +206,33 @@ const Page = ({ params }: { params: { id: string } }) => {
                 name="LastName"
                 onChange={handleInputChange}
               />
+            </div> */}
+          </div>
+
+          <div className="mb-7 w-full relative">
+            {" "}
+            {/* Add relative positioning */}
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="userType"
+            >
+              User Type
+            </label>
+            <select
+              className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pr-8"
+              id="userType"
+              name="userType"
+              value={profile.userType}
+              onChange={handleInputChange}
+            >
+              <option value="TOURIST">Tourist</option>
+              <option value="TOUR_GUIDE">Tour Guide</option>
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-[-1rem] top-6 flex items-center px-2 text-gray-700">
+              {" "}
+              {/* Position the icon */}
+              <RiArrowDropDownLine size={48} />
+              {/* SVG icon */}
             </div>
           </div>
           <div className="my-6 w-full">
@@ -209,97 +251,119 @@ const Page = ({ params }: { params: { id: string } }) => {
             />
           </div>
         </div>
-        <div className="w-full lg:w-[50%] h-full justify-start items-center flex flex-col">
-          <div className="mb-4 w-full flex flex-col md:flex-row justify-start gap-x-[1.35rem] items-center h-full">
-            <div className="w-full h-full flex-col justify-start items-start gap-x-[1.35rem] flex">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="languages"
-              >
-                Languages
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full p-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="languages"
-                type="text"
-                placeholder="Enter Your Language"
-                name="languages"
-                onChange={(e) =>
-                  setProfile({
-                    ...profile,
-                    languages: e.target.value
-                      .split(",")
-                      .map((lang) => lang.trim()),
-                  })
-                }
-              />
+        {/* <div className="w-full lg:w-[50%] h-full justify-start items-center flex flex-col"> */}
+        {profile.userType === "TOUR_GUIDE" && (
+          <div className="w-full flex flex-col lg:w-[50%]">
+            <div className="w-full flex-col flex items-center justify-between">
+              <div className="mb-4 w-full flex flex-col justify-start gap-x-[1.35rem] items-center h-full">
+                {/* <div className="w-full h-full flex-col justify-start items-start gap-x-[1.35rem] flex">
+                  <label
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                    htmlFor="languages"
+                  >
+                    Languages
+                  </label>
+                  <input
+                    className="shadow appearance-none border rounded w-full p-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="languages"
+                    type="text"
+                    placeholder="Enter Your Language"
+                    name="languages"
+                    onChange={(e) => handleLanguageChange(e.target.value)}
+                  />
+                </div> */}
+                <div className="w-full h-full grid grid-cols-2 lg:flex justify-start items-center gap-[1.25rem] mt-8">
+                  <p className="w-fit px-[1.25rem] flex justify-center items-start py-2 rounded-full font-semibold shadow-md border">
+                    English
+                  </p>
+                  <p className="w-fit px-[1.25rem] flex justify-center items-start py-2 rounded-full font-semibold shadow-md border">
+                    French
+                  </p>
+                  <p className="w-fit px-[1.25rem] flex justify-center items-start py-2 rounded-full font-semibold shadow-md border">
+                    Spanish
+                  </p>
+                </div>
+              </div>
+              <div className="my-6 w-full">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="address"
+                >
+                  About Me
+                </label>
+                <textarea
+                  className="shadow appearance-none h-[6rem] border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="aboutMe"
+                  placeholder="Enter About yourself"
+                  name="AboutMe"
+                  onChange={handleInputChange}
+                />
+              </div>
             </div>
-            <div className="w-full h-full grid grid-cols-2 lg:flex justify-start items-center gap-[1.25rem] mt-8">
-              <p className="w-fit px-[1.25rem] flex justify-center items-start py-2 rounded-full font-semibold shadow-md border">
-                English
-              </p>
-              <p className="w-fit px-[1.25rem] flex justify-center items-start py-2 rounded-full font-semibold shadow-md border">
-                French
-              </p>
-              <p className="w-fit px-[1.25rem] flex justify-center items-start py-2 rounded-full font-semibold shadow-md border">
-                Spanish
-              </p>
+            <div className="w-full lg:w-[50%] h-full justify-start items-center flex flex-col mt-[0rem]">
+              <div className="mb-7 w-full">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="location"
+                >
+                  Location
+                </label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="location"
+                  type="text"
+                  placeholder="Location"
+                  name="location"
+                  value={profile.tourGuideData?.location || ""}
+                  onChange={(e) =>
+                    setProfile({
+                      ...profile,
+                      tourGuideData: {
+                        ...profile.tourGuideData,
+                        location: e.target.value,
+                      },
+                    })
+                  }
+                />
+              </div>
+
+              {/* Offer Range */}
+              <div className="mb-7 w-full">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="offerRange"
+                >
+                  Offer Range
+                </label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="offerRange"
+                  type="number"
+                  placeholder="Offer Range"
+                  name="offerRange"
+                  value={profile.tourGuideData?.offerRange || ""}
+                  onChange={(e) =>
+                    setProfile({
+                      ...profile,
+                      tourGuideData: {
+                        ...profile.tourGuideData,
+                        offerRange: parseInt(e.target.value) || 0,
+                      },
+                    })
+                  }
+                />
+              </div>
             </div>
           </div>
-          <div className="my-6 w-full">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="address"
-            >
-              About Me
-            </label>
-            <textarea
-              className="shadow appearance-none h-[6rem] border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="aboutMe"
-              placeholder="Enter About yourself"
-              name="AboutMe"
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="w-full flex items-center justify-between">
-            <button
-              className="bg-orange-400 hover:bg-orange-700 shadow-md w-full text-center text-white py-3 px-4 rounded-full focus:outline-none focus:shadow-outline"
-              type="submit"
-            >
-              SAVE AND CONTINUE
-            </button>
-          </div>
+        )}
+        <div className="w-full md:w-[50%] h-full flex items-center justify-between">
+          <button
+            className="bg-orange-400 hover:bg-orange-700 shadow-md w-full text-center text-white py-3 px-4 rounded-full focus:outline-none focus:shadow-outline"
+            type="submit"
+          >
+            SAVE AND CONTINUE
+          </button>
         </div>
-        {/* Conditionally render tour guide data */}
-        {/* {profile.userType === "TOUR_GUIDE" && (
-          <div>
-            <h2 className="text-lg font-bold mb-2">Tour Guide Data</h2>
-            <div className="mb-4">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="location"
-              >
-                Location
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="location"
-                type="text"
-                placeholder="Location"
-                name="location"
-                onChange={(e) =>
-                  setProfile({
-                    ...profile,
-                    tourGuideData: {
-                      ...profile.tourGuideData,
-                      location: e.target.value,
-                    },
-                  })
-                }
-              />
-            </div>
-          </div>
-        )} */}
       </form>
     </div>
   );
