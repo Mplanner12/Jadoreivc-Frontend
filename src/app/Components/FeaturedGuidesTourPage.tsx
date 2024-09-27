@@ -12,6 +12,7 @@ import { useContext } from "react";
 import GridSkeletonLoader from "./GridSkeleton";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import { useSelectedGuide } from "@/src/lib/utils";
+import { UserContext } from "../context/UserContex";
 
 // TourGuide.ts
 interface TourGuide {
@@ -64,6 +65,7 @@ const FeaturedGuidesTourPage: React.FC<FeaturedGuidesProps> = ({
 }: // location, // Remove location prop
 // tourGuideName, // Remove tourGuideName prop
 FeaturedGuidesProps) => {
+  const { user } = useContext(UserContext);
   const [selectedGuide, setSelectedGuide] = useSelectedGuide();
   const { tourGuides, loading } = useContext(TourGuideContext);
 
@@ -102,7 +104,13 @@ FeaturedGuidesProps) => {
                 className="w-full h-full px-[1.25rem] mb-[3rem] lg:mb-[1.85rem] pb-[1.5rem] shadow-lg rounded-lg"
                 key={guide.user.id}
                 // key={index}
-                href={`/tourguides/tourOverview/${guide.id}`}
+                href={
+                  loading
+                    ? ""
+                    : user
+                    ? `/tourguides/tourOverview/${guide.id}`
+                    : "/logIn"
+                }
               >
                 <div
                   style={{

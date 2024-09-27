@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/src/lib/utils";
 import ClipLoader from "react-spinners/ClipLoader";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const override: CSSProperties = {
   display: "block",
@@ -28,7 +30,16 @@ const Page = () => {
         userDetails
       );
       if (data.success === true) {
-        // setUser(data.user);
+        toast.success("Login successful!", {
+          position: "top-center", // Adjust position as needed
+          autoClose: 5000, // Duration in milliseconds
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light", // Or "dark"
+        });
         window.location.href = "/";
       }
     } catch (error: any) {
@@ -81,6 +92,7 @@ const Page = () => {
 
   return (
     <div className="bg-emerald-600 w-full h-screen flex justify-center items-center md:justify-between">
+      <ToastContainer />
       <div
         id="signUpContainer"
         className="bg-white w-full h-screen flex flex-col justify-center items-center pt-[1.5rem] px-[2.35rem] md:px-[2.85rem] pb-[1rem]"

@@ -10,9 +10,10 @@ import {
 import { TourGuideContext } from "../context/tourGuideContext";
 import { useContext } from "react";
 import GridSkeletonLoader from "./GridSkeleton";
+import ClipLoader from "react-spinners/ClipLoader";
 import PacmanLoader from "react-spinners/PacmanLoader";
+import { UserContext } from "../context/UserContex";
 
-// TourGuide.ts
 interface TourGuide {
   id: string;
   userId: string;
@@ -62,6 +63,7 @@ const FeaturedGuides = ({
   hideViewMore = false,
   tourGuides = [],
 }: FeaturedGuidesProps) => {
+  const { user } = useContext(UserContext);
   const { loading } = useContext(TourGuideContext);
 
   if (loading) return <GridSkeletonLoader />;
@@ -78,12 +80,24 @@ const FeaturedGuides = ({
           </h1>
         </div>
         {!hideViewMore && (
-          <Link href="/tourguides">
+          <Link href={loading ? "" : user ? "/tourguides" : "/logIn"}>
             <button
               id="viewMore"
               className="md:relative h-fit text-white text-[1rem] md:text-sm tracking-wider font-extralight bg-orange-400 uppercase rounded-[2rem] gap-y-1 px-[1rem] md:px-[1.75rem] py-[0.9rem] md:py-[1rem]"
             >
-              View More
+              {loading ? (
+                <ClipLoader
+                  className="w-full h-full flex justify-center items-center"
+                  cssOverride={override}
+                  color="white"
+                  loading={loading}
+                  size={25}
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              ) : (
+                " View More"
+              )}
             </button>
           </Link>
         )}
@@ -96,11 +110,17 @@ const FeaturedGuides = ({
         <div className="block">
           <div className="md:gap-x-6 md:h-fit w-full h-fit flex flex-col justify-center md:grid md:grid-cols-4 items-center ">
             {tourGuides?.slice(0, guideCount).map((guide) => (
-              <div
+              <Link
                 className="w-full h-full shadow-lg rounded-xl px-[1.25rem] mb-[1.85rem]"
                 key={guide.user.id}
                 // key={index}
-                // href={`/tourguides/tourOverview/${guide.id}`}
+                href={
+                  loading
+                    ? ""
+                    : user
+                    ? `/tourguides/tourOverview/${guide.id}`
+                    : "/logIn"
+                }
               >
                 <div
                   style={{
@@ -167,7 +187,7 @@ const FeaturedGuides = ({
                     {guide.aboutMe}
                   </div> */}
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
