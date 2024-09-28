@@ -4,6 +4,8 @@ import React, { CSSProperties, useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContex";
 import ClipLoader from "react-spinners/ClipLoader";
 import { RiArrowDropDownLine } from "react-icons/ri";
+import { ToastContainer, toast } from "react-toastify";
+import axiosInstance from "@/src/lib/utils";
 
 interface ProfileData {
   fullName: string;
@@ -26,7 +28,7 @@ const override: CSSProperties = {
 };
 
 const Page = ({ params }: { params: { id: string } }) => {
-  const { user, loading, updateUser } = useContext(UserContext);
+  const { user, loading, updateUser, setUser } = useContext(UserContext);
   const [profile, setProfile] = useState<ProfileData>({
     fullName: "",
     address: "",
@@ -53,8 +55,23 @@ const Page = ({ params }: { params: { id: string } }) => {
     if (profile.image) {
       formData.append("image", profile.image);
     }
-    updateUser(formData);
-    // console.log(profile);
+    const { data } = await axiosInstance.put("/api/users/profile", formData);
+    console.log(data);
+    if (data.message === "User updated successfully") {
+      setUser(data.user);
+      toast.success("User updated successful!", {
+        position: "top-center", // Adjust position as needed
+        autoClose: 5000, // Duration in milliseconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light", // Or "dark"
+      });
+      window.location.href = `/profile/${user.id}`;
+    }
+    console.log(profile);
   };
 
   const handleInputChange = (
@@ -138,6 +155,7 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   return (
     <div className="w-full p-4 flex flex-col justify-start items-center">
+      <ToastContainer />
       <h1 className="my-[2.5rem] text-[2rem] font-semibold w-full text-center">
         Complete Your Profile
       </h1>
@@ -157,9 +175,15 @@ const Page = ({ params }: { params: { id: string } }) => {
                 aria-label="Loading Spinner"
                 data-testid="loader"
               />
-            ) : (
+            ) : user.image ? (
               <img
                 src={`/uploads/userImages/${imagePreview}`}
+                className="w-full h-full flex justify-center items-center"
+                alt=""
+              />
+            ) : (
+              <img
+                src={`/${imagePreview}`}
                 className="w-full h-full flex justify-center items-center"
                 alt=""
               />
@@ -235,21 +259,6 @@ const Page = ({ params }: { params: { id: string } }) => {
               {/* SVG icon */}
             </div>
           </div>
-          <div className="my-6 w-full">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="address"
-            >
-              Motto
-            </label>
-            <textarea
-              className="shadow appearance-none h-[6rem] border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="address"
-              placeholder="Enter your Motto"
-              name="address"
-              onChange={handleInputChange}
-            />
-          </div>
         </div>
         {/* <div className="w-full lg:w-[50%] h-full justify-start items-center flex flex-col"> */}
         {profile.userType === "TOUR_GUIDE" && (
@@ -272,7 +281,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                     onChange={(e) => handleLanguageChange(e.target.value)}
                   />
                 </div> */}
-                <div className="w-full h-full grid grid-cols-2 lg:flex justify-start items-center gap-[1.25rem] mt-8">
+                {/* <div className="w-full h-full grid grid-cols-2 lg:flex justify-start items-center gap-[1.25rem] mt-8">
                   <p className="w-fit px-[1.25rem] flex justify-center items-start py-2 rounded-full font-semibold shadow-md border">
                     English
                   </p>
@@ -282,7 +291,22 @@ const Page = ({ params }: { params: { id: string } }) => {
                   <p className="w-fit px-[1.25rem] flex justify-center items-start py-2 rounded-full font-semibold shadow-md border">
                     Spanish
                   </p>
-                </div>
+                </div> */}
+              </div>
+              <div className="my-2 w-full">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="address"
+                >
+                  Motto
+                </label>
+                <textarea
+                  className="shadow appearance-none h-[6rem] border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="address"
+                  placeholder="Enter your Motto"
+                  name="address"
+                  onChange={handleInputChange}
+                />
               </div>
               <div className="my-6 w-full">
                 <label
