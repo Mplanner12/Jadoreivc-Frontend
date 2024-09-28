@@ -19,7 +19,6 @@ export const getUser = () => {
   }
   return null;
 };
-// Function to get the initial value from localStorage
 export const getInitialSelectedGuide = () => {
   if (typeof window !== "undefined") {
     return localStorage.getItem("GuideId");
@@ -27,13 +26,11 @@ export const getInitialSelectedGuide = () => {
   return null;
 };
 
-// Custom hook to manage the selected guide and localStorage synchronization
 export const useSelectedGuide = () => {
   const [selectedGuide, setSelectedGuide] = useState<string | null>(
     getInitialSelectedGuide()
   );
 
-  // Update localStorage whenever selectedGuide changes
   useEffect(() => {
     if (selectedGuide !== null) {
       localStorage.setItem("GuideId", selectedGuide);
