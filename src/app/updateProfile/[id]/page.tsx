@@ -59,7 +59,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     console.log(data);
     if (data.message === "User updated successfully") {
       setUser(data.user);
-      toast.success("User updated successful!", {
+      toast.success("updated successful!", {
         position: "top-center", // Adjust position as needed
         autoClose: 5000, // Duration in milliseconds
         hideProgressBar: false,
