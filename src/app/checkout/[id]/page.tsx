@@ -426,7 +426,7 @@ The J’ADOREIVC Team
                     role="alert"
                   >
                     <strong className="font-bold">Success!</strong>
-                    <span className="block sm:inline w-full text-center w-full">
+                    <span className="block sm:inline w-full text-center">
                       {" "}
                       Your payment was successful, Your tour Guide has been
                       booked!, check your mail
