@@ -315,11 +315,13 @@ const Page = ({ params }: { params: { id: string } }) => {
               </div>
             </div>
           ) : (
-            <div className="w-full h-full flex flex-col justify-center items-center">
-              <div className="w-full h-full flex flex-col justify-center items-center">
-                <h1 className="text-[2.5rem] font-semibold">User not found</h1>
-                <p className="text-lg font-normal">
-                  Please check your Internet Connection
+            <div className="flex flex-col items-center justify-center h-screen w-full">
+              <div className="bg-white p-8 rounded-lg shadow-md text-center">
+                <h1 className="text-3xl font-semibold text-red-500 mb-4">
+                  Profile Not Found
+                </h1>
+                <p className="text-lg text-gray-600">
+                  Please check your internet connection and try again.
                 </p>
               </div>
             </div>

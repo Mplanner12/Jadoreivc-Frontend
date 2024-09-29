@@ -49,7 +49,9 @@ const Page = ({ params }: { params: { id: string } }) => {
     const formData = new FormData();
     formData.append("fullName", profile.fullName);
     formData.append("address", profile.address);
-    formData.append("languages", profile.languages.join(","));
+    profile.languages.forEach((language) => {
+      formData.append("languages", language);
+    });
     formData.append("userType", profile.userType);
     formData.append("tourGuideData", JSON.stringify(profile.tourGuideData));
     if (profile.image) {
@@ -92,19 +94,30 @@ const Page = ({ params }: { params: { id: string } }) => {
     }
   };
 
+  // const handleLanguageChange = (language: string) => {
+  //   const currentLanguages = profile.languages;
+  //   if (currentLanguages.includes(language)) {
+  //     setProfile({
+  //       ...profile,
+  //       languages: currentLanguages.filter((lang) => lang !== language),
+  //     });
+  //   } else {
+  //     setProfile({
+  //       ...profile,
+  //       languages: [...currentLanguages, language],
+  //     });
+  //   }
+  // };
+
   const handleLanguageChange = (language: string) => {
-    const currentLanguages = profile.languages;
-    if (currentLanguages.includes(language)) {
-      setProfile({
-        ...profile,
-        languages: currentLanguages.filter((lang) => lang !== language),
-      });
-    } else {
-      setProfile({
-        ...profile,
-        languages: [...currentLanguages, language],
-      });
-    }
+    const newLanguages = language
+      .split(",")
+      .map((lang) => lang.trim())
+      .filter((lang) => lang !== ""); // Split, trim, and remove empty strings
+    setProfile({
+      ...profile,
+      languages: [...new Set(profile.languages.concat(newLanguages))], // Use a Set to prevent duplicates
+    });
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -265,7 +278,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           <div className="w-full flex flex-col lg:w-[50%]">
             <div className="w-full flex-col flex items-center justify-between">
               <div className="mb-4 w-full flex flex-col justify-start gap-x-[1.35rem] items-center h-full">
-                {/* <div className="w-full h-full flex-col justify-start items-start gap-x-[1.35rem] flex">
+                <div className="w-full h-full flex-col justify-start items-start gap-x-[1.35rem] flex">
                   <label
                     className="block text-gray-700 text-sm font-bold mb-2"
                     htmlFor="languages"
@@ -276,11 +289,11 @@ const Page = ({ params }: { params: { id: string } }) => {
                     className="shadow appearance-none border rounded w-full p-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="languages"
                     type="text"
-                    placeholder="Enter Your Language"
+                    placeholder="Enter languages separated by commas"
                     name="languages"
                     onChange={(e) => handleLanguageChange(e.target.value)}
                   />
-                </div> */}
+                </div>
                 {/* <div className="w-full h-full grid grid-cols-2 lg:flex justify-start items-center gap-[1.25rem] mt-8">
                   <p className="w-fit px-[1.25rem] flex justify-center items-start py-2 rounded-full font-semibold shadow-md border">
                     English
