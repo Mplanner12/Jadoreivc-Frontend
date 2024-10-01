@@ -58,7 +58,7 @@ const Page = ({ params }: { params: { id: string } }) => {
       formData.append("image", profile.image);
     }
     const { data } = await axiosInstance.put("/api/users/profile", formData);
-    console.log(data);
+    // console.log(data);
     if (data.message === "User updated successfully") {
       setUser(data.user);
       toast.success("updated successful!", {
@@ -73,7 +73,7 @@ const Page = ({ params }: { params: { id: string } }) => {
       });
       window.location.href = `/profile/${user.id}`;
     }
-    console.log(profile);
+    // console.log(profile);
   };
 
   const handleInputChange = (

@@ -114,7 +114,7 @@ const Page = ({ params }: { params: { id: string } }) => {
       if (event.origin === serverUrl) {
         try {
           const message = JSON.parse(event.data);
-          console.log("Message received:", message);
+          // console.log("Message received:", message);
 
           if (message.status === "success" && message.transaction) {
             setPaymentStatus("success");
@@ -393,7 +393,7 @@ The J’ADOREIVC Team
                               paymentStatus = "success";
                               setPaymentStatus("success");
                               setTransactionDetails({ id: transactionId });
-                              console.log("Capture result", orderData);
+                              // console.log("Capture result", orderData);
                             } else {
                               console.error(
                                 "Unexpected orderData structure:",

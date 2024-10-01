@@ -17,6 +17,7 @@ import { UserContext } from "@/src/app/context/UserContex";
 import { AiFillSchedule } from "react-icons/ai";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useSelectedGuide } from "@/src/lib/utils";
+import Router from "next/router";
 
 const override: CSSProperties = {
   display: "block",
@@ -33,6 +34,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const { fetchTourGuideById, tourGuide, loading, setTourGuide } =
     useContext(TourGuideContext);
   const [showNotFound, setShowNotFound] = useState(false);
+  const router = Router;
 
   // Memoize the fetchTourGuideById function
   useEffect(() => {
@@ -239,18 +241,19 @@ const Page = ({ params }: { params: { id: string } }) => {
                                   if (selectedGuide === tourGuide.id) {
                                     setSelectedGuide(null); // Clear selection
                                     localStorage.removeItem("GuideId");
-                                    console.log(
-                                      "Guide removed from localStorage"
-                                    );
+                                    // console.log(
+                                    //   "Guide removed from localStorage"
+                                    // );
                                   } else {
                                     setSelectedGuide(tourGuide.id); // Set selection
                                     localStorage.setItem(
                                       "GuideId",
                                       tourGuide.id
                                     );
-                                    console.log(
-                                      `Guide added to localStorage: ${tourGuide.id}`
-                                    );
+                                    window.location.href = `/planTour/${user.id}`;
+                                    // console.log(
+                                    //   `Guide added to localStorage: ${tourGuide.id}`
+                                    // );
                                   }
                                 }}
                                 className="bg-slate-50 w-[16rem] flex justify-center shadow-md p-[0.65rem] font-semibold text-emerald-500 items-center rounded-3xl border border-emerald-400"
@@ -262,14 +265,14 @@ const Page = ({ params }: { params: { id: string } }) => {
                             ) : (
                               <span>&nbsp;</span>
                             )}
-                            {user && selectedGuide === tourGuideID && (
+                            {/* {user && selectedGuide === tourGuideID && (
                               <Link
                                 href={`/planTour/${user.id}`}
                                 className="w-[16rem] h-[3rem] flex justify-center items-center shadow-lg p-[0.75rem] px-[2.85rem] md:px-[3rem] font-[500] text-[1.3rem] text-center bg-orange-400 rounded-full text-white"
                               >
                                 Plan Tour
                               </Link>
-                            )}
+                            )} */}
                           </div>
                         )}
                       </div>

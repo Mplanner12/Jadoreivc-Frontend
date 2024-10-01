@@ -118,12 +118,12 @@ const Page = ({ params }: { params: { id: string } }) => {
   const handlePersonsChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const Person = parseInt(event.target.value);
     setSelectedPersons((selectedPerson: number) => Person);
-    console.log("Selected Persons:", Person);
+    // console.log("Selected Persons:", Person);
     setPeopleOpen(false);
   };
 
   useEffect(() => {
-    console.log("Selected Locals:", selectedLocal);
+    // console.log("Selected Locals:", selectedLocal);
   }, []);
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -204,12 +204,12 @@ const Page = ({ params }: { params: { id: string } }) => {
   // };
   let tourPlanId: void;
   const handlePlanTour = async () => {
-    console.log("selectedLocation:", selectedLocation);
-    console.log("startDate:", startDate);
-    console.log("endDate:", endDate);
+    // console.log("selectedLocation:", selectedLocation);
+    // console.log("startDate:", startDate);
+    // console.log("endDate:", endDate);
     // console.log("selectedTime:", selectedTime);
-    console.log("selectedPersons:", selectedPersons);
-    console.log("selected Guide IDs:", selectedLocal);
+    // console.log("selectedPersons:", selectedPersons);
+    // console.log("selected Guide IDs:", selectedLocal);
     if (
       !selectedLocation ||
       !startDate ||
@@ -479,20 +479,13 @@ const Page = ({ params }: { params: { id: string } }) => {
             </div>
             {/* {} */}
             {selectedGuide !== null ? (
-              <div className="w-full h-full flex flex-col justify-start items-center gap-y-[1.5rem">
-                <div className="w-full h-full flex flex-col items-center justify-center text-emerald-950 rounded-md p-4">
+              <div className="w-full h-full flex flex-col justify-start items-center">
+                <div className="w-full h-full flex flex-col items-center justify-center text-emerald-950 rounded-md p-4 mb-[-1.5rem]">
                   <p className="font-semibold text-lg mb-2">Selected Guide</p>
                   <p className="text-lg">
                     {guideName} ${guidesOffer}/hr
                   </p>
-                  <Link
-                    href={"/tourguides"}
-                    className="w-fit uppercase bg-orange-400 px-[3rem] py-[0.5rem] mt-[1rem] text-white rounded-xl shadow-lg h-full flex justify-center items-center"
-                  >
-                    change Guide
-                  </Link>
                 </div>
-
                 <div className="w-full px md:w-fit h-full mt-[2rem] pb-[4rem] flex justify-center items-center">
                   <button
                     disabled={loading || submitting}

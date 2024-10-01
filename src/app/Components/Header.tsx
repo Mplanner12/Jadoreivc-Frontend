@@ -269,6 +269,8 @@ const Header = () => {
                   </div>
                 )}
               </>
+            ) : role === "TOUR_GUIDE" ? (
+              <div className="w-[7rem] p-[1rem]"></div>
             ) : (
               <div className="w-fit flex justify-end items-center px-[1.5rem] ">
                 <Link href={`/planTour/${null}`}>

@@ -65,7 +65,7 @@ const Page = () => {
   const handleRoleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedValue = event.target.value;
     setSelectedRole(event.target.id);
-    setUserType(selectedValue); // Set the correct value for react-hook-form
+    setUserType(selectedValue);
   };
 
   useEffect(() => {

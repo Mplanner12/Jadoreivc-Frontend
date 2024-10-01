@@ -56,7 +56,7 @@ const UserProvider: React.FC<any> = ({
       const { data } = await axiosInstance.get("/api/users/auth/currentUser");
       setUser(data.user);
       setRole(data.userType);
-      console.log(data);
+      // console.log(data);
       // console.log(user?.fullName.split("")[0]);
     } catch (error) {
       setUser(null);

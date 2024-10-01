@@ -117,7 +117,7 @@ export const PlannedTourProvider = ({
         subject,
         message,
       });
-      console.log("Email sent successfully:", response.data);
+      // console.log("Email sent successfully:", response.data);
     } catch (error) {
       console.error("Error sending email:", error);
     }
