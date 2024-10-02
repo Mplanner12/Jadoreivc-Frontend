@@ -12,7 +12,6 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import axiosInstance, { getUserRole, getUser } from "@/src/lib/utils";
 import { motion } from "framer-motion"; // Import motion
-import { IoNotifications } from "react-icons/io5";
 import { BiSolidUser } from "react-icons/bi";
 import NotificationBar from "./Notification";
 import { FaBell } from "react-icons/fa";

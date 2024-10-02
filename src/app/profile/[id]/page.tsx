@@ -28,27 +28,161 @@ const override: CSSProperties = {
 
 const Reviews = [
   {
-    text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-    // src: reviewImage,
+    reviewerName: "John carkl",
+    location: "New York, USA",
+    rating: 4,
+    text: "Our tour guide was incredibly knowledgeable and passionate about the city's history. We learned so much!",
     alt: "Image",
+    img: "/rvw1.jpeg",
     width: 100,
     height: 100,
   },
   {
-    text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-    // src: reviewImage,
+    reviewerName: "David Lee",
+    location: "Paris, France",
+    rating: 4.5,
+    text: "The tour was well-paced and covered all the major sights. Our guide's stories brought the city to life.",
     alt: "Image",
+    img: "/rvw2.jpeg",
     width: 100,
     height: 100,
   },
   {
-    text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-    // src: reviewImage,
+    reviewerName: "Emily Chen",
+    location: "Tokyo, Japan",
+    rating: 5,
+    text: "Excellent tour! Our guide was very accommodating and provided great recommendations for local restaurants.",
     alt: "Image",
+    img: "/rvw4.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Michael Garcia",
+    location: "Madrid, Spain",
+    rating: 4,
+    text: "We had a fantastic time on this tour. Our guide was a great storyteller and kept us entertained throughout.",
+    alt: "Image",
+    img: "/rvw3.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Sophia Kim",
+    location: "Seoul, South Korea",
+    rating: 4.5,
+    text: "The tour was informative and engaging. Our guide's enthusiasm was contagious, making it a memorable experience.",
+    alt: "Image",
+    img: "/rvw5.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Oliver Rodriguez",
+    location: "Mexico City, Mexico",
+    rating: 5,
+    text: "Highly recommend this tour for anyone visiting the city. Our guide provided valuable insights and tips.",
+    alt: "Image",
+    img: "/rvw8.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Isabella Singh",
+    location: "New Delhi, India",
+    rating: 4,
+    text: "Our guide was fantastic! They were very knowledgeable, friendly, and made the tour a lot of fun.",
+    alt: "Image",
+    img: "/rvw6.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "William Wang",
+    location: "Beijing, China",
+    rating: 4.5,
+    text: "The tour was well-organized and informative. Our guide's passion for the city was evident.",
+    alt: "Image",
+    img: "/rvw7.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Ava Patel",
+    location: "Mumbai, India",
+    rating: 5,
+    text: "We had a wonderful time on this tour. Our guide was very knowledgeable and answered all our questions.",
+    alt: "Image",
+    img: "/rvw10.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Ethan Nguyen",
+    location: "Ho Chi Minh City, Vietnam",
+    rating: 4,
+    text: "This tour exceeded our expectations. Our guide was exceptional - knowledgeable, engaging, and funny!",
+    alt: "Image",
+    img: "/rvw9.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Ridwan Qassam",
+    location: "Buenos Aires, Argentina",
+    rating: 4.5,
+    text: "Highly recommend this tour! Our guide was a local and shared fascinating stories about the city.",
+    alt: "Image",
+    img: "/rvw12.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Noah Santos",
+    location: "Rio de Janeiro, Brazil",
+    rating: 5,
+    text: "The tour was a great way to see the city's highlights. Our guide was very informative and helpful.",
+    alt: "Image",
+    img: "/rvw15.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Gibreil Ahmad",
+    location: "Berlin, Germany",
+    rating: 4,
+    text: "We had a fantastic experience on this tour. Our guide was passionate, knowledgeable, and made it fun.",
+    alt: "Image",
+    img: "/rvw11.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Juliat Johnson",
+    location: "Rome, Italy",
+    rating: 4.5,
+    text: "Highly recommend this tour! Our guide was excellent and provided a wealth of information.",
+    alt: "Image",
+    img: "/rvw14.jpg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Mubarak Ahmed",
+    location: "Paris, France",
+    rating: 5,
+    text: "The tour was well-paced and covered a lot of ground. Our guide's commentary was insightful and engaging.",
+    alt: "Image",
+    img: "/rvw12.jpeg",
     width: 100,
     height: 100,
   },
 ];
+
+const randomReviews = Reviews.sort(() => 0.5 - Math.random()).slice(0, 3);
+
+// Assign the random reviews to the user
+let reviews = randomReviews;
 
 const Page = ({ params }: { params: { id: string } }) => {
   const { user, loading } = useContext(UserContext);
@@ -87,7 +221,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               <div className="w-full h-full flex flex-col justify-start items-start gap-y-[1rem]">
                 <div className="mb-[0.5rem] md:mb-[1.25rem] p-1 border border-neutral-300 shadow-xl bg-white rounded-full w-[12rem] h-[14.5rem] flex justify-center items-center">
                   <img
-                    className="rounded-full h-full w-fit"
+                    className="rounded-full h-full w-full"
                     src={
                       `/uploads/userImages/${user?.image}` ||
                       "/placeholder-image.png"
@@ -192,7 +326,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                       {/* {user?.tourGuide?.reviews} */}
                     </h1>
                     <div className="w-full hidden h-full md:flex flex-col justify-start items-center gap-y-[1.35rem]">
-                      {Reviews.map((review, index) => {
+                      {reviews.map((review, index) => {
                         return (
                           <div
                             key={index}
@@ -203,7 +337,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                               <div className="w-full md:w-fit px-[0rem] h-fit flex justify-start items-center gap-x-[0.5rem] md:gap-x-[0.5rem]">
                                 <img
                                   className="rounded-full px-[0.5rem]"
-                                  src="/reviewImg.png"
+                                  src={review.img}
                                   alt={review.alt}
                                   width={review.width}
                                   height={review.height}
@@ -211,18 +345,20 @@ const Page = ({ params }: { params: { id: string } }) => {
                                 <div className="md:w-[80%] w-full relative left-[-0.75rem] flex flex-col justify-center items-center text-slate-900">
                                   <div>
                                     <p className="text-[1.1rem] font-semibold">
-                                      Viezh Robert
+                                      {review.reviewerName}
                                     </p>
                                   </div>
                                   <div>
                                     <p className="text-[0.85rem] font-[500]">
-                                      Warsaw, Poland
+                                      {review.location}
                                     </p>
                                   </div>
                                 </div>
-                                <div className="w-fit flex h-full justify-end ml-[0.95rem] md:ml-[0.5rem] items-center gap-x-[1rem]">
+                                <div className="w-fit flex h-full justify-end ml-[0.95rem] md:ml-[0.5rem] items-center gap-x-[0.25rem]">
                                   <div>
-                                    <p className="text-[1rem]">4.5</p>
+                                    <p className="text-[1rem]">
+                                      {review.rating}
+                                    </p>
                                   </div>
                                   <div className="flex justify-center items-start">
                                     <FaStar
@@ -263,7 +399,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                                     <div className="w-full md:w-fit px-[0rem] h-fit flex justify-start items-center gap-x-[0.5rem] md:gap-x-[0.5rem]">
                                       <Image
                                         className="rounded-full px-[0.5rem]"
-                                        src="/reviewImg.png"
+                                        src={review.img}
                                         alt={review.alt}
                                         width={review.width}
                                         height={review.height}
@@ -271,18 +407,20 @@ const Page = ({ params }: { params: { id: string } }) => {
                                       <div className="md:w-[80%] w-full relative left-[-0.75rem] flex flex-col justify-center items-center text-slate-900">
                                         <div>
                                           <p className="text-[1.1rem] font-semibold">
-                                            Viezh Robert
+                                            {review.reviewerName}
                                           </p>
                                         </div>
                                         <div>
                                           <p className="text-[0.85rem] font-[500]">
-                                            Warsaw, Poland
+                                            {review.location}
                                           </p>
                                         </div>
                                       </div>
-                                      <div className="w-fit flex h-full justify-end ml-[0.95rem] md:ml-[0.5rem] items-center gap-x-[1rem]">
+                                      <div className="w-fit flex h-full justify-end ml-[0.95rem] md:ml-[0.5rem] items-center gap-x-[0.25rem]">
                                         <div>
-                                          <p className="text-[1rem]">4.5</p>
+                                          <p className="text-[1rem]">
+                                            {review.rating}
+                                          </p>
                                         </div>
                                         <div className="flex justify-center items-start">
                                           <FaStar

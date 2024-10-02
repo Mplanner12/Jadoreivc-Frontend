@@ -17,7 +17,7 @@ import { UserContext } from "@/src/app/context/UserContex";
 import { AiFillSchedule } from "react-icons/ai";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useSelectedGuide } from "@/src/lib/utils";
-import Router from "next/router";
+import { getUserRole } from "@/src/lib/utils";
 
 const override: CSSProperties = {
   display: "block",
@@ -34,7 +34,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const { fetchTourGuideById, tourGuide, loading, setTourGuide } =
     useContext(TourGuideContext);
   const [showNotFound, setShowNotFound] = useState(false);
-  const router = Router;
+  const userRole = getUserRole();
 
   // Memoize the fetchTourGuideById function
   useEffect(() => {
@@ -74,7 +74,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                     className={`flex justify-center items-center text-yellow-500
               `}
                   >
-                    News
+                    Tour guide overview
                   </div>
                 </div>
               </div>
@@ -149,7 +149,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                         </p>
                       </div>
                     </div>
-                    <div className="box-border w-full">
+                    {/* <div className="box-border w-full">
                       <div className="w-full border-b-[2px] py-[2rem] font-[500] text-teal-800 flex flex-col justify-start items-center">
                         <h1 className="w-full text-[2rem] pb-[1.5rem] font-semibold text-start text-teal-950">
                           Languages
@@ -163,7 +163,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                           </p>
                         ))}
                       </div>
-                    </div>
+                    </div> */}
                     <div className="box-border w-full">
                       <div className="box-border w-full py-[2rem] text-teal-900 font-[500]">
                         <h1 className="box-border w-full text-start text-[2rem] pb-[1.35rem] font-semibold text-teal-950">
@@ -198,7 +198,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                     </div>
                     <div className="border-[1px]  shadow-lg bg-slate-100 border-emerald-600 rounded-3xl box-border w-full md:w-fit flex flex-col justify-center items-center md:mt-[1.75rem] pb-[5.5rem] md:px-[2rem]">
                       <div className="w-full flex justify-center items-center p-[2rem] md:px-[0.5rem]">
-                        <div className="w-full flex justify-center items-center border-b-[2px] pb-[2rem]">
+                        <div className="w-full flex justify-between items-center gap-x-[2rem] border-b-[2px] pb-[2rem]">
                           <div className="box-border w-full flex justify-start items-center text-[1.15rem] font-semibold">
                             12 Reviews
                           </div>
@@ -215,13 +215,25 @@ const Page = ({ params }: { params: { id: string } }) => {
                         </div>
                       </div>
                       <div className="py-[2rem] md:pt-[0.5rem] w-full flex justify-center items-center text-teal-900 text-[1.15rem]">
-                        <p className="font-[500] text-center">
-                          Book{" "}
-                          <span className="font-bold">
-                            {tourGuide.user.fullName.split(" ")[0]}{" "}
-                          </span>
-                          for a Tour
-                        </p>
+                        {loading ? (
+                          <SyncLoader
+                            loading={loading}
+                            color="green"
+                            size={15}
+                            margin={5}
+                            speedMultiplier={1}
+                          />
+                        ) : user && userRole === "TOURIST" ? (
+                          <p className="font-[500] text-center">
+                            Book{" "}
+                            <span className="font-bold">
+                              {tourGuide.user.fullName.split(" ")[0]}{" "}
+                            </span>
+                            for a Tour
+                          </p>
+                        ) : (
+                          ""
+                        )}
                       </div>
                       <div className="w-[90%] pb-[1.35rem] flex justify-center items-center">
                         {loading ? (
@@ -234,7 +246,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                           />
                         ) : (
                           <div className="w-full h-full flex flex-col justify-start gap-y-[1.2rem] items-center">
-                            {user ? (
+                            {user && userRole === "TOURIST" ? (
                               <button
                                 onClick={() => {
                                   // Update selectedGuide state along with localStorage
