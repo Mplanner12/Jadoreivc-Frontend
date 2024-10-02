@@ -9,7 +9,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className="w-full h-full bg-emerald-600 flex flex-col justify-between items-center py-[2.75rem] px-[2.25rem] md:px-[5.5rem] md:py-[3rem]">
+    <div className="w-full h-full bg-emerald-600 flex flex-col justify-between items-center py-[2.75rem] px-[2.25rem] md:pr-[5.5rem] md:py-[3rem]">
       <div className="w-full h-full flex flex-col md:flex-row justify-center md:justify-between md:items-center gap-y-[3.25rem] md:gap-y-0">
         <h1 className="text-start text-white text-2xl font-bold">Jadoreivc</h1>
         <div className="w-fit flex justify-center items-center mt-[1rem] gap-x-[1.85rem] pl-[1rem] md:pl-0">
