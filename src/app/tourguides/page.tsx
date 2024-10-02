@@ -58,7 +58,7 @@ const Page = () => {
   const [guides, setGuides] = useState<TourGuide[]>([]);
   const [filteredGuidesData, setFilteredGuidesData] = useState<TourGuide[]>([]); // Initialize with guides
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 3;
+  const pageSize = 4;
 
   // Function to filter tour guides based on selected filter
   const filteredGuides = () => {

@@ -167,16 +167,16 @@ const Reviews = [
     width: 100,
     height: 100,
   },
-  {
-    reviewerName: "Mubarak Ahmed",
-    location: "Paris, France",
-    rating: 5,
-    text: "The tour was well-paced and covered a lot of ground. Our guide's commentary was insightful and engaging.",
-    alt: "Image",
-    img: "/rvw12.jpeg",
-    width: 100,
-    height: 100,
-  },
+  // {
+  //   reviewerName: "Mubarak Ahmed",
+  //   location: "Paris, France",
+  //   rating: 5,
+  //   text: "The tour was well-paced and covered a lot of ground. Our guide's commentary was insightful and engaging.",
+  //   alt: "Image",
+  //   img: "/rvw12.jpeg",
+  //   width: 100,
+  //   height: 100,
+  // },
 ];
 
 const randomReviews = Reviews.sort(() => 0.5 - Math.random()).slice(0, 3);

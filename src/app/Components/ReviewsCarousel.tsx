@@ -16,22 +16,173 @@ import reviewImage from "../../../public/reviewImg.png";
 import { FaStar } from "react-icons/fa";
 
 interface Review {
-  // Define the structure of your review data here
-  // Example:
-  author: string;
+  reviewerName: string;
   rating: number;
-  comment: string;
+  text: string;
+  alt: string;
+  img: string;
+  width: number;
+  height: number;
+  location: string;
 }
 
 const Reviews = [
   {
-    text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-    src: reviewImage,
+    reviewerName: "John carkl",
+    location: "New York, USA",
+    rating: 4,
+    text: "Our tour guide was incredibly knowledgeable and passionate about the city's history. We learned so much!",
     alt: "Image",
+    img: "/rvw1.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "David Lee",
+    location: "Paris, France",
+    rating: 4.5,
+    text: "The tour was well-paced and covered all the major sights. Our guide's stories brought the city to life.",
+    alt: "Image",
+    img: "/rvw2.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Emily Chen",
+    location: "Tokyo, Japan",
+    rating: 5,
+    text: "Excellent tour! Our guide was very accommodating and provided great recommendations for local restaurants.",
+    alt: "Image",
+    img: "/rvw4.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Michael Garcia",
+    location: "Madrid, Spain",
+    rating: 4,
+    text: "We had a fantastic time on this tour. Our guide was a great storyteller and kept us entertained throughout.",
+    alt: "Image",
+    img: "/rvw3.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Sophia Kim",
+    location: "Seoul, South Korea",
+    rating: 4.5,
+    text: "The tour was informative and engaging. Our guide's enthusiasm was contagious, making it a memorable experience.",
+    alt: "Image",
+    img: "/rvw5.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Oliver Rodriguez",
+    location: "Mexico City, Mexico",
+    rating: 5,
+    text: "Highly recommend this tour for anyone visiting the city. Our guide provided valuable insights and tips.",
+    alt: "Image",
+    img: "/rvw8.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Isabella Singh",
+    location: "New Delhi, India",
+    rating: 4,
+    text: "Our guide was fantastic! They were very knowledgeable, friendly, and made the tour a lot of fun.",
+    alt: "Image",
+    img: "/rvw6.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "William Wang",
+    location: "Beijing, China",
+    rating: 4.5,
+    text: "The tour was well-organized and informative. Our guide's passion for the city was evident.",
+    alt: "Image",
+    img: "/rvw7.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Ava Patel",
+    location: "Mumbai, India",
+    rating: 5,
+    text: "We had a wonderful time on this tour. Our guide was very knowledgeable and answered all our questions.",
+    alt: "Image",
+    img: "/rvw10.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Ethan Nguyen",
+    location: "Ho Chi Minh City, Vietnam",
+    rating: 4,
+    text: "This tour exceeded our expectations. Our guide was exceptional - knowledgeable, engaging, and funny!",
+    alt: "Image",
+    img: "/rvw9.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Ridwan Qassam",
+    location: "Buenos Aires, Argentina",
+    rating: 4.5,
+    text: "Highly recommend this tour! Our guide was a local and shared fascinating stories about the city.",
+    alt: "Image",
+    img: "/rvw11.jpeg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Noah Santos",
+    location: "Rio de Janeiro, Brazil",
+    rating: 5,
+    text: "The tour was a great way to see the city's highlights. Our guide was very informative and helpful.",
+    alt: "Image",
+    img: "/rvw15.jpeg",
+    width: 100,
+    height: 100,
+  },
+  // {
+  //   reviewerName: "Gibreil Ahmad",
+  //   location: "Berlin, Germany",
+  //   rating: 4,
+  //   text: "We had a fantastic experience on this tour. Our guide was passionate, knowledgeable, and made it fun.",
+  //   alt: "Image",
+  //   img: "/rvw11.jpeg",
+  //   width: 100,
+  //   height: 100,
+  // },
+  {
+    reviewerName: "Juliat Johnson",
+    location: "Rome, Italy",
+    rating: 4.5,
+    text: "Highly recommend this tour! Our guide was excellent and provided a wealth of information.",
+    alt: "Image",
+    img: "/rvw14.jpg",
+    width: 100,
+    height: 100,
+  },
+  {
+    reviewerName: "Mubarak Ahmed",
+    location: "Paris, France",
+    rating: 5,
+    text: "The tour was well-paced and covered a lot of ground. Our guide's commentary was insightful and engaging.",
+    alt: "Image",
+    img: "/rvw12.jpeg",
     width: 100,
     height: 100,
   },
 ];
+
+const randomReviews = Reviews.sort(() => 0.5 - Math.random()).slice(0, 3);
+
+// Assign the random reviews to the user
+let reviewList = randomReviews;
 const ReviewsCarousel: React.FC<{ reviews: Review[] }> = ({ reviews }) => {
   const plugin = React.useRef<AutoplayType>(
     Autoplay({ delay: 2000, stopOnInteraction: true })
@@ -49,38 +200,38 @@ const ReviewsCarousel: React.FC<{ reviews: Review[] }> = ({ reviews }) => {
           onMouseLeave={plugin.current.reset}
         >
           <CarouselContent className="w-full h-full md:pb-[2rem] pt-[0.85rem] px-0 md:pr-[2rem] gap-x-[0.7rem]">
-            {Reviews.map((review, index) => (
+            {reviewList.slice(0, 3).map((review, index) => (
               <CarouselItem
                 // key={review.alt}
                 key={index}
                 className="w-fit md:w-full h-fit basis-[98%] md:basis-[27.5%] xl:basis-[27.5%] 2xl:basis-[24%]"
               >
                 <Card className="w-full px-[0rem] flex flex-col justify-center items-center p-[1rem] rounded-2xl border-emerald-600 border-[1px] shadow-sm">
-                  <CardContent className="w-full md:w-fit p-0 flex flex-col justify-center items-center">
+                  <CardContent className="w-full h-[12rem] md:h-[19.75rem] lg:h-[14rem] lg:w-fit md:w-full p-0 flex flex-col justify-center items-center">
                     <div className="w-fit p-0">
                       <div className="w-full md:w-fit px-[0rem] h-fit flex justify-start items-center gap-x-[0.5rem] md:gap-x-[0.5rem]">
                         <Image
                           className="rounded-full px-[0.5rem]"
-                          src={review.src}
+                          src={review.img}
                           alt={review.alt}
                           width={review.width}
                           height={review.height}
                         />
                         <div className="md:w-[80%] w-full relative left-[-0.75rem] flex flex-col justify-center items-center text-slate-900">
                           <div>
-                            <p className="text-[1.1rem] font-semibold">
-                              Viezh Robert
+                            <p className="text-[1.1rem] font-semibold w-full text-start">
+                              {review.reviewerName}
                             </p>
                           </div>
                           <div>
-                            <p className="text-[0.85rem] font-[500]">
-                              Warsaw, Poland
+                            <p className="text-[0.85rem] font-[500] w-full text-start">
+                              {review.location}
                             </p>
                           </div>
                         </div>
-                        <div className="w-fit flex h-full justify-end ml-[0.95rem] md:ml-[0.5rem] items-center gap-x-[1rem]">
+                        <div className="w-fit flex h-full justify-end ml-[0.95rem] md:ml-[0.5rem] items-center gap-x-[0.15rem]">
                           <div>
-                            <p className="text-[1rem]">4.5</p>
+                            <p className="text-[1rem]">{review.rating}</p>
                           </div>
                           <div className="flex justify-center items-start">
                             <FaStar size={20} color="orange" fill="orange" />

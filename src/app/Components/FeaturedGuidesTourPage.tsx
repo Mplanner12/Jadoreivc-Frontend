@@ -96,10 +96,10 @@ const FeaturedGuidesTourPage: React.FC<FeaturedGuidesProps> = ({
         <GridSkeletonLoader count={6} />
       ) : guidesToDisplay?.length > 0 ? (
         <div className="block">
-          <div className="md:gap-x-6 md:h-fit w-full h-fit flex flex-col justify-center md:grid md:grid-cols-4 items-center ">
+          <div className="md:gap-x-6 md:h-fit w-full h-fit flex flex-col justify-center md:grid md:grid-cols-4 items-center">
             {guidesToDisplay?.slice(0, guideCount).map((guide) => (
               <Link
-                className="w-full h-full px-[1.25rem] mb-[3rem] lg:mb-[2.85rem] pb-[1.5rem] shadow-lg rounded-lg"
+                className="w-full h-fit px-[1.25rem] mb-[3rem] lg:mb-[2.85rem] pb-[1.5rem] md:mb-[1rem] shadow-lg rounded-lg"
                 key={guide.user.id}
                 // key={index}
                 href={
@@ -121,7 +121,7 @@ const FeaturedGuidesTourPage: React.FC<FeaturedGuidesProps> = ({
                     ${guide.offerRange}/hr
                   </p>
                 </div>
-                <div className="w-full mt-[0.35rem] mb-[0.25rem] flex flex-col justify-start h-full">
+                <div className="w-full mt-[0.35rem] mb-[0.25rem] flex flex-col justify-start h-fit">
                   <div className="w-full h-full flex flex-col md:justify-start md:gap-y-[0.85rem] justify-start items-start">
                     <div className="w-full flex justify-between items-center h-fit pb-[0.5rem] gap-y-[0.25rem] text-teal-950 tracking-wide">
                       <div className="flex flex-col justify-start items-center">

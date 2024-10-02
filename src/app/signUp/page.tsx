@@ -17,7 +17,7 @@ const override: CSSProperties = {
 const Page = () => {
   const router = useRouter();
   const [user, setUser] = useState(null);
-  const [selectedRole, setSelectedRole] = useState<string | null>("TOURIST");
+  const [selectedRole, setSelectedRole] = useState<any>("TOURIST");
   const [userType, setUserType] = useState<string | null>("TOURIST");
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -29,11 +29,12 @@ const Page = () => {
         "/api/users/auth/register",
         userDetails
       );
+      localStorage.setItem("userRole", selectedRole);
       console.log(data);
       if (data.message === "User registered successfully") {
         toast.success("success!", {
-          position: "top-center", // Adjust position as needed
-          autoClose: 5000, // Duration in milliseconds
+          position: "top-center",
+          autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,

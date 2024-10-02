@@ -111,7 +111,7 @@ const FeaturedGuides = ({
           <div className="md:gap-x-6 md:h-fit w-full h-fit flex flex-col justify-center md:grid md:grid-cols-4 items-center ">
             {tourGuides?.slice(0, guideCount).map((guide) => (
               <Link
-                className="w-full h-full shadow-lg rounded-xl px-[1.25rem] mb-[1.85rem]"
+                className="w-full h-fit shadow-lg rounded-xl px-[1.25rem] mb-[1.85rem] md:mt-[1.5rem]"
                 key={guide.user.id}
                 // key={index}
                 href={
@@ -133,7 +133,7 @@ const FeaturedGuides = ({
                     ${guide.offerRange}/hr
                   </p>
                 </div>
-                <div className="w-full mt-[0.35rem] mb-[0.25rem] flex flex-col justify-center h-full">
+                <div className="w-full mt-[0.35rem] mb-[0.25rem] flex flex-col justify-center h-fit">
                   <div className="w-full h-full flex flex-col md:justify-start md:gap-y-[0.85rem] justify-between items-start">
                     <div className="w-full flex justify-between items-center h-fit pb-[0.5rem] gap-y-[0.25rem] text-teal-950 tracking-wide">
                       <div className="flex flex-col justify-start items-center">
