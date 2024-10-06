@@ -151,14 +151,14 @@ const Header = () => {
                   data-testid="loader"
                 />
               ) : (
-                <button className="p-2 focus:outline-none bg-gray-100 focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 rounded-full">
+                <button className="p-2 focus:outline-none w-[2.5rem] bg-gray-100 focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 rounded-full">
                   <BiSolidUser
                     onClick={() => {
                       setShowPopUp(!showPopUp);
                       setShowNotification(false);
                     }}
                     size={26}
-                    className="w-full h-full text-black "
+                    className="w-full h-full text-black"
                   />
                 </button>
               )}
