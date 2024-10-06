@@ -2,7 +2,7 @@
 import React, { CSSProperties, useContext, useEffect, useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { FaInfoCircle } from "react-icons/fa";
-import axiosInstance from "@/src/lib/utils";
+import axiosInstance, { createNotification } from "@/src/lib/utils";
 import LoadingScreen from "../../Components/Loader";
 import ClipLoader from "react-spinners/ClipLoader";
 import { UserContext } from "../../context/UserContex";
@@ -358,29 +358,43 @@ const Page = ({ params }: { params: { id: string } }) => {
                               );
 
                               // Send email to the user
-                              const sendEmail = async () => {
-                                try {
-                                  const response = await sendMail(
-                                    user.email,
-                                    "Jadoreivc Tour plan",
-                                    `## Bonjour from J’ADOREIVC! 👋
+                              //                               const sendEmail = async () => {
+                              //                                 try {
+                              //                                   const response = await sendMail(
+                              //                                     user.email,
+                              //                                     "Jadoreivc Tour plan",
+                              //                                     `## Bonjour from J’ADOREIVC! 👋
 
-Congratulations, your tour has been planned! 🎉 We're thrilled you've chosen us to guide you through this incredible experience. 
+                              // Congratulations, your tour has been planned! 🎉 We're thrilled you've chosen us to guide you through this incredible experience.
 
-Your dedicated guide will be in touch shortly with a warm welcome, personalized itinerary, and answers to any questions you might have. 
+                              // Your dedicated guide will be in touch shortly with a warm welcome, personalized itinerary, and answers to any questions you might have.
 
-Get ready to explore and create unforgettable memories! ✨
+                              // Get ready to explore and create unforgettable memories! ✨
 
-À bientôt,
+                              // À bientôt,
 
-The J’ADOREIVC Team
-`
-                                  );
-                                } catch (err) {
-                                  console.log(err);
-                                }
-                              };
-                              sendEmail();
+                              // The J’ADOREIVC Team
+                              // `
+                              //                                   );
+                              //                                 } catch (err) {
+                              //                                   console.log(err);
+                              //                                 }
+                              //                               };
+                              //                               sendEmail();
+
+                              try {
+                                await createNotification(
+                                  user.id,
+                                  "Jadoreivc Tour plan",
+                                  `## Bonjour from J’ADOREIVC! 👋 ...`
+                                ); // Pass user ID, subject, and message
+                                console.log("Notification sent successfully!");
+                              } catch (err) {
+                                console.error(
+                                  "Error sending notification:",
+                                  err
+                                );
+                              }
 
                               if (transactionId) {
                                 postMessage(

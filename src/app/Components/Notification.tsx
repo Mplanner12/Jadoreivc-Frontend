@@ -4,6 +4,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { FaBell } from "react-icons/fa";
 
 interface NotificationBarProps {
+  markAsRead: any;
   notifications: any[];
   nloading: boolean;
   onNotificationsChange: (newNotifications: any[]) => void;
@@ -24,31 +25,12 @@ const override: CSSProperties = {
 };
 
 const NotificationBar: React.FC<NotificationBarProps> = ({
+  markAsRead,
   notifications,
   nloading,
   onNotificationsChange,
   onLoadingChange,
 }) => {
-  // useEffect(() => {
-  //   const fetchNotifications = async () => {
-  //     try {
-  //       const response = await axiosInstance.get("/api/notifications");
-  //       const data = await response.data;
-  //       setNotifications(data);
-  //     } catch (error) {
-  //       console.error("Error fetching notifications:", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchNotifications();
-
-  //   // Poll for new notifications
-  //   const intervalId = setInterval(fetchNotifications, 30000);
-  //   return () => clearInterval(intervalId);
-  // }, []);
-
   return (
     <div className="relative inline-block text-left">
       {notifications && (
@@ -68,9 +50,14 @@ const NotificationBar: React.FC<NotificationBarProps> = ({
               notifications.map((notification) => (
                 <div
                   key={notification.id}
-                  className="px-4 py-3 text-gray-700 hover:bg-gray-100 cursor-pointer"
+                  className={`${
+                    notification.is_read ? "read" : ""
+                  } px-4 py-3 text-gray-700 hover:bg-gray-100 cursor-pointer`}
                 >
-                  {notification.message}
+                  <button onClick={() => markAsRead(notification.id)}>
+                    <strong>{notification.subject}</strong>
+                  </button>
+                  <p>{notification.message}</p>
                 </div>
               ))
             )}

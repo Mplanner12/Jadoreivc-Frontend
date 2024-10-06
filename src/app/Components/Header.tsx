@@ -33,7 +33,7 @@ const Header = () => {
 
   const [showPopUp, setShowPopUp] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [notifications, setNotifications] = useState<any>([]);
   const [nloading, setnLoading] = useState<boolean>(true);
   const [showNotifications, setShowNotifications] = useState(false);
 
@@ -57,6 +57,22 @@ const Header = () => {
     const intervalId = setInterval(fetchNotifications, 30000);
     return () => clearInterval(intervalId);
   }, []);
+
+  const markAsRead = async (notificationId: number) => {
+    try {
+      // Implementing API call to mark notification as read on the backend
+      await axiosInstance.put(`/api/notifications/${notificationId}/mark-read`);
+
+      // Update the UI optimistically
+      setNotifications((prevNotifications: any[]) =>
+        prevNotifications.map((n: { id: number }) =>
+          n.id === notificationId ? { ...n, is_read: true } : n
+        )
+      );
+    } catch (error) {
+      console.error("Error marking notification as read:", error);
+    }
+  };
 
   const role = getUserRole();
 
@@ -203,6 +219,7 @@ const Header = () => {
               )}
               {showNotification && (
                 <NotificationBar
+                  markAsRead={markAsRead}
                   notifications={notifications}
                   nloading={false}
                   onNotificationsChange={function (

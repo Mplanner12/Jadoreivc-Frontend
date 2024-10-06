@@ -50,3 +50,22 @@ export const getUserRole = () => {
 };
 
 export default axiosInstance;
+
+
+export const createNotification = async (
+  userId: string,
+  subject: string,
+  message: string
+) => {
+  try {
+    const response = await axiosInstance.post("/api/notifications", {
+      userId,
+      subject,
+      message,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error creating notification:", error);
+    throw error;
+  }
+};
