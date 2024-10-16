@@ -32,17 +32,22 @@ const Page = () => {
       localStorage.setItem("userRole", selectedRole);
       console.log(data);
       if (data.message === "User registered successfully") {
-        toast.success("success!", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light", // Or "dark"
-        });
-        window.location.href = "/";
+        toast.success(
+          `{User registered successfully, check your email to confirm your email}`,
+          {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light", // Or "dark"
+          }
+        );
+        let email = userDetails.email;
+        // localStorage.setItem("email", email);
+        window.location.href = `/verifyMail/${email}`;
       }
     } catch (error: any) {
       // Handle the error response from the server

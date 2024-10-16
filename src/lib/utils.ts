@@ -51,7 +51,6 @@ export const getUserRole = () => {
 
 export default axiosInstance;
 
-
 export const createNotification = async (
   userId: string,
   subject: string,

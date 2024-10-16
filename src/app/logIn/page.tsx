@@ -17,6 +17,7 @@ const override: CSSProperties = {
 const Page = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [errorLink, setErrorLink] = useState("");
   const [selectedRole, setSelectedRole] = useState<any>("TOURIST");
 
   const router = useRouter();
@@ -61,6 +62,9 @@ const Page = () => {
     } catch (error: any) {
       if (error?.response && error?.response.data) {
         setErrorMessage(error.response.data.message);
+        // if (error.response.data.status === 402) {
+        //   setErrorLink(error.response.data.message);
+        // }
       } else {
         setErrorMessage("An error occurred. Please try again later.");
       }
@@ -83,11 +87,8 @@ const Page = () => {
   const handleRoleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedValue = event.target.value;
     setSelectedRole(event.target.id);
-    setValue("userType", event.target.value); // Correctly using event.target.value
-    // setUserType(selectedValue); // Set the correct value for react-hook-form
+    setValue("userType", event.target.value);
   };
-  // const handleRoleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  // };
 
   return (
     <div className="bg-emerald-600 w-full h-screen flex justify-center items-center md:justify-between">
@@ -223,7 +224,10 @@ const Page = () => {
                 </span>
               </div>
               {errorMessage && (
-                <p className="text-red-500 text-sm mt-1">{errorMessage}</p>
+                <div>
+                  <p className="text-red-500 text-sm mt-1">{errorMessage}</p>
+                  {/* <p>{}</p> */}
+                </div>
               )}
               <div className={`w-full h-full mt-[1.2rem]`}>
                 <button

@@ -34,7 +34,7 @@ const NotificationBar: React.FC<NotificationBarProps> = ({
   return (
     <div className="relative inline-block text-left">
       {notifications && (
-        <div className="origin-top-right z-20 absolute right-[-5.75rem] lg:right-[-6.5rem] mt-2 lg:mt-[2.5rem] w-72 lg:w-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100">
+        <div className="origin-top-right z-30 absolute right-[-5.75rem] lg:right-[-6.5rem] mt-2 lg:mt-[2.5rem] w-72 lg:w-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100">
           <div className="py-1">
             {nloading ? (
               <ClipLoader
