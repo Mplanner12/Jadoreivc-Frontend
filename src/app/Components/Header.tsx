@@ -182,7 +182,6 @@ const Header = () => {
                 <UserPopUp
                   user={user}
                   loading={loading}
-                  // fullName={user.fullName}
                   // profileImage={user.image}
                   // onSwitchToTourGuide={handleSwitchToTourGuide}
                   // onSwitchToTourist={handleSwitchToTourist}
