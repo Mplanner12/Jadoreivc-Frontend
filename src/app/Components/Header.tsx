@@ -155,7 +155,7 @@ const Header = () => {
           >
             <Dropdown />
           </div>
-          <div className="w-full h-full flex justify-start items-center gap-x-[1.5rem] px-[0.75rem] lg:px-0 lg:gap-x-[2.75rem]">
+          <div className="w-full h-full flex justify-start items-center gap-x-[0.56rem] px-[0.25rem] lg:px-0 lg:gap-x-[2.75rem]">
             <div className="w-full h-full flex flex-col justify-center items-center cursor-pointer">
               {loading ? (
                 <ClipLoader
@@ -167,7 +167,7 @@ const Header = () => {
                   data-testid="loader"
                 />
               ) : (
-                <button className="p-2 focus:outline-none w-[2.5rem] bg-gray-100 focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 rounded-full">
+                <button className="p-2 focus:outline-none w-[2.4rem] lg:w-[2.5rem] bg-gray-100 focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 rounded-full">
                   <BiSolidUser
                     onClick={() => {
                       setShowPopUp(!showPopUp);
@@ -209,7 +209,7 @@ const Header = () => {
                   }}
                   className="bg-gray-100 rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 relative" // Added "relative" for badge positioning
                 >
-                  <FaBell size={20} className="h-5 w-5 text-gray-600" />
+                  <FaBell size={18} className="h-5 w-5 text-gray-800" />
                   {notifications.length > 0 && !loading && (
                     <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-2 py-1">
                       {notifications.length}
@@ -235,7 +235,7 @@ const Header = () => {
             </div>
           </div>
 
-          <div className="px-[0.5rem] md:hidden z-40 flex justify-center items-center relative left-[0.35rem]">
+          <div className="pl-[0.5rem] md:hidden z-40 flex justify-center items-center relative left-[0.35rem]">
             {loading ? (
               <ClipLoader
                 cssOverride={override}
